@@ -6,5 +6,5 @@ package org.usfirst.frc.team2960.robot;
  * floating around.
  */
 public class RobotMap {
-
+	
 }
