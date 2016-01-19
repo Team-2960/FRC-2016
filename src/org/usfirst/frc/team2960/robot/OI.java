@@ -1,5 +1,8 @@
 package org.usfirst.frc.team2960.robot;
 
+import org.usfirst.frc.team2960.robot.subsystems.DriveTrain;
+
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 
 /**
@@ -7,9 +10,14 @@ import edu.wpi.first.wpilibj.buttons.Button;
  * interface to the commands and command groups that allow control of the robot.
  */
 public class OI {
-	void driveRobot()
-	{
-		
+	public void driveRobot(Joystick stick, DriveTrain drivetrain) {
+		drivetrain.initDefaultCommand();
+		if(Math.abs(stick.getRawAxis(1)) > 0.1)
+        	drivetrain.move(-stick.getRawAxis(1));
+    	if(stick.getRawAxis(2) > 0.1)
+    		drivetrain.turnRight(stick.getRawAxis(2));
+    	if(stick.getRawAxis(2) < -0.1)
+    		drivetrain.turnLeft(Math.abs(stick.getRawAxis(2)));
 	}
 }
 
