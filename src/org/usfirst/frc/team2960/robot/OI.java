@@ -13,8 +13,6 @@ import edu.wpi.first.wpilibj.buttons.Button;
  * interface to the commands and command groups that allow control of the robot.
  */
 public class OI {
-	public void activateCamera(Joystick stick, Camera camera) {camera.initDefaultCommand();}
-	
 	public void driveRobot(Joystick stick, DriveTrain drivetrain) {
 		drivetrain.initDefaultCommand();
 		if(Math.abs(stick.getRawAxis(1)) > 0.1)
