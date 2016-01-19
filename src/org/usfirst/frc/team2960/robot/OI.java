@@ -25,7 +25,7 @@ public class OI {
     		drivetrain.turnLeft(Math.abs(stick.getRawAxis(2)));
 	}
 
-	public void PickupShere(Joystick stick, Pickup pickup) {pickup.initDefaultCommand();}
+	public void pickupShere(Joystick stick, Pickup pickup) {pickup.initDefaultCommand();}
 
 	public void shootSphere(Joystick stick, Shooter shooter) {shooter.initDefaultCommand();}
 }
