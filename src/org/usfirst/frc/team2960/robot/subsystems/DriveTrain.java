@@ -10,10 +10,18 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class DriveTrain extends Subsystem {
     
-	Victor frontLeft = new Victor(RobotMap.frontLeft);
-	Victor frontRight = new Victor(RobotMap.frontRight);
-	Victor backLeft = new Victor(RobotMap.backLeft);
-	Victor backRight = new Victor(RobotMap.backRight);
+	Victor frontLeft;
+	Victor frontRight;
+	Victor backLeft;
+	Victor backRight;
+	
+	public DriveTrain()
+	{
+		frontLeft = new Victor(RobotMap.frontLeft);
+		frontRight = new Victor(RobotMap.frontRight);
+		backLeft = new Victor(RobotMap.backLeft);
+		backRight = new Victor(RobotMap.backRight);
+	}
 
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
