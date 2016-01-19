@@ -3,10 +3,12 @@ package org.usfirst.frc.team2960.robot;
 
 import org.usfirst.frc.team2960.robot.subsystems.DriveTrain;
 
+import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -69,9 +71,14 @@ public class Robot extends IterativeRobot {
     	Autonomous.autonomousUpdate();
     }
     
+    BuiltInAccelerometer accel = new BuiltInAccelerometer();
+    
     public void teleopInit() {
     	oi.driveRobot(driveJoystick, driveTrain);
     	
+    	SmartDashboard.putNumber("x", accel.getX());
+    	SmartDashboard.putNumber("y", accel.getY());
+    	SmartDashboard.putNumber("z", accel.getZ());
     }
 
     /**
