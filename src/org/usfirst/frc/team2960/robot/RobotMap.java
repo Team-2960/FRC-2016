@@ -6,5 +6,8 @@ package org.usfirst.frc.team2960.robot;
  * floating around.
  */
 public class RobotMap {
-	
+	public static int frontRight = 1;
+	public static int frontLeft = 0;
+	public static int backRight = 2;
+	public static int backLeft = 3;
 }
