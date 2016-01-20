@@ -85,6 +85,7 @@ public class Robot extends IterativeRobot {
     	SmartDashboard.putNumber("x", accel.getX());
     	SmartDashboard.putNumber("y", accel.getY());
     	SmartDashboard.putNumber("z", accel.getZ());
+    	driveTrain.displayGyroValue();
     }
     
     /**
