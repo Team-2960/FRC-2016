@@ -2,8 +2,10 @@ package org.usfirst.frc.team2960.robot.subsystems;
 
 import org.usfirst.frc.team2960.robot.RobotMap;
 
+import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -14,6 +16,7 @@ public class DriveTrain extends Subsystem {
 	Victor frontRight;
 	Victor backLeft;
 	Victor backRight;
+	AnalogGyro gyro;
 	
 	public DriveTrain()
 	{
@@ -21,6 +24,7 @@ public class DriveTrain extends Subsystem {
 		frontRight = new Victor(RobotMap.frontRight);
 		backLeft = new Victor(RobotMap.backLeft);
 		backRight = new Victor(RobotMap.backRight);
+		gyro = new AnalogGyro(RobotMap.gyro);
 	}
 
     public void initDefaultCommand() {
@@ -30,6 +34,16 @@ public class DriveTrain extends Subsystem {
     	frontRight.set(0);
     	backLeft.set(0);
     	backRight.set(0);
+    }
+    
+    public void displayGyroValue() {
+    	SmartDashboard.putString("gyroAngle", Double.toString(gyro.getAngle()));
+    	SmartDashboard.putString("gyroRate", Double.toString(gyro.getRate()));
+    }
+    
+    public void resetGyro()
+    {
+    	gyro.reset();
     }
     
     public void move(double speed) {

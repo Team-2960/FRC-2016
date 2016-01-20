@@ -74,18 +74,17 @@ public class Robot extends IterativeRobot {
     BuiltInAccelerometer accel = new BuiltInAccelerometer();
     
     public void teleopInit() {
-    	oi.driveRobot(driveJoystick, driveTrain);
     	
-    	SmartDashboard.putNumber("x", accel.getX());
-    	SmartDashboard.putNumber("y", accel.getY());
-    	SmartDashboard.putNumber("z", accel.getZ());
     }
 
     /**
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
-        
+    	oi.driveRobot(driveJoystick, driveTrain);
+    	SmartDashboard.putNumber("x", accel.getX());
+    	SmartDashboard.putNumber("y", accel.getY());
+    	SmartDashboard.putNumber("z", accel.getZ());
     }
     
     /**
