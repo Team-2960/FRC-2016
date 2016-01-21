@@ -72,7 +72,7 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
     	frontLeft.set(-speed);
     	backLeft.set(-speed);
     }
-    BuiltInAccelerometer accel = new BuiltInAccelerometer();
+     public BuiltInAccelerometer accel = new BuiltInAccelerometer();
 	@Override
 	public void update() {
 		// TODO Auto-generated method stub
