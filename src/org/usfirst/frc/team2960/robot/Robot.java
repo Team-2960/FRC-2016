@@ -74,7 +74,7 @@ public class Robot extends IterativeRobot {
     BuiltInAccelerometer accel = new BuiltInAccelerometer();
     
     public void teleopInit() {
-    	
+    	driveTrain.calibrateGyro();
     }
 
     /**
@@ -82,9 +82,9 @@ public class Robot extends IterativeRobot {
      */
     public void teleopPeriodic() {
     	oi.driveRobot(driveJoystick, driveTrain);
-    	SmartDashboard.putNumber("x", accel.getX());
-    	SmartDashboard.putNumber("y", accel.getY());
-    	SmartDashboard.putNumber("z", accel.getZ());
+    	SmartDashboard.putString("x", Double.toString(accel.getX()));
+    	SmartDashboard.putString("y", Double.toString(accel.getY()));
+    	SmartDashboard.putString("z", Double.toString(accel.getZ()));
     	driveTrain.displayGyroValue();
     }
     

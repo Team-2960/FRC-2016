@@ -41,6 +41,11 @@ public class DriveTrain extends Subsystem {
     	SmartDashboard.putString("gyroRate", Double.toString(gyro.getRate()));
     }
     
+    public void calibrateGyro()
+    {
+    	gyro.calibrate();
+    }
+    
     public void resetGyro()
     {
     	gyro.reset();
