@@ -4,6 +4,7 @@ import org.usfirst.frc.team2960.robot.PeriodicUpdate;
 import org.usfirst.frc.team2960.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.AnalogGyro;
+import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -71,10 +72,15 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
     	frontLeft.set(-speed);
     	backLeft.set(-speed);
     }
-
+    BuiltInAccelerometer accel = new BuiltInAccelerometer();
 	@Override
 	public void update() {
 		// TODO Auto-generated method stub
+		
+		SmartDashboard.putString("x", Double.toString(accel.getX()));
+    	SmartDashboard.putString("y", Double.toString(accel.getY()));
+    	SmartDashboard.putString("z", Double.toString(accel.getZ()));
+    	this.displayGyroValue();
 		
 	}
 
