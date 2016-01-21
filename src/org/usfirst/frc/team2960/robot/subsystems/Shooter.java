@@ -2,6 +2,7 @@ package org.usfirst.frc.team2960.robot.subsystems;
 
 import org.usfirst.frc.team2960.robot.PeriodicUpdate;
 
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
@@ -9,26 +10,29 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class Shooter extends Subsystem implements PeriodicUpdate {
     
-    // Put methods for controlling this subsystem
-    // here. Call these from Commands.
-
-    public void initDefaultCommand() {
-        // Set the default command for a subsystem here.
-        //setDefaultCommand(new MySpecialCommand());
-    }
+	boolean isActive;
+	
+	Solenoid solenoid;
+	
+    public void initDefaultCommand() {}
 
 	@Override
 	public void update() {
-		// TODO Auto-generated method stub
-		
+		if(isActive)
+			actuateSolenoid(solenoid);
 	}
 
 	@Override
 	public void start() {
-		// TODO Auto-generated method stub
-		
+		isActive = false;
+		solenoid = new Solenoid(0);
 	}
-    
-    
+	
+	public void setPneumatics(boolean isActive) {
+		this.isActive = isActive;
+	}
+		
+	public void actuateSolenoid(Solenoid solenoid) {
+    	solenoid.set(!solenoid.get());
+    }
 }
-
