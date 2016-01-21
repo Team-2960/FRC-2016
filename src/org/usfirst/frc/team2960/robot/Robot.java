@@ -82,7 +82,6 @@ public class Robot extends IterativeRobot {
     	Autonomous.autonomousUpdate();
     }
     
-    BuiltInAccelerometer accel = new BuiltInAccelerometer();
     
     public void teleopInit() {
     	driveTrain.calibrateGyro();
