@@ -2,7 +2,6 @@ package org.usfirst.frc.team2960.robot;
 
 import org.usfirst.frc.team2960.robot.commands.MoveForward;
 
-import edu.wpi.first.wpilibj.command.Command;
 
 public class Autonomous {
 
