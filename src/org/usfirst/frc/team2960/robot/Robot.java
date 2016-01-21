@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-//alex
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the IterativeRobot
@@ -71,10 +70,10 @@ public class Robot extends IterativeRobot {
     	Autonomous.autonomousUpdate();
     }
     
-    
+    BuiltInAccelerometer accel = new BuiltInAccelerometer();
     
     public void teleopInit() {
-    	
+    	driveTrain.calibrateGyro();
     }
 
     /**
@@ -82,7 +81,10 @@ public class Robot extends IterativeRobot {
      */
     public void teleopPeriodic() {
     	oi.driveRobot(driveJoystick, driveTrain);
-    	
+    	SmartDashboard.putString("x", Double.toString(accel.getX()));
+    	SmartDashboard.putString("y", Double.toString(accel.getY()));
+    	SmartDashboard.putString("z", Double.toString(accel.getZ()));
+    	driveTrain.displayGyroValue();
     }
     
     /**
