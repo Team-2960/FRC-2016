@@ -87,6 +87,7 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
 	@Override
 	public void start() {
 		// TODO Auto-generated method stub
+		this.calibrateGyro();
 		
 	}
 }

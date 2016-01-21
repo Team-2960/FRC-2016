@@ -74,7 +74,7 @@ public class Robot extends IterativeRobot {
     
     
     public void teleopInit() {
-    	driveTrain.calibrateGyro();
+    	
     }
 
     /**
