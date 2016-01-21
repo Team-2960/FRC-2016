@@ -26,6 +26,7 @@ public class AutonomousCommand {
 		SmartDashboard.putString("autonTimer", Double.toString(getSecondsDone()));
 		if(isFinished())
 		{
+			stop();
 			return;
 		}
 	}
@@ -43,6 +44,11 @@ public class AutonomousCommand {
 	public void finish()
 	{
 		stage = finalStage + 1;
+	}
+	
+	public void stop()
+	{
+		timer.cancel();
 	}
 	
 	public boolean isFinished()

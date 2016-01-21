@@ -8,9 +8,4 @@ public class Autonomous {
 		//switch statement here (or an array of commands)
 	}
 	
-	public static void autonomousUpdate(AutonomousCommand command)
-	{
-		command.updateLoop();
-	}
-	
 }
