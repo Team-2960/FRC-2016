@@ -10,7 +10,7 @@ public class Autonomous {
 	
 	public static void autonomousUpdate(AutonomousCommand command)
 	{
-		
+		command.updateLoop();
 	}
 	
 }
