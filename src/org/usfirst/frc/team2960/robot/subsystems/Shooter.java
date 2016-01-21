@@ -1,3 +1,5 @@
+// Eric Sung
+
 package org.usfirst.frc.team2960.robot.subsystems;
 
 import org.usfirst.frc.team2960.robot.PeriodicUpdate;
@@ -5,14 +7,12 @@ import org.usfirst.frc.team2960.robot.PeriodicUpdate;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-/**
- *
- */
 public class Shooter extends Subsystem implements PeriodicUpdate {
-    
-	boolean isActive;
 	
-	Solenoid solenoid;
+	private int pneumaticsPort;
+	private boolean isActive;
+	
+	private Solenoid solenoid;
 	
     public void initDefaultCommand() {}
 
@@ -25,14 +25,12 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 	@Override
 	public void start() {
 		isActive = false;
-		solenoid = new Solenoid(0);
+		solenoid = new Solenoid(pneumaticsPort);
 	}
 	
-	public void setPneumatics(boolean isActive) {
-		this.isActive = isActive;
-	}
+	public void setPneumatics(boolean isActive) {this.isActive = isActive;}
+	
+	public void setPort(int port) {pneumaticsPort = port;}
 		
-	public void actuateSolenoid(Solenoid solenoid) {
-    	solenoid.set(!solenoid.get());
-    }
+	public void actuateSolenoid(Solenoid solenoid) {solenoid.set(!solenoid.get());}
 }
