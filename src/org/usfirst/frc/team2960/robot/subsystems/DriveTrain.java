@@ -1,5 +1,6 @@
 package org.usfirst.frc.team2960.robot.subsystems;
 
+import org.usfirst.frc.team2960.robot.PeriodicUpdate;
 import org.usfirst.frc.team2960.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.AnalogGyro;
@@ -10,7 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  *
  */
-public class DriveTrain extends Subsystem {
+public class DriveTrain extends Subsystem implements PeriodicUpdate {
     
 	Victor frontLeft;
 	Victor frontRight;
@@ -70,5 +71,17 @@ public class DriveTrain extends Subsystem {
     	frontLeft.set(-speed);
     	backLeft.set(-speed);
     }
+
+	@Override
+	public void update() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void start() {
+		// TODO Auto-generated method stub
+		
+	}
 }
 
