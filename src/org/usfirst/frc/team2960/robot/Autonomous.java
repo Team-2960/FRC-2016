@@ -6,10 +6,10 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class Autonomous {
 
-	public static Command getAutonCommandAtIndex(int index)
+	public static AutonomousCommand getAutonCommandAtIndex(int index)
 	{
+		return null;
 		//switch statement here (or an array of commands)
-		return new MoveForward();
 	}
 	
 	public static void autonomousUpdate()
