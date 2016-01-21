@@ -4,33 +4,44 @@ package org.usfirst.frc.team2960.robot.subsystems;
 
 import org.usfirst.frc.team2960.robot.PeriodicUpdate;
 
-import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Shooter extends Subsystem implements PeriodicUpdate {
 	
-	private int pneumaticsPort;
-	private boolean isActive;
-	
-	private Solenoid solenoid;
+	private double currentAngle;
+
+	private boolean isFalling;
+	private boolean isRising;
+	private boolean isShooting;
 	
     public void initDefaultCommand() {}
 
 	@Override
 	public void update() {
-		if(isActive)
-			actuateSolenoid(solenoid);
+		move();
+		if(isShooting)
+			extend();
+		else
+			retract();
 	}
 
 	@Override
 	public void start() {
-		isActive = false;
-		solenoid = new Solenoid(pneumaticsPort);
+		currentAngle = 0.0;
+		isFalling = false;
+		isRising = false;
+		isShooting = false;
 	}
-	
-	public void setPneumatics(boolean isActive) {this.isActive = isActive;}
-	
-	public void setPort(int port) {pneumaticsPort = port;}
-		
-	public void actuateSolenoid(Solenoid solenoid) {solenoid.set(!solenoid.get());}
+
+	public void move() {}
+
+	public void extend() {}
+
+	public void retract() {}
+
+	public void setFall(boolean isActive) {isFalling = isActive;}
+
+	public void setRise(boolean isActive) {isRising = isActive;}
+
+	public void setShooter(boolean isActive) {isShooting = isActive;}
 }
