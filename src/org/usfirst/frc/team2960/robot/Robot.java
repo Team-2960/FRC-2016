@@ -2,6 +2,8 @@
 package org.usfirst.frc.team2960.robot;
 
 import org.usfirst.frc.team2960.robot.subsystems.DriveTrain;
+import org.usfirst.frc.team2960.robot.subsystems.Pickup;
+import org.usfirst.frc.team2960.robot.subsystems.Shooter;
 
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -24,6 +26,9 @@ public class Robot extends IterativeRobot {
     Joystick driveJoystick;
     Joystick operatorJoystick;
     DriveTrain driveTrain;
+    Shooter shooter;
+    Pickup pickup;
+    
     
     /**
      * This function is run when the robot is first started up and should be
@@ -58,6 +63,10 @@ public class Robot extends IterativeRobot {
 	 * You can add additional auto modes by adding additional commands to the chooser code above (like the commented example)
 	 * or additional comparisons to the switch structure below with additional strings & commands.
 	 */
+	
+	public void periodicUpdate(){
+		driveTrain.update();
+	}
     public void autonomousInit() {
     	// schedule the autonomous command (example)
         if (autonomousCommand != null) autonomousCommand.start();
