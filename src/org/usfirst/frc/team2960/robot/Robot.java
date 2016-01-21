@@ -75,14 +75,14 @@ public class Robot extends IterativeRobot {
 	}
     public void autonomousInit() {
     	// schedule the autonomous command (example)
-        if (autonomousCommand != null) autonomousCommand.start();
+    	Autonomous.getAutonCommandAtIndex(0).startExecute();
     }
 
     /**
      * This function is called periodically during autonomous
      */
     public void autonomousPeriodic() {
-    	Autonomous.autonomousUpdate();
+    	Autonomous.autonomousUpdate(Autonomous.getAutonCommandAtIndex(0));
     }
     
     
