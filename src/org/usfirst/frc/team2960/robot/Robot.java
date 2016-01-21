@@ -69,6 +69,9 @@ public class Robot extends IterativeRobot {
 	
 	public void periodicUpdate(){
 		driveTrain.update();
+		shooter.update();
+		pickup.update();
+		
 	}
     public void autonomousInit() {
     	// schedule the autonomous command (example)
@@ -92,10 +95,8 @@ public class Robot extends IterativeRobot {
      */
     public void teleopPeriodic() {
     	oi.driveRobot(driveJoystick, driveTrain);
-    	SmartDashboard.putString("x", Double.toString(accel.getX()));
-    	SmartDashboard.putString("y", Double.toString(accel.getY()));
-    	SmartDashboard.putString("z", Double.toString(accel.getZ()));
-    	driveTrain.displayGyroValue();
+    	periodicUpdate();
+    	
     }
     
     /**
