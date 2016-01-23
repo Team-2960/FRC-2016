@@ -34,6 +34,7 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
 		gyro = new AnalogGyro(RobotMap.gyro);
 		turn = new TurnControl(this);
 		turning = new PIDController(RobotMap.turnControlP, RobotMap.turnControlI, RobotMap.turnControlD, gyro, turn);
+		gyro.setPIDSourceType(PIDSourceType.kRate);
 	}
 
     public void initDefaultCommand() {
@@ -43,7 +44,6 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
     	frontRight.set(0);
     	backLeft.set(0);
     	backRight.set(0);
-    	gyro.setPIDSourceType(PIDSourceType.kRate);
     }
     
     public void displayGyroValue() {
@@ -67,6 +67,7 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
     	frontRight.set(-speed);
     	backLeft.set(speed);
     	backRight.set(speed);
+    	SmartDashboard.putString("Speed", Double.toString(speed));
     }
     
     public void turnLeft(double speed) {
@@ -81,16 +82,16 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
     	backLeft.set(-speed);
     }
     public void setSpeed(Double left, Double right){
-    	frontLeft.set(left);
+    	frontLeft.set(-left);
     	backLeft.set(left);
-    	frontRight.set(right);
+    	frontRight.set(-right);
     	backRight.set(right);
     }
     public void turn90(){
     	angleSetpoint = 90;
     	gyro.reset();
     	turning.enable();
-    	turning.setSetpoint(5);
+    	turning.setSetpoint(50);
     }
      public BuiltInAccelerometer accel = new BuiltInAccelerometer();
 	@Override
@@ -100,6 +101,7 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
 		SmartDashboard.putString("x", Double.toString(accel.getX()));
     	SmartDashboard.putString("y", Double.toString(accel.getY()));
     	SmartDashboard.putString("z", Double.toString(accel.getZ()));
+    
     	this.displayGyroValue();
     	
     	if(gyro.getAngle() == angleSetpoint){
