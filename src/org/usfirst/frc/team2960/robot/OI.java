@@ -33,6 +33,9 @@ public class OI {
 		{
 			resetBtnPressed = false;
 		}
+		if(stick.getRawButton(4)){
+			drivetrain.turn90();
+		}
 	}
 
 	public void pickupShere(Joystick stick, Pickup pickup) {pickup.initDefaultCommand();}

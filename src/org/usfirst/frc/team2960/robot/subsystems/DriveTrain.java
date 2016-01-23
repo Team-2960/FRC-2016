@@ -5,6 +5,8 @@ import org.usfirst.frc.team2960.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
+import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -14,12 +16,15 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class DriveTrain extends Subsystem implements PeriodicUpdate {
     
+	
 	Victor frontLeft;
 	Victor frontRight;
 	Victor backLeft;
 	Victor backRight;
 	AnalogGyro gyro;
-	
+	TurnControl turn; 
+	PIDController turning;
+	int angleSetpoint = 0;
 	public DriveTrain()
 	{
 		frontLeft = new Victor(RobotMap.frontLeft);
@@ -27,6 +32,8 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
 		backLeft = new Victor(RobotMap.backLeft);
 		backRight = new Victor(RobotMap.backRight);
 		gyro = new AnalogGyro(RobotMap.gyro);
+		turn = new TurnControl(this);
+		turning = new PIDController(RobotMap.turnControlP, RobotMap.turnControlI, RobotMap.turnControlD, gyro, turn);
 	}
 
     public void initDefaultCommand() {
@@ -36,6 +43,7 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
     	frontRight.set(0);
     	backLeft.set(0);
     	backRight.set(0);
+    	gyro.setPIDSourceType(PIDSourceType.kRate);
     }
     
     public void displayGyroValue() {
@@ -72,6 +80,18 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
     	frontLeft.set(-speed);
     	backLeft.set(-speed);
     }
+    public void setSpeed(Double left, Double right){
+    	frontLeft.set(left);
+    	backLeft.set(left);
+    	frontRight.set(right);
+    	backRight.set(right);
+    }
+    public void turn90(){
+    	angleSetpoint = 90;
+    	gyro.reset();
+    	turning.enable();
+    	turning.setSetpoint(5);
+    }
      public BuiltInAccelerometer accel = new BuiltInAccelerometer();
 	@Override
 	public void update() {
@@ -81,7 +101,10 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
     	SmartDashboard.putString("y", Double.toString(accel.getY()));
     	SmartDashboard.putString("z", Double.toString(accel.getZ()));
     	this.displayGyroValue();
-		
+    	
+    	if(gyro.getAngle() == angleSetpoint){
+    		turning.disable();
+    	}
 	}
 
 	@Override

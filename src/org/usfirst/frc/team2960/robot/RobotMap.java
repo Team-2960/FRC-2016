@@ -11,4 +11,7 @@ public class RobotMap {
 	public static int backRight = 2;
 	public static int backLeft = 3;
 	public static int gyro = 0;
+	public static double turnControlP = 1;
+	public static double turnControlI = 0;
+	public static double turnControlD = 0;
 }
