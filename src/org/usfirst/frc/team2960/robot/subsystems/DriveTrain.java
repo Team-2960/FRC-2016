@@ -24,6 +24,7 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
 	AnalogGyro gyro;
 	TurnControl turn; 
 	PIDController turning;
+	boolean hitTargetRate;
 	int angleSetpoint = 0;
 	public DriveTrain()
 	{
@@ -67,7 +68,7 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
     	frontRight.set(-speed);
     	backLeft.set(speed);
     	backRight.set(speed);
-    	SmartDashboard.putString("Speed", Double.toString(speed));
+    	//SmartDashboard.putString("Speed", Double.toString(speed));
     }
     
     public void turnLeft(double speed) {
@@ -82,9 +83,9 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
     	backLeft.set(-speed);
     }
     public void setSpeed(Double left, Double right){
-    	frontLeft.set(-left);
+    	frontLeft.set(left);
     	backLeft.set(left);
-    	frontRight.set(-right);
+    	frontRight.set(right);
     	backRight.set(right);
     }
     public void turn90(){
@@ -104,7 +105,11 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
     
     	this.displayGyroValue();
     	
-    	if(gyro.getAngle() == angleSetpoint){
+    	if(gyro.getRate() > 50){
+    			hitTargetRate = true;
+    			//SmartDashboard.putBoolean("hit target rate",hitTargetRate);
+    	}
+    	if(gyro.getAngle() < angleSetpoint){
     		turning.disable();
     	}
 	}
