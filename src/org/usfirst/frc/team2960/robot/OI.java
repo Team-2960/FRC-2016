@@ -36,6 +36,9 @@ public class OI {
 		if(stick.getRawButton(4)){
 			drivetrain.turn90();
 		}
+		if(stick.getRawButton(11)){
+			drivetrain.disablePID();
+		}
 	}
 
 	public void pickupShere(Joystick stick, Pickup pickup) {pickup.initDefaultCommand();}

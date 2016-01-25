@@ -25,6 +25,7 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
 	TurnControl turn; 
 	PIDController turning;
 	boolean hitTargetRate;
+	boolean isEnadled;
 	int angleSetpoint = 0;
 	public DriveTrain()
 	{
@@ -94,6 +95,11 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
     	turning.enable();
     	turning.setSetpoint(50);
     }
+    public void disablePID(){
+    	if(turning.isEnabled()){
+    	turning.disable();
+    	}
+    }
      public BuiltInAccelerometer accel = new BuiltInAccelerometer();
 	@Override
 	public void update() {
@@ -109,7 +115,8 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
     			hitTargetRate = true;
     			//SmartDashboard.putBoolean("hit target rate",hitTargetRate);
     	}
-    	if(gyro.getAngle() < angleSetpoint){
+    	if(gyro.getAngle() > angleSetpoint && turning.isEnabled()){
+    		
     		turning.disable();
     	}
 	}
