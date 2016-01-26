@@ -17,13 +17,18 @@ public class OI {
 	boolean resetBtnPressed = false;
 	
 	public void driveRobot(Joystick stick, DriveTrain drivetrain) {
-		drivetrain.initDefaultCommand();
-		if(Math.abs(stick.getRawAxis(1)) > 0.1)
-        	drivetrain.move(-stick.getRawAxis(1));
+		//drivetrain.initDefaultCommand();
+		/*if(Math.abs(stick.getRawAxis(1)) > 0.1)
+        drivetrain.move(-stick.getRawAxis(1));
     	if(stick.getRawAxis(2) > 0.1)
     		drivetrain.turnRight(stick.getRawAxis(2));
     	if(stick.getRawAxis(2) < -0.1)
     		drivetrain.turnLeft(Math.abs(stick.getRawAxis(2)));
+    	*/
+		if(drivetrain.moveStop == false)
+		{
+		drivetrain.setSpeed(stick.getRawAxis(1), stick.getRawAxis(5));
+		}
 		if(stick.getRawButton(2) && resetBtnPressed == false)
 		{
 			drivetrain.resetGyro();
@@ -36,7 +41,7 @@ public class OI {
 		if(stick.getRawButton(4)){
 			drivetrain.turn90();
 		}
-		if(stick.getRawButton(11)){
+		if(stick.getRawButton(1)){
 			drivetrain.disablePID();
 		}
 	}
