@@ -3,45 +3,46 @@
 package org.usfirst.frc.team2960.robot.subsystems;
 
 import org.usfirst.frc.team2960.robot.PeriodicUpdate;
+import org.usfirst.frc.team2960.robot.RobotMap;
 
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Shooter extends Subsystem implements PeriodicUpdate {
 	
-	private double currentAngle;
+	private Victor spring;
 
-	private boolean isFalling;
-	private boolean isRising;
-	private boolean isShooting;
+	private boolean isInPosition;
+	private boolean isRetracting;
 	
     public void initDefaultCommand() {}
 
 	@Override
 	public void update() {
-		move();
-		if(isShooting)
-			extend();
+		if(isRetracting)
+			spring.set(1.0);
 		else
-			retract();
+			spring.set(0.0);
+		if(isInPosition)
+			setInPosition(false);
 	}
 
 	@Override
 	public void start() {
-		currentAngle = 0.0;
-		isFalling = false;
-		isRising = false;
-		isShooting = false;
+		spring = new Victor(5);
+		isInPosition = false;
+		isRetracting = false;
 	}
 
-	public void move() {}
+	public void activate(Joystick stick) {
+		if(stick.getRawButton(/**/) && !isRetracting)
+			setRetracting(true);
+		else if(stick.getRawButton(/**/) && isRetracting)
+			setRetracting(false);
+	}
 
-	public void extend() {}
+	public void setInPosition(boolean isReady) {isInPosition = isReady;}
 
-	public void retract() {}
-
-	public void setFall(boolean isActive) {isFalling = isActive;}
-
-	public void setRise(boolean isActive) {isRising = isActive;}
-
-	public void setShooter(boolean isActive) {isShooting = isActive;}
+	public void setRetracting(boolean isActive) {isRetracting = isActive;}
 }
