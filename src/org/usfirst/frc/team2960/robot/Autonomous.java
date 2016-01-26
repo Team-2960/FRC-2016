@@ -41,6 +41,4 @@ public class Autonomous {
 		timerValue = 0;
 	}
 	
-	
-	
 }
