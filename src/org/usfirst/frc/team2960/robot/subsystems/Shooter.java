@@ -20,6 +20,7 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 
 	@Override
 	public void update() {
+		override();
 		if(isRetracting)
 			spring.set(1.0);
 		else
@@ -30,16 +31,16 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 
 	@Override
 	public void start() {
-		spring = new Victor(5);
+		spring = new Victor(/**/);
 		isInPosition = false;
 		isRetracting = false;
 	}
 
-	public void activate(Joystick stick) {
-		if(stick.getRawButton(/**/) && !isRetracting)
-			setRetracting(true);
-		else if(stick.getRawButton(/**/) && isRetracting)
+	public void override() {
+		if(isRetracting)
 			setRetracting(false);
+		else
+			setRetracting(true);
 	}
 
 	public void setInPosition(boolean isReady) {isInPosition = isReady;}
