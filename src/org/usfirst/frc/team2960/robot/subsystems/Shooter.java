@@ -15,12 +15,13 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 
 	private boolean isInPosition;
 	private boolean isRetracting;
+	private boolean isOverwritten;
 	
     public void initDefaultCommand() {}
 
 	@Override
 	public void update() {
-		override();
+		check();
 		if(isRetracting)
 			spring.set(1.0);
 		else
@@ -32,18 +33,21 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 	@Override
 	public void start() {
 		spring = new Victor(/**/);
-		isInPosition = false;
-		isRetracting = false;
+		setInPosition(false);
+		setRetracting(false);
+		setOverride(false);
 	}
 
-	public void override() {
-		if(isRetracting)
+	public void check() {
+		if(isRetracting && isOverwritten)
 			setRetracting(false);
-		else
+		else if (isRetracting && !isOverwritten)
 			setRetracting(true);
 	}
 
 	public void setInPosition(boolean isReady) {isInPosition = isReady;}
 
 	public void setRetracting(boolean isActive) {isRetracting = isActive;}
+
+	public void setOverride(boolean isActive) {isOverwritten = isActive;}
 }
