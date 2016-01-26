@@ -24,6 +24,7 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
 	AnalogGyro gyro;
 	TurnControl turn; 
 	PIDController turning;
+	public  boolean moveStop;
 	boolean hitTargetRate;
 	boolean isEnadled;
 	int angleSetpoint = 0;
@@ -86,25 +87,29 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
     public void setSpeed(Double left, Double right){
     	frontLeft.set(left);
     	backLeft.set(left);
-    	frontRight.set(right);
-    	backRight.set(right);
+    	frontRight.set(-right);
+    	backRight.set(-right);
     }
     public void turn90(){
     	angleSetpoint = 90;
     	gyro.reset();
     	turning.enable();
     	turning.setSetpoint(50);
+    	moveStop = true;
     }
     public void disablePID(){
     	if(turning.isEnabled()){
     	turning.disable();
+    	moveStop = false;
     	}
     }
      public BuiltInAccelerometer accel = new BuiltInAccelerometer();
 	@Override
 	public void update() {
 		// TODO Auto-generated method stub
-		
+		SmartDashboard.getNumber("P", RobotMap.turnControlP);
+		SmartDashboard.getNumber("I", RobotMap.turnControlI);
+		SmartDashboard.getNumber("D", RobotMap.turnControlD);
 		SmartDashboard.putString("x", Double.toString(accel.getX()));
     	SmartDashboard.putString("y", Double.toString(accel.getY()));
     	SmartDashboard.putString("z", Double.toString(accel.getZ()));
@@ -115,7 +120,7 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
     			hitTargetRate = true;
     			//SmartDashboard.putBoolean("hit target rate",hitTargetRate);
     	}
-    	if(gyro.getAngle() > angleSetpoint && turning.isEnabled()){
+    	if(gyro.getAngle() < -angleSetpoint && turning.isEnabled()){
     		
     		turning.disable();
     	}
