@@ -44,8 +44,15 @@ public class OI {
 		if(stick.getRawButton(1)){
 			drivetrain.disablePID();
 		}
+		
 	}
-
+	public void operateRobot(Joystick stick, Shooter shooter){
+		if(stick.getRawButton(11))
+		{
+			shooter.check();
+			
+		}
+	}
 	public void pickupShere(Joystick stick, Pickup pickup) {pickup.initDefaultCommand();}
 
 	public void shootSphere(Joystick stick, Shooter shooter) {shooter.initDefaultCommand();}

@@ -100,6 +100,7 @@ public class Robot extends IterativeRobot {
      */
     public void teleopPeriodic() {
     	oi.driveRobot(driveJoystick, driveTrain);
+    	oi.operateRobot(operatorJoystick, shooter);
     	periodicUpdate();
     	
     }
