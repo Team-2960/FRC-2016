@@ -10,9 +10,12 @@ import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Shooter extends Subsystem implements PeriodicUpdate {
-	
+
+	private Victor lift;
 	private Victor spring;
 
+	private boolean isFalling;
+	private boolean isRising;
 	private boolean isInPosition;
 	private boolean isRetracting;
 	private boolean isOverwritten;
@@ -26,14 +29,25 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 			spring.set(1.0);
 		else
 			spring.set(0.0);
-		if(isInPosition)
-			setInPosition(false);
+		if(isInPosition) {
+			setPosition(false);
+			setRetracting(false);
+		}
+		if(isFalling)
+			lift.set(-1.0);
+		else if(isRising)
+			lift.set(1.0);
+		else
+			lift.set(0.0);
 	}
 
 	@Override
 	public void start() {
-		spring = new Victor(/**/);
-		setInPosition(false);
+		lift = new Victor(5);
+		spring = new Victor(6);
+		setFall(false);
+		setRise(false);
+		setPosition(false);
 		setRetracting(false);
 		setOverride(false);
 	}
@@ -45,7 +59,11 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 			setRetracting(true);
 	}
 
-	public void setInPosition(boolean isReady) {isInPosition = isReady;}
+	public void setFall(boolean isActive) {isFalling = isActive;}
+
+	public void setRise(boolean isActive) {isRising = isActive;}
+
+	public void setPosition(boolean isReady) {isInPosition = isReady;}
 
 	public void setRetracting(boolean isActive) {isRetracting = isActive;}
 
