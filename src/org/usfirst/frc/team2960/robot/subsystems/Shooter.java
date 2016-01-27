@@ -13,8 +13,8 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 	private Victor lift;
 	private Victor spring;
 
-	private Encoder checkAngle;
-	private Encoder checkPosition;
+	private Encoder checkAngle = new Encoder();
+	private Encoder checkPosition = new Encoder();
 
 	private int currentAngle;
 	private int currentPosition;
@@ -55,9 +55,6 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 	public void start() {
 		lift = new Victor();
 		spring = new Victor();
-
-		checkAngle = new Encoder();
-		checkPosition = new Encoder();
 
 		currentAngle = 0;
 		currentPosition = 0;
