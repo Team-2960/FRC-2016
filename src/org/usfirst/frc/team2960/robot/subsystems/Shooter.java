@@ -21,9 +21,9 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 	private PIDController changing;
 	private PIDOutput output;
 
-	private int angle;
-	private int currentAngle;
-	private int currentPosition;
+	private double angle;
+	private double currentAngle;
+	private double currentPosition;
 
 	private boolean isFalling;
 	private boolean isRising;
@@ -66,20 +66,25 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 		// double, double, double, double, PIDSource, PIDOutput
 		changing = new PIDController(0.0, 0.0, 0.0, 0.0, checkAngle, lift);
 
-		currentAngle = 0; // Change
-		currentPosition = 0; // Change
+		currentAngle = 0;
+		currentPosition = 0;
 
-		setAngle(0); // Change
+		setAngle(0);
 
 		setFall(false);
 		setRise(false);
 		setPosition(false);
 		setRetracting(false);
 		setOverride(false);
+
+		zero();
+
+		checkAngle.reset();
+		checkPosition.reset();
 	}
 
 	public void check() {
-		if(currentPosition == 0) // Change
+		if(currentPosition <= 0 && currentPosition >= 0) // Change
 			setPosition(true);
 		else if(isRetracting && isOverwritten)
 			setRetracting(false);
@@ -87,7 +92,7 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 			setRetracting(true);
 	}
 
-	public void changeAngle() {
+	public void changeAngle() { // Change
 		if(currentAngle < angle) {
 			setFall(false);
 			setRise(true);
@@ -111,6 +116,16 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 	public void newPosition() { // Change
 		currentPosition = checkPosition.get();
 	}
+
+	public void zero() { // Change
+		changing.enable();
+		setAngle(0);
+		while(isFalling || isRising) {
+			changeAngle();
+		}
+	}
+
+	public double getCurrentAngle() {return currentAngle;}
 	
 	public void setAngle(int newAngle) {angle = newAngle;}
 
