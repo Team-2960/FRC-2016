@@ -5,6 +5,8 @@ package org.usfirst.frc.team2960.robot.subsystems;
 import org.usfirst.frc.team2960.robot.PeriodicUpdate;
 
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -15,6 +17,9 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 
 	private Encoder checkAngle = new Encoder(null, null); // Change
 	private Encoder checkPosition = new Encoder(null, null); // Change
+
+	private PIDController changing;
+	private PIDOutput output;
 
 	private int angle;
 	private int currentAngle;
@@ -31,6 +36,10 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 	@Override
 	public void update() {
 		check();
+
+		if(!changing.isEnabled())
+			changing.enable();
+
 		if(isRetracting)
 			spring.set(1.0);
 		else
@@ -54,9 +63,13 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 
 	@Override
 	public void start() {
-		angle = 0;
-		currentAngle = 0;
-		currentPosition = 0;
+		// double, double, double, double, PIDSource, PIDOutput
+		changing = new PIDController(0.0, 0.0, 0.0, 0.0, checkAngle, lift);
+
+		currentAngle = 0; // Change
+		currentPosition = 0; // Change
+
+		setAngle(0); // Change
 
 		setFall(false);
 		setRise(false);
@@ -75,21 +88,27 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 	}
 
 	public void changeAngle() {
-		if(currentAngle < angle)
+		if(currentAngle < angle) {
+			setFall(false);
 			setRise(true);
-		else if (currentAngle > angle)
+		}
+		else if (currentAngle > angle) {
 			setFall(true);
+			setRise(false);
+		}
 		else {
 			setFall(false);
 			setRise(false);
+			changing.disable();
 		}
 	}
 
-	public void newAngle() {
+	public void newAngle() { // Change
+		output.pidWrite(changing.get());
 		currentAngle = checkAngle.get();
 	}
 
-	public void newPosition() {
+	public void newPosition() { // Change
 		currentPosition = checkPosition.get();
 	}
 	
