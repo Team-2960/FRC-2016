@@ -10,12 +10,13 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Shooter extends Subsystem implements PeriodicUpdate {
 
-	private Victor lift;
-	private Victor spring;
+	private Victor lift = new Victor(0); // Change
+	private Victor spring = new Victor(0); // Change
 
-	private Encoder checkAngle = new Encoder();
-	private Encoder checkPosition = new Encoder();
+	private Encoder checkAngle = new Encoder(null, null); // Change
+	private Encoder checkPosition = new Encoder(null, null); // Change
 
+	private int angle;
 	private int currentAngle;
 	private int currentPosition;
 
@@ -53,9 +54,7 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 
 	@Override
 	public void start() {
-		lift = new Victor();
-		spring = new Victor();
-
+		angle = 0;
 		currentAngle = 0;
 		currentPosition = 0;
 
@@ -67,12 +66,23 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 	}
 
 	public void check() {
-		if(currentPosition == )
+		if(currentPosition == 0) // Change
 			setPosition(true);
 		else if(isRetracting && isOverwritten)
 			setRetracting(false);
 		else if (isRetracting && !isOverwritten)
 			setRetracting(true);
+	}
+
+	public void changeAngle() {
+		if(currentAngle < angle)
+			setRise(true);
+		else if (currentAngle > angle)
+			setFall(true);
+		else {
+			setFall(false);
+			setRise(false);
+		}
 	}
 
 	public void newAngle() {
@@ -82,6 +92,8 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 	public void newPosition() {
 		currentPosition = checkPosition.get();
 	}
+	
+	public void setAngle(int newAngle) {angle = newAngle;}
 
 	public void setFall(boolean isActive) {isFalling = isActive;}
 
