@@ -44,6 +44,9 @@ public class OI {
 		if(stick.getRawButton(1)){
 			drivetrain.disablePID();
 		}
+		if(stick.getRawButton(3)){
+			drivetrain.resetEncoder();
+		}
 		
 	}
 	public void operateRobot(Joystick stick, Shooter shooter){

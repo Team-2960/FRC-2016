@@ -39,7 +39,7 @@ public class Robot extends IterativeRobot {
 		driveTrain = new DriveTrain();
 		driveJoystick = new Joystick(0);
 		operatorJoystick = new Joystick(1);
-		shooter = new Shooter();
+		//shooter = new Shooter();
 		pickup = new Pickup();
 		
     }
@@ -69,7 +69,7 @@ public class Robot extends IterativeRobot {
 	
 	public void periodicUpdate(){
 		driveTrain.update();
-		shooter.update();
+		//shooter.update();
 		pickup.update();
 		
 	}

@@ -5,6 +5,7 @@ import org.usfirst.frc.team2960.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.Victor;
@@ -22,8 +23,10 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
 	Victor backLeft;
 	Victor backRight;
 	AnalogGyro gyro;
+	Encoder encoder1;
 	TurnControl turn; 
 	PIDController turning;
+	PIDController move;
 	public  boolean moveStop;
 	boolean hitTargetRate;
 	boolean isEnadled;
@@ -38,6 +41,9 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
 		turn = new TurnControl(this);
 		turning = new PIDController(RobotMap.turnControlP, RobotMap.turnControlI, RobotMap.turnControlD, gyro, turn);
 		gyro.setPIDSourceType(PIDSourceType.kRate);
+		encoder1 = new Encoder(RobotMap.encoder1, RobotMap.encoder1b);
+		encoder1.setDistancePerPulse(.1); 
+		//move = new PIDController(RobotMap.moveP, RobotMap.moveI, RobotMap.moveD, encoder1, pidWrite);
 	}
 
     public void initDefaultCommand() {
@@ -63,7 +69,10 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
     {
     	gyro.reset();
     }
-    
+    public void resetEncoder()
+    {
+    	encoder1.reset();
+    }
     public void move(double speed) {
     	speed = speed * 0.75;
     	frontLeft.set(-speed);
@@ -90,6 +99,10 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
     	frontRight.set(-right);
     	backRight.set(-right);
     }
+    public void move()
+    {
+    	
+    }
     public void turn90(){
     	angleSetpoint = 90;
     	gyro.reset();
@@ -107,9 +120,11 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
 	@Override
 	public void update() {
 		// TODO Auto-generated method stub
-		SmartDashboard.getNumber("P", RobotMap.turnControlP);
-		SmartDashboard.getNumber("I", RobotMap.turnControlI);
-		SmartDashboard.getNumber("D", RobotMap.turnControlD);
+		
+		SmartDashboard.putBoolean("Encoder direction", encoder1.getDirection());
+		SmartDashboard.putString("Encoder Distance", Double.toString(encoder1.getDistance()));
+		SmartDashboard.putString("Encoder count", Double.toString(encoder1.get()));
+		SmartDashboard.putString("Encoder Rate", Double.toString(encoder1.getRate()));
 		SmartDashboard.putString("x", Double.toString(accel.getX()));
     	SmartDashboard.putString("y", Double.toString(accel.getY()));
     	SmartDashboard.putString("z", Double.toString(accel.getZ()));
