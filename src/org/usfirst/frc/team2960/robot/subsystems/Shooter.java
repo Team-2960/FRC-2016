@@ -64,7 +64,7 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 	@Override
 	public void start() {
 		// double, double, double, double, PIDSource, PIDOutput
-		changing = new PIDController(0.0, 0.0, 0.0, 0.0, checkAngle, lift);
+		changing = new PIDController(0.0, 0.0, 0.0, 0.0, checkAngle, lift); // Change
 
 		currentAngle = 0;
 		currentPosition = 0;
@@ -120,6 +120,7 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 	public void zero() { // Change
 		changing.enable();
 		setAngle(0);
+		setRise(true);
 		while(isFalling || isRising) {
 			changeAngle();
 		}
