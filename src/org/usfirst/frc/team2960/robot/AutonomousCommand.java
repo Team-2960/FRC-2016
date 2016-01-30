@@ -26,7 +26,7 @@ public class AutonomousCommand {
 			return;
 		}
 	}
-	
+	D
 	public double getSecondsDone()
 	{
 		return Autonomous.timerValue/100;
