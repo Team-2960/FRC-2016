@@ -40,7 +40,5 @@ public class AutonomousCommand {
 	public boolean isFinished()
 	{
 		return stage > finalStage;
-	}
-	
-	
+	}	
 }
