@@ -87,7 +87,7 @@ public class Camera extends Subsystem implements PeriodicUpdate {
 
 			//Send distance and tote status to dashboard. The bounding rect, particularly the horizontal center (left - right) may be useful for rotating/driving towards a tote
 			SmartDashboard.putBoolean("isTarget", isTarget);
-			SmartDashboard.putNumber("Distance", computeDistance(binaryFrame, particles.elementAt(0)));
+			SmartDashboard.putNumber("Distance", computeDistance(particles.elementAt(0)));
 		} else {
 			SmartDashboard.putBoolean("IsTote", false);
 		}
@@ -134,7 +134,8 @@ public class Camera extends Subsystem implements PeriodicUpdate {
 	
 	public double computeHorizontalAngle(ParticleReport report)
 	{
-		return (640 - )
+		return ANGLE_PER_PIXEL;
+		//return (640 - )
 	}
 	
 	public class ParticleReport implements Comparator<ParticleReport>, Comparable<ParticleReport>{
