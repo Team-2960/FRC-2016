@@ -6,13 +6,41 @@ package org.usfirst.frc.team2960.robot;
  * floating around.
  */
 public class RobotMap {
-	public static int frontRight = 0;
-	public static int frontLeft = 2;
-	public static int backRight = 1;
-	public static int backLeft = 3;
+	//PWM
+	public static int RtDriveMt1 = 0;
+	public static int RtDriveMt2 = 2;
+	public static int LtDriveMt1 = 1;
+	public static int LtDriveMt2 = 3;
+	public static int WinchMt1 = 4;
+	public static int WinchMt2 = 5;
+	public static int AngleAdjust = 6;
+	public static int Roller = 7;
+	
+	//Analog
 	public static int gyro = 0;
-	public static int encoder1 = 4;
-	public static int encoder1b = 5;
+	public static int SelectorSwitch = 1;
+	
+	//DigitalIO
+	public static int RtDriveEncA = 0;
+	public static int RtDriveEncB = 1;
+	public static int LtDriveEncA = 2;
+	public static int LtDriveEncB = 3;
+	public static int ShooterAngle1 = 4;
+	public static int ShooterAngle2 = 5;
+	public static int WinchPhotoeye = 6;
+	public static int AnglePhotoeyeUp = 7;
+	public static int AnglePhotoEyeDown = 8;
+	public static int BallDetectionPhotoeye = 9;
+	
+	//Break out
+	public static int WinchEncA = 11;
+	public static int WinchEncB = 13;
+	
+	
+	
+	
+	
+	//other values
 	public static double moveP = .0001;
 	public static double moveI = 0;
 	public static double moveD = 0;
