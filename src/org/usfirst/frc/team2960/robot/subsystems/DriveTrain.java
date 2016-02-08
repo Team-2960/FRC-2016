@@ -35,8 +35,10 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
 	double lengthSetPoint = 0;
 	final int tolerance = 5;
 	final double angleSlowDown = .75;
-	final int slowDown = 20;
+	final int slowDown = 10;
+	final double rateTolerance = .5;
 	int RateSetPoint = 50;
+	
 	public DriveTrain()
 	{
 		LtDriveMt1 = new Victor(RobotMap.LtDriveMt1);
@@ -49,7 +51,7 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
 		gyro.setPIDSourceType(PIDSourceType.kRate);
 		RightDriveEnc = new Encoder(RobotMap.RtDriveEncA, RobotMap.RtDriveEncB);
 		RightDriveEnc.setDistancePerPulse(.1); 
-		move = new PIDController(RobotMap.moveP, RobotMap.moveI, RobotMap.moveD, RightDriveEnc, linear);
+		//move = new PIDController(RobotMap.moveP, RobotMap.moveI, RobotMap.moveD, RightDriveEnc, linear);
 	}
 
     public void initDefaultCommand() {
@@ -87,6 +89,7 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
     	RtDriveMt1.set(-right);
     	RtDriveMt2.set(-right);
     }
+    /*
     public void move()
     {
     	lengthSetPoint = 10;
@@ -95,6 +98,7 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
     	move.setSetpoint(50);
     	linearStop = true;
     }
+    */
     public void gotoAngle(double angle){
     	angleSetpoint = angle;
     	gyro.reset();
@@ -112,9 +116,10 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
     	if(turning.isEnabled()){
     	turning.disable();
     	moveStop = false;
-    	overTurn();
+    	//overTurn();
     	}
     }
+    /*
     public void disablePIDForward()
     {
     	if(move.isEnabled()){
@@ -123,37 +128,38 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
     	}
     	
     }
+    */
     public void checkAngle(){
-    if(turning.isEnabled()){
-    	if(gyro.getAngle() >= (angleSetpoint * angleSlowDown)){
-    		if(angleSetpoint < 0){
-    		turning.setSetpoint(slowDown);
-    		}
-    		else{
-    			turning.setSetpoint(-slowDown);
-    		}
-    	}
-    	if((gyro.getAngle() >= (angleSetpoint + tolerance)) || (gyro.getAngle() <= (angleSetpoint - tolerance))){
-    		disablePIDForward();
-    	}	
-    }
+	    if(turning.isEnabled()){
+			@SuppressWarnings("unused")
+			int lDirection;
+	    	double error;
+	    	error = angleSetpoint - gyro.getAngle();
+	    	if(error < 0)
+	    		lDirection = -1;
+	    	else
+	    		lDirection = 1;
+	    	if((gyro.getAngle() >= (angleSetpoint - tolerance)) && (gyro.getAngle() <= (angleSetpoint + tolerance))){
+	    		turning.setSetpoint(0.1);
+	    		
+	    		
+	    		if((gyro.getRate() >= (-rateTolerance)) && (gyro.getRate() <= (rateTolerance)) ){
+	    			turning.disable();
+	    			}
+	    	}
+	    	/*
+	    	else if(gyro.getAngle() >= angleSetpoint){
+	    			turning.setSetpoint(slowDown * lDirection);
+	    	}
+	    	else if(gyro.getAngle() >= (angleSetpoint * angleSlowDown))
+	    		turning.setSetpoint(slowDown * lDirection);
+	    		
+	    }
+	    */
+	    }
     }
     
-    public void overTurn(){
-    	if(turning.isEnabled() == false){
-    		if((gyro.getAngle() < (angleSetpoint - tolerance) || (gyro.getAngle() > (angleSetpoint + tolerance)))){
-    			turning.enable();
-    			if(angleSetpoint < 0){
-    	    		RateSetPoint = -20;
-    	    	}
-    	    	else {
-    	    		RateSetPoint = 20;
-    	    	}
-    			gotoAngle(angleSetpoint - gyro.getAngle());
-    		}
-    	}
-    	
-    }
+    
      public BuiltInAccelerometer accel = new BuiltInAccelerometer();
 	@Override
 	public void update() {
@@ -166,6 +172,8 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
 		SmartDashboard.putString("x", Double.toString(accel.getX()));
     	SmartDashboard.putString("y", Double.toString(accel.getY()));
     	SmartDashboard.putString("z", Double.toString(accel.getZ()));
+    	SmartDashboard.putNumber("setpont", turning.getSetpoint());
+		SmartDashboard.putNumber("error", turning.getError());
     
     	this.displayGyroValue();
     	checkAngle();

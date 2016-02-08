@@ -8,8 +8,8 @@ package org.usfirst.frc.team2960.robot;
 public class RobotMap {
 	//PWM
 	public static int RtDriveMt1 = 0;
-	public static int RtDriveMt2 = 2;
-	public static int LtDriveMt1 = 1;
+	public static int RtDriveMt2 = 1;
+	public static int LtDriveMt1 = 2;
 	public static int LtDriveMt2 = 3;
 	public static int WinchMt1 = 4;
 	public static int WinchMt2 = 5;
