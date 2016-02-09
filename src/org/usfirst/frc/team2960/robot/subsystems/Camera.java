@@ -9,6 +9,7 @@ import com.ni.vision.NIVision;
 import com.ni.vision.NIVision.Image;
 import com.ni.vision.NIVision.ImageType;
 
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.vision.USBCamera;
@@ -20,9 +21,7 @@ public class Camera extends Subsystem implements PeriodicUpdate {
     
 	public Camera()
 	{
-		cam.openCamera();
-		cam.setExposureManual(1);
-		cam.startCapture();
+		cam = new USBCamera("cam0");
 	}
 	NIVision.Range HUE_RANGE = new NIVision.Range(88, 146);
 	NIVision.Range SAT_RANGE = new NIVision.Range(252, 255);
@@ -30,9 +29,10 @@ public class Camera extends Subsystem implements PeriodicUpdate {
 	final double SCORE_MIN = 75.0;
 	//double VIEW_ANGLE = 58.08777;
 	final double ANGLE_PER_PIXEL = 0.045381;
-	final double HEIGHT_GC = 1; //height of goal - robot camera - change later
+	final double CAMERA_ANGLE_OFFSET = Math.PI/4;
+	final double HEIGHT_GC = 70.75; //height of goal - robot camera - in inches - change later
 	
-	USBCamera cam = new USBCamera();
+	USBCamera cam;
 	Image frame = NIVision.imaqCreateImage(ImageType.IMAGE_HSL, 0);
 	Image binaryFrame = NIVision.imaqCreateImage(ImageType.IMAGE_U8, 0);
 	NIVision.ParticleFilterCriteria2 criteria[] = new NIVision.ParticleFilterCriteria2[1];
@@ -45,9 +45,12 @@ public class Camera extends Subsystem implements PeriodicUpdate {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
     }
-    
+    CameraServer server;
     public void takeSnapshot()
     {
+    	frame = NIVision.imaqCreateImage(ImageType.IMAGE_HSL, 0);
+    	binaryFrame = NIVision.imaqCreateImage(ImageType.IMAGE_U8, 0);
+    	cam.setSize(1280, 800);
     	cam.getImage(frame);
     }
     
@@ -75,7 +78,6 @@ public class Camera extends Subsystem implements PeriodicUpdate {
 				particles.add(par);
 			}
 			particles.sort(null);
-
 			//This example only scores the largest particle. Extending to score all particles and choosing the desired one is left as an exercise
 			//for the reader. Note that this scores and reports information about a single particle (single L shaped target). To get accurate information 
 			//about the location of the tote (not just the distance) you will need to correlate two adjacent targets in order to find the true center of the tote.
@@ -85,12 +87,21 @@ public class Camera extends Subsystem implements PeriodicUpdate {
 			SmartDashboard.putNumber("Area", scores.Area);
 			boolean isTarget = scores.Aspect > SCORE_MIN && scores.Area > SCORE_MIN;
 
+			server.setImage(binaryFrame);
 			//Send distance and tote status to dashboard. The bounding rect, particularly the horizontal center (left - right) may be useful for rotating/driving towards a tote
 			SmartDashboard.putBoolean("isTarget", isTarget);
-			SmartDashboard.putNumber("Distance", computeDistance(particles.elementAt(0)));
-			SmartDashboard.putNumber("HorizontalAngle", computeHorizontalAngle(particles.elementAt(0)));
+			ParticleReport report = particles.elementAt(0);
+			SmartDashboard.putNumber("BoundingRectBottom", report.BoundingRectBottom);
+			SmartDashboard.putNumber("BoundingRectTopp", report.BoundingRectTop);
+			SmartDashboard.putNumber("BoundingRectLeft", report.BoundingRectLeft);
+			SmartDashboard.putNumber("BoundingRectRight", report.BoundingRectRight);
+			SmartDashboard.putNumber("Distance", computeDistance(report));
+			SmartDashboard.putNumber("HorizontalAngle", computeHorizontalAngle(report));
+			SmartDashboard.putString("isItWorking", "yes");
 		} else {
-			SmartDashboard.putBoolean("IsTote", false);
+			SmartDashboard.putString("ImageString", frame.toString());
+			SmartDashboard.putString("isItWorking", "no");
+			SmartDashboard.putBoolean("isTarget", false);
 		}
     }
     
@@ -121,17 +132,22 @@ public class Camera extends Subsystem implements PeriodicUpdate {
 	@Override
 	public void update() {
 		// TODO Auto-generated method stub
-		
+		findTarget();
 	}
 
 	@Override
 	public void start() {
+    	server = CameraServer.getInstance();
+		cam.openCamera();
+		cam.setExposureManual(0);
+		cam.startCapture();
 		// TODO Auto-generated method stub
 	}
 	
 	public double computeDistance (ParticleReport report) 
 	{
-		return HEIGHT_GC/Math.tan((400-report.BoundingRectBottom)*ANGLE_PER_PIXEL);
+		double radiansPerPixel = ANGLE_PER_PIXEL*(Math.PI/180);
+		return HEIGHT_GC/Math.tan((400-report.BoundingRectBottom)*(radiansPerPixel)+CAMERA_ANGLE_OFFSET);
 	}
 	
 	public double computeHorizontalAngle(ParticleReport report)

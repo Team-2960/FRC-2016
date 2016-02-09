@@ -1,6 +1,7 @@
 
 package org.usfirst.frc.team2960.robot;
 
+import org.usfirst.frc.team2960.robot.subsystems.Camera;
 import org.usfirst.frc.team2960.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team2960.robot.subsystems.Pickup;
 import org.usfirst.frc.team2960.robot.subsystems.Shooter;
@@ -28,7 +29,7 @@ public class Robot extends IterativeRobot {
     DriveTrain driveTrain;
     Shooter shooter;
     Pickup pickup;
-    
+    Camera camera;
     
     /**
      * This function is run when the robot is first started up and should be
@@ -41,6 +42,7 @@ public class Robot extends IterativeRobot {
 		operatorJoystick = new Joystick(1);
 		//shooter = new Shooter();
 		pickup = new Pickup();
+		camera = new Camera();
 		
     }
 	
@@ -50,11 +52,12 @@ public class Robot extends IterativeRobot {
 	 * the robot is disabled.
      */
     public void disabledInit(){
-    	
+    	camera.start();
     }
 	
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
+		camera.update();
 	}
 
 	/**
@@ -71,6 +74,7 @@ public class Robot extends IterativeRobot {
 		driveTrain.update();
 		//shooter.update();
 		pickup.update();
+		camera.update();
 		
 	}
     public void autonomousInit() {
@@ -92,7 +96,7 @@ public class Robot extends IterativeRobot {
     
     
     public void teleopInit() {
-    	
+    	camera.start();
     }
 
     /**
