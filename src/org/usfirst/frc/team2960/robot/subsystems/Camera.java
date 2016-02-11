@@ -18,25 +18,33 @@ import edu.wpi.first.wpilibj.vision.USBCamera;
  *
  */
 public class Camera extends Subsystem implements PeriodicUpdate {
-    
-	public Camera()
-	{
-		cam = new USBCamera("cam0");
-	}
-	NIVision.Range HUE_RANGE = new NIVision.Range(88, 146);
-	NIVision.Range SAT_RANGE = new NIVision.Range(252, 255);
-	NIVision.Range LUM_RANGE = new NIVision.Range(23, 255);
+	NIVision.Range HUE_RANGE;
+	NIVision.Range SAT_RANGE;
+	NIVision.Range LUM_RANGE;
 	final double SCORE_MIN = 75.0;
 	//double VIEW_ANGLE = 58.08777;
 	final double ANGLE_PER_PIXEL = 0.045381;
 	final double CAMERA_ANGLE_OFFSET = Math.PI/4;
-	final double HEIGHT_GC = 70.75; //height of goal - robot camera - in inches - change later
+	final double HEIGHT_GC = 70.75; //height of goal - robot camera - in inches
 	
 	USBCamera cam;
-	Image frame = NIVision.imaqCreateImage(ImageType.IMAGE_HSL, 0);
-	Image binaryFrame = NIVision.imaqCreateImage(ImageType.IMAGE_U8, 0);
-	NIVision.ParticleFilterCriteria2 criteria[] = new NIVision.ParticleFilterCriteria2[1];
-	Scores scores = new Scores();
+	Image frame;
+	Image binaryFrame;
+	NIVision.ParticleFilterCriteria2 criteria[];
+	Scores scores;
+	
+	
+	public Camera(){
+		cam = new USBCamera("cam0");
+		SAT_RANGE = new NIVision.Range(252, 255);
+		HUE_RANGE = new NIVision.Range(88, 146);
+		LUM_RANGE = new NIVision.Range(23, 255);
+		frame = NIVision.imaqCreateImage(ImageType.IMAGE_HSL, 0);
+		binaryFrame = NIVision.imaqCreateImage(ImageType.IMAGE_U8, 0);
+		scores = new Scores();
+		criteria = new NIVision.ParticleFilterCriteria2[1];
+	}
+
 	
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
@@ -48,10 +56,8 @@ public class Camera extends Subsystem implements PeriodicUpdate {
     CameraServer server;
     public void takeSnapshot()
     {
-    	frame = NIVision.imaqCreateImage(ImageType.IMAGE_HSL, 0);
-    	binaryFrame = NIVision.imaqCreateImage(ImageType.IMAGE_U8, 0);
-    	cam.setSize(1280, 800);
-    	cam.getImage(frame);
+    	//cam.setSize(1280, 800);
+        cam.getImage(frame);
     }
     
     public void findTarget()
@@ -146,7 +152,11 @@ public class Camera extends Subsystem implements PeriodicUpdate {
 	
 	public double computeDistance (ParticleReport report) 
 	{
+		NIVision.ImageInfo info = NIVision.imaqGetImageInfo(frame);
 		double radiansPerPixel = ANGLE_PER_PIXEL*(Math.PI/180);
+		SmartDashboard.putString("Resolution", Integer.toString(info.xRes) + " x " + Integer.toString(info.yRes));
+		SmartDashboard.putNumber("Radians Per Pixel", radiansPerPixel);
+		SmartDashboard.putNumber("Bounding Bottom Value", (report.BoundingRectBottom));
 		return HEIGHT_GC/Math.tan((400-report.BoundingRectBottom)*(radiansPerPixel)+CAMERA_ANGLE_OFFSET);
 	}
 	

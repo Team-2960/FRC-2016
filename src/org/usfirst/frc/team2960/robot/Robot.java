@@ -43,7 +43,7 @@ public class Robot extends IterativeRobot {
 		//shooter = new Shooter();
 		pickup = new Pickup();
 		camera = new Camera();
-		
+    	camera.start();
     }
 	
 	/**
@@ -52,7 +52,6 @@ public class Robot extends IterativeRobot {
 	 * the robot is disabled.
      */
     public void disabledInit(){
-    	camera.start();
     }
 	
 	public void disabledPeriodic() {
