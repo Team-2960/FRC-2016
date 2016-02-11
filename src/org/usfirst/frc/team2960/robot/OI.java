@@ -31,7 +31,7 @@ public class OI {
 			resetBtnPressed = false;
 		}
 		if(stick.getRawButton(4)){
-			drivetrain.gotoAngle(90);
+			drivetrain.gotoAngle(-180);
 		}
 		if(stick.getRawButton(1)){
 			drivetrain.disablePIDAngle();

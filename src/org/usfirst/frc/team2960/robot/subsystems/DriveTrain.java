@@ -38,6 +38,7 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
 	final int slowDown = 10;
 	final double rateTolerance = .5;
 	int RateSetPoint = 50;
+	int angleDirection;
 	
 	public DriveTrain()
 	{
@@ -97,26 +98,20 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
     	move.enable();
     	move.setSetpoint(50);
     	linearStop = true;
-    }
+    } 
     */
     public void gotoAngle(double angle){
     	angleSetpoint = angle;
     	gyro.reset();
     	turning.enable();
-    	if(angleSetpoint < 0){
-    		RateSetPoint = 50;
-    	}
-    	else {
-    		RateSetPoint = -50;
-    	}
-    	turning.setSetpoint(RateSetPoint);
     	moveStop = true;
+    	
     }
     public void disablePIDAngle(){
     	if(turning.isEnabled()){
     	turning.disable();
     	moveStop = false;
-    	//overTurn();
+    	
     	}
     }
     /*
@@ -131,33 +126,31 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
     */
     public void checkAngle(){
 	    if(turning.isEnabled()){
-			@SuppressWarnings("unused")
-			int lDirection;
-	    	double error;
-	    	error = angleSetpoint - gyro.getAngle();
-	    	if(error < 0)
-	    		lDirection = -1;
-	    	else
-	    		lDirection = 1;
+			
+			
 	    	if((gyro.getAngle() >= (angleSetpoint - tolerance)) && (gyro.getAngle() <= (angleSetpoint + tolerance))){
-	    		turning.setSetpoint(0.1);
+	    		turning.setSetpoint(0);
 	    		
 	    		
 	    		if((gyro.getRate() >= (-rateTolerance)) && (gyro.getRate() <= (rateTolerance)) ){
 	    			turning.disable();
 	    			}
+	    		
+	    		
 	    	}
-	    	/*
-	    	else if(gyro.getAngle() >= angleSetpoint){
-	    			turning.setSetpoint(slowDown * lDirection);
+	    	else if(gyro.getAngle() > angleSetpoint){
+	    		turning.setSetpoint(-30);
 	    	}
-	    	else if(gyro.getAngle() >= (angleSetpoint * angleSlowDown))
-	    		turning.setSetpoint(slowDown * lDirection);
+	    	else if(gyro.getAngle() < angleSetpoint){
+	    		turning.setSetpoint(30);
+	    	}
+	    	
+	    	
 	    		
 	    }
-	    */
+	    
 	    }
-    }
+    
     
     
      public BuiltInAccelerometer accel = new BuiltInAccelerometer();

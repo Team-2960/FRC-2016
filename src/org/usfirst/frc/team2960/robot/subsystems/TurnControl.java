@@ -11,7 +11,7 @@ public class TurnControl implements PIDOutput {
 	}
 	@Override
 	public void pidWrite(double output) {
-		drive.setSpeed(output, -output);
+		drive.setSpeed(-output, output);
 		SmartDashboard.putString("PID output", Double.toString(output));
 	}
 
