@@ -60,14 +60,22 @@ public class Camera extends Subsystem implements PeriodicUpdate {
         cam.getImage(frame);
     }
     
+    boolean shouldRun = true;
     public void findTarget()
     {
+    	if(shouldRun == false)
+    	{
+    		shouldRun = true;
+    		return;
+    	}
     	takeSnapshot();
+		//server.setImage(frame);
 		NIVision.imaqColorThreshold(binaryFrame, frame, 255, NIVision.ColorMode.HSL, HUE_RANGE, SAT_RANGE, LUM_RANGE);
 		int numParticles = NIVision.imaqCountParticles(binaryFrame, 1);
 		double minArea = 0.33;
 		criteria[0] = new NIVision.ParticleFilterCriteria2(NIVision.MeasurementType.MT_AREA_BY_IMAGE_AREA, minArea, 100.0, 0, 0);
 		criteria[0].lower = (float) minArea;
+		
 		if(numParticles > 0)
 		{
 			//Measure particles and sort by particle size
@@ -109,6 +117,8 @@ public class Camera extends Subsystem implements PeriodicUpdate {
 			SmartDashboard.putString("isItWorking", "no");
 			SmartDashboard.putBoolean("isTarget", false);
 		}
+		System.gc();
+		shouldRun = false;
     }
     
 	/**
@@ -146,15 +156,16 @@ public class Camera extends Subsystem implements PeriodicUpdate {
     	server = CameraServer.getInstance();
 		cam.openCamera();
 		cam.setExposureManual(0);
+		cam.updateSettings();
 		cam.startCapture();
 		// TODO Auto-generated method stub
 	}
 	
 	public double computeDistance (ParticleReport report) 
 	{
-		NIVision.ImageInfo info = NIVision.imaqGetImageInfo(frame);
+		//NIVision.ImageInfo info = NIVision.imaqGetImageInfo(frame);
 		double radiansPerPixel = ANGLE_PER_PIXEL*(Math.PI/180);
-		SmartDashboard.putString("Resolution", Integer.toString(info.xRes) + " x " + Integer.toString(info.yRes));
+		//SmartDashboard.putString("Resolution", Integer.toString(info.xRes) + " x " + Integer.toString(info.yRes));
 		SmartDashboard.putNumber("Radians Per Pixel", radiansPerPixel);
 		SmartDashboard.putNumber("Bounding Bottom Value", (report.BoundingRectBottom));
 		return HEIGHT_GC/Math.tan((400-report.BoundingRectBottom)*(radiansPerPixel)+CAMERA_ANGLE_OFFSET);
