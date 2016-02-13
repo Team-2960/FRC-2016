@@ -12,6 +12,7 @@ public class TurnControl implements PIDOutput {
 	}
 	@Override
 	public void pidWrite(double output) {
+		/*
 		if (output > 0){
 			output = output * ( 1 - DEADBAND) + DEADBAND; 
 		}
@@ -21,6 +22,7 @@ public class TurnControl implements PIDOutput {
 		else{
 			output = 0;
 		}
+		*/
 		drive.setSpeed(-output, output);
 		SmartDashboard.putString("PID output", Double.toString(output));
 	}

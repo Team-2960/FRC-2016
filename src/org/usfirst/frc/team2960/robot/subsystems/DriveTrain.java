@@ -33,14 +33,14 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
 	boolean isEnadled;
 	double angleSetpoint = 0;
 	double lengthSetPoint = 0;
-	final int tolerance = 5;
+	final int tolerance = 2;
 	final double angleSlowDown = 50;
 	final int slowDown = 10;
 	final double rateTolerance = 5;
 	int RateSetPoint = 50;
 	int angleDirection;
 	Double Rate;
-	final double FINALRATE = 120;
+	final double FINALRATE = 200;
 	
 	public DriveTrain()
 	{
@@ -87,6 +87,12 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
     
     
     public void setSpeed(Double left, Double right){
+    	System.out.print("Left: ");
+    	System.out.print(left);
+    	System.out.print(", Right: ");
+    	System.out.print(right);
+    	System.out.print("\n");
+    	
     	LtDriveMt1.set(left);
     	LtDriveMt2.set(left);
     	RtDriveMt1.set(-right);
@@ -104,11 +110,16 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
     */
     public void gotoAngle(double angle){
     	angleSetpoint = angle;
-    	gyro.reset();
     	turning.enable();
     	moveStop = true;
     	
     }
+    public void addAngle(double angle){
+    	angleSetpoint = angleSetpoint + angle;
+    	turning.enable();
+    	moveStop = true;
+    }
+    
     public void disablePIDAngle(){
     	if(turning.isEnabled()){
     	turning.disable();

@@ -41,10 +41,13 @@ public class RobotMap {
 	
 	
 	//other values
-	public static double moveP = 1000;
-	public static double moveI = 10;
+	public static double moveP = .001;
+	public static double moveI = 0;
 	public static double moveD = 0;
-	public static double turnControlP = .0001;
+	
+	
+	//turn
+	public static double turnControlP = .001;
 	public static double turnControlI = 0;
 	public static double turnControlD = 0;
 }
