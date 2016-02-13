@@ -37,13 +37,13 @@ public class Robot extends IterativeRobot {
      */
     public void robotInit() {
 		oi = new OI();
-		driveTrain = new DriveTrain();
+		camera = new Camera();
+    	camera.start();
+		driveTrain = new DriveTrain(camera);
 		driveJoystick = new Joystick(0);
 		operatorJoystick = new Joystick(1);
 		//shooter = new Shooter();
 		pickup = new Pickup();
-		camera = new Camera();
-    	camera.start();
     }
 	
 	/**
@@ -95,7 +95,7 @@ public class Robot extends IterativeRobot {
     
     
     public void teleopInit() {
-    }
+\    }
 
     /**
      * This function is called periodically during operator control
