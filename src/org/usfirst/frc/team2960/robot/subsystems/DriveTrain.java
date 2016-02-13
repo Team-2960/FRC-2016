@@ -34,11 +34,13 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
 	double angleSetpoint = 0;
 	double lengthSetPoint = 0;
 	final int tolerance = 5;
-	final double angleSlowDown = .75;
+	final double angleSlowDown = 50;
 	final int slowDown = 10;
-	final double rateTolerance = .5;
+	final double rateTolerance = 5;
 	int RateSetPoint = 50;
 	int angleDirection;
+	Double Rate;
+	final double FINALRATE = 120;
 	
 	public DriveTrain()
 	{
@@ -125,24 +127,30 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
     }
     */
     public void checkAngle(){
+    	
 	    if(turning.isEnabled()){
-			
+		Double error = angleSetpoint - gyro.getAngle(); 	
 			
 	    	if((gyro.getAngle() >= (angleSetpoint - tolerance)) && (gyro.getAngle() <= (angleSetpoint + tolerance))){
 	    		turning.setSetpoint(0);
 	    		
 	    		
 	    		if((gyro.getRate() >= (-rateTolerance)) && (gyro.getRate() <= (rateTolerance)) ){
-	    			turning.disable();
+	    			disablePIDAngle();
 	    			}
+	    	
 	    		
 	    		
+	    	}
+	    	else if(error > -angleSlowDown && error < angleSlowDown){
+	    		Rate = error/angleSlowDown * FINALRATE;
+	    		turning.setSetpoint(Rate);
 	    	}
 	    	else if(gyro.getAngle() > angleSetpoint){
-	    		turning.setSetpoint(-30);
+	    		turning.setSetpoint(-FINALRATE);
 	    	}
 	    	else if(gyro.getAngle() < angleSetpoint){
-	    		turning.setSetpoint(30);
+	    		turning.setSetpoint(FINALRATE);
 	    	}
 	    	
 	    	
