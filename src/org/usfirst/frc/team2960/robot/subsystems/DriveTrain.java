@@ -41,8 +41,10 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
 	int angleDirection;
 	Double Rate;
 	final double FINALRATE = 200;
+	public boolean TurnOnTheTurn =  false;
+	Camera camera;
 	
-	public DriveTrain()
+	public DriveTrain(Camera Cam)
 	{
 		LtDriveMt1 = new Victor(RobotMap.LtDriveMt1);
 		LtDriveMt2 = new Victor(RobotMap.LtDriveMt2);
@@ -54,6 +56,7 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
 		gyro.setPIDSourceType(PIDSourceType.kRate);
 		RightDriveEnc = new Encoder(RobotMap.RtDriveEncA, RobotMap.RtDriveEncB);
 		RightDriveEnc.setDistancePerPulse(.1); 
+		camera = Cam;
 		//move = new PIDController(RobotMap.moveP, RobotMap.moveI, RobotMap.moveD, RightDriveEnc, linear);
 	}
 
@@ -115,7 +118,7 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
     	
     }
     public void addAngle(double angle){
-    	angleSetpoint = angleSetpoint + angle;
+    	angleSetpoint = gyro.getAngle() + angle;
     	turning.enable();
     	moveStop = true;
     }
@@ -175,6 +178,13 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
      public BuiltInAccelerometer accel = new BuiltInAccelerometer();
 	@Override
 	public void update() {
+		
+		if(TurnOnTheTurn){
+			addAngle(camera.getAngle());
+		}
+		
+		
+		
 		
 		SmartDashboard.putBoolean("Encoder direction", RightDriveEnc.getDirection());
 		SmartDashboard.putString("Encoder Distance", Double.toString(RightDriveEnc.getDistance()));

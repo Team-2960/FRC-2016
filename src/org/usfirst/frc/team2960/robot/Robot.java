@@ -44,6 +44,7 @@ public class Robot extends IterativeRobot {
 		operatorJoystick = new Joystick(1);
 		//shooter = new Shooter();
 		pickup = new Pickup();
+	
     }
 	
 	/**
@@ -95,7 +96,7 @@ public class Robot extends IterativeRobot {
     
     
     public void teleopInit() {
-\    }
+   }
 
     /**
      * This function is called periodically during operator control
