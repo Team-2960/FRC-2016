@@ -23,9 +23,15 @@ public class Camera extends Subsystem implements PeriodicUpdate {
 	NIVision.Range LUM_RANGE;
 	final double SCORE_MIN = 75.0;
 	//double VIEW_ANGLE = 58.08777;
-	final double ANGLE_PER_PIXEL = 0.045381;
-	final double CAMERA_ANGLE_OFFSET = Math.PI/4;
+	//final double ANGLE_PER_PIXEL = 0.1815242813;//0.045381; //new angle based on lower resolution
+	final double CAMERA_ANGLE_OFFSET = 45*(Math.PI/180);
+	final double RESX = 320;
+	final double RESY = 240;
+	final double THETA_Y = 36.305; // THETAY/685 = 800/1509.437 H = sqrt(1280^2+800^2) = 1509.437
+	final double THETA_X = 58.1;
 	final double HEIGHT_GC = 70.75; //height of goal - robot camera - in inches
+	final double ANGLE_PER_PIXEL = (THETA_Y/RESY);
+	final double RAD_PER_PIXEL = ANGLE_PER_PIXEL*(Math.PI/180);
 	
 	USBCamera cam;
 	Image frame;
@@ -164,16 +170,15 @@ public class Camera extends Subsystem implements PeriodicUpdate {
 	public double computeDistance (ParticleReport report) 
 	{
 		//NIVision.ImageInfo info = NIVision.imaqGetImageInfo(frame);
-		double radiansPerPixel = ANGLE_PER_PIXEL*(Math.PI/180);
 		//SmartDashboard.putString("Resolution", Integer.toString(info.xRes) + " x " + Integer.toString(info.yRes));
-		SmartDashboard.putNumber("Radians Per Pixel", radiansPerPixel);
+		SmartDashboard.putNumber("Radians Per Pixel", RAD_PER_PIXEL);
 		SmartDashboard.putNumber("Bounding Bottom Value", (report.BoundingRectBottom));
-		return HEIGHT_GC/Math.tan((400-report.BoundingRectBottom)*(radiansPerPixel)+CAMERA_ANGLE_OFFSET);
+		return HEIGHT_GC/Math.tan(((RESY/2)-report.BoundingRectBottom)*(RAD_PER_PIXEL)+CAMERA_ANGLE_OFFSET);
 	}
 	
 	public double computeHorizontalAngle(ParticleReport report)
 	{
-		return (((report.BoundingRectRight+report.BoundingRectLeft)/2)-640)+ANGLE_PER_PIXEL;
+		return (((report.BoundingRectRight+report.BoundingRectLeft)/2)-(RESX/2))*ANGLE_PER_PIXEL;
 	}
 	
 	public class ParticleReport implements Comparator<ParticleReport>, Comparable<ParticleReport>{
