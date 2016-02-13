@@ -156,7 +156,6 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
      public BuiltInAccelerometer accel = new BuiltInAccelerometer();
 	@Override
 	public void update() {
-		// TODO Auto-generated method stub
 		
 		SmartDashboard.putBoolean("Encoder direction", RightDriveEnc.getDirection());
 		SmartDashboard.putString("Encoder Distance", Double.toString(RightDriveEnc.getDistance()));
@@ -176,7 +175,6 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
 
 	@Override
 	public void start() {
-		// TODO Auto-generated method stub
 		this.calibrateGyro();
 		
 	}
