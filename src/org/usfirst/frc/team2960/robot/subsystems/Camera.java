@@ -32,7 +32,9 @@ public class Camera extends Subsystem implements PeriodicUpdate {
 	final double HEIGHT_GC = 70.75; //height of goal - robot camera - in inches
 	final double ANGLE_PER_PIXEL = (THETA_Y/RESY);
 	final double RAD_PER_PIXEL = ANGLE_PER_PIXEL*(Math.PI/180);
-	
+	private double distance = 0;
+	private double angle = 0;
+	private boolean particleVisible = false;
 	USBCamera cam;
 	Image frame;
 	Image binaryFrame;
@@ -118,13 +120,32 @@ public class Camera extends Subsystem implements PeriodicUpdate {
 			SmartDashboard.putNumber("Distance", computeDistance(report));
 			SmartDashboard.putNumber("HorizontalAngle", computeHorizontalAngle(report));
 			SmartDashboard.putString("isItWorking", "yes");
+			distance = computeDistance(report);
+			angle = computeHorizontalAngle(report);
+			particleVisible = true;
 		} else {
 			SmartDashboard.putString("ImageString", frame.toString());
 			SmartDashboard.putString("isItWorking", "no");
 			SmartDashboard.putBoolean("isTarget", false);
+			particleVisible = false;
 		}
 		System.gc();
 		shouldRun = false;
+    }
+    
+    public double getAngle()
+    {
+    	return angle;
+    }
+    
+    public double getDistance()
+    {
+    	return distance;
+    }
+    
+    public boolean targetInView()
+    {
+    	return particleVisible;
     }
     
 	/**
