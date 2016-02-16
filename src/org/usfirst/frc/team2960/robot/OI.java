@@ -17,15 +17,15 @@ public class OI {
 	boolean resetBtnPressed = false;
 	
 	public void driveRobot(Joystick stick, DriveTrain drivetrain) {
-		if(drivetrain.moveStop == false)
-		{
+		//if(drivetrain.moveStop == false)
+		//{
 		drivetrain.setSpeed(stick.getRawAxis(1), stick.getRawAxis(5));
-		}
-		if(stick.getRawButton(4)){
-			drivetrain.gotoAngle(-180);
-		}
+		//}
+		//if(stick.getRawButton(4)){
+			//drivetrain.gotoAngle(-180);
+		//}
 		if(stick.getRawButton(1)){
-			drivetrain.disablePIDAngle();
+			//drivetrain.disablePIDAngle();
 		}
 		if(stick.getRawButton(3)){
 			drivetrain.resetEncoder();

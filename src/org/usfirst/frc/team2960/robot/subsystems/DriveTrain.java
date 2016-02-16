@@ -23,13 +23,13 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
 	VictorSP LtDriveMt2;
 	VictorSP RtDriveMt1;
 	VictorSP RtDriveMt2;
-	AnalogGyro gyro;
+	//AnalogGyro gyro;
 	Encoder RightDriveEnc;
-	TurnControl turn; 
-	LinearDriveControl linear;
-	PIDController turning;
-	PIDController move;
-	public boolean moveStop;
+	//TurnControl turn; 
+	//LinearDriveControl linear;
+	//PIDController turning;
+	//PIDController move;
+	public boolean moveStop = true;
 	public boolean linearStop;
 	boolean isEnadled;
 	double angleSetpoint = 0;
@@ -51,10 +51,10 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
 		LtDriveMt2 = new VictorSP(RobotMap.LtDriveMt2);
 		RtDriveMt1 = new VictorSP(RobotMap.RtDriveMt1);
 		RtDriveMt2 = new VictorSP(RobotMap.RtDriveMt2);
-		gyro = new AnalogGyro(RobotMap.gyro);
-		turn = new TurnControl(this);
-		turning = new PIDController(RobotMap.turnControlP, RobotMap.turnControlI, RobotMap.turnControlD, gyro, turn);
-		gyro.setPIDSourceType(PIDSourceType.kRate);
+		//gyro = new AnalogGyro(RobotMap.gyro);
+		//turn = new TurnControl(this);
+		//turning = new PIDController(RobotMap.turnControlP, RobotMap.turnControlI, RobotMap.turnControlD, gyro, turn);
+		//gyro.setPIDSourceType(PIDSourceType.kRate);
 		RightDriveEnc = new Encoder(RobotMap.RtDriveEncA, RobotMap.RtDriveEncB);
 		RightDriveEnc.setDistancePerPulse(.1); 
 		camera = Cam;
@@ -71,18 +71,18 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
     }
     
     public void displayGyroValue() {
-    	SmartDashboard.putString("gyroAngle", Double.toString(gyro.getAngle()));
-    	SmartDashboard.putString("gyroRate", Double.toString(gyro.getRate()));
+    	//SmartDashboard.putString("gyroAngle", Double.toString(gyro.getAngle()));
+    	//SmartDashboard.putString("gyroRate", Double.toString(gyro.getRate()));
     }
     
     public void calibrateGyro()
     {
-    	gyro.calibrate();
+    	//gyro.calibrate();
     }
     
     public void resetGyro()
     {
-    	gyro.reset();
+    	//gyro.reset();
     }
     public void resetEncoder()
     {
@@ -102,16 +102,8 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
     	RtDriveMt1.set(-right);
     	RtDriveMt2.set(-right);
     }
-    /*
-    public void move()
-    {
-    	lengthSetPoint = 10;
-    	RightDriveEnc.reset();
-    	move.enable();
-    	move.setSetpoint(50);
-    	linearStop = true;
-    } 
-    */
+   
+   /* 
     public void gotoAngle(double angle){
     	angleSetpoint = angle;
     	turning.enable();
@@ -141,6 +133,7 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
     	
     }
     */
+   /*
     public void checkAngle(){
     	
 	    if(turning.isEnabled()){
@@ -173,16 +166,16 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
 	    }
 	    
 	    }
-    
+    */
     
     
      public BuiltInAccelerometer accel = new BuiltInAccelerometer();
 	@Override
 	public void update() {
 		
-		if(TurnOnTheTurn){
-			addAngle(camera.getAngle());
-		}
+		//if(TurnOnTheTurn){
+			//addAngle(camera.getAngle());
+		//}
 		
 		
 		
@@ -194,11 +187,11 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
 		SmartDashboard.putString("x", Double.toString(accel.getX()));
     	SmartDashboard.putString("y", Double.toString(accel.getY()));
     	SmartDashboard.putString("z", Double.toString(accel.getZ()));
-    	SmartDashboard.putNumber("setpont", turning.getSetpoint());
-		SmartDashboard.putNumber("error", turning.getError());
+    	//SmartDashboard.putNumber("setpont", turning.getSetpoint());
+		//SmartDashboard.putNumber("error", turning.getError());
     
     	this.displayGyroValue();
-    	checkAngle();
+    	//checkAngle();
     	
     	
 	}
