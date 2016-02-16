@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.Victor;
+import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -18,10 +19,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class DriveTrain extends Subsystem implements PeriodicUpdate {
     
 	
-	Victor LtDriveMt1;
-	Victor LtDriveMt2;
-	Victor RtDriveMt1;
-	Victor RtDriveMt2;
+	VictorSP LtDriveMt1;
+	VictorSP LtDriveMt2;
+	VictorSP RtDriveMt1;
+	VictorSP RtDriveMt2;
 	AnalogGyro gyro;
 	Encoder RightDriveEnc;
 	TurnControl turn; 
@@ -46,10 +47,10 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
 	
 	public DriveTrain(Camera Cam)
 	{
-		LtDriveMt1 = new Victor(RobotMap.LtDriveMt1);
-		LtDriveMt2 = new Victor(RobotMap.LtDriveMt2);
-		RtDriveMt1 = new Victor(RobotMap.RtDriveMt1);
-		RtDriveMt2 = new Victor(RobotMap.RtDriveMt2);
+		LtDriveMt1 = new VictorSP(RobotMap.LtDriveMt1);
+		LtDriveMt2 = new VictorSP(RobotMap.LtDriveMt2);
+		RtDriveMt1 = new VictorSP(RobotMap.RtDriveMt1);
+		RtDriveMt2 = new VictorSP(RobotMap.RtDriveMt2);
 		gyro = new AnalogGyro(RobotMap.gyro);
 		turn = new TurnControl(this);
 		turning = new PIDController(RobotMap.turnControlP, RobotMap.turnControlI, RobotMap.turnControlD, gyro, turn);

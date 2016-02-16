@@ -21,15 +21,6 @@ public class OI {
 		{
 		drivetrain.setSpeed(stick.getRawAxis(1), stick.getRawAxis(5));
 		}
-		if(stick.getRawButton(2) && resetBtnPressed == false)
-		{
-			drivetrain.resetGyro();
-			resetBtnPressed = true;
-		}
-		else if(!stick.getRawButton(2))
-		{
-			resetBtnPressed = false;
-		}
 		if(stick.getRawButton(4)){
 			drivetrain.gotoAngle(-180);
 		}
@@ -44,15 +35,39 @@ public class OI {
 		}
 		
 	}
-	public void operateRobot(Joystick stick, Shooter shooter){
-		if(stick.getRawButton(11))
+	public void operateRobot(Joystick stick, Shooter shooter, Pickup pickup){
+		if(stick.getRawButton(2))
 		{
-			shooter.check();
-			
+			shooter.moveWinch();
+		}
+		else
+		{
+			shooter.stopWinch();
+		}
+		if(stick.getRawAxis(2) > 0.1)
+		{
+			shooter.adjustAngle(0.25);
+		}
+		else if(stick.getRawAxis(3) > 0.1)
+		{
+			shooter.adjustAngle(-0.25);
+		}
+		else
+		{
+			shooter.adjustAngle(0);
+		}
+		if(stick.getRawButton(5))
+		{
+			pickup.setRoller(0.25);
+		}
+		else if(stick.getRawButton(6))
+		{
+			pickup.setRoller(-0.25);
+		}
+		else
+		{
+			pickup.setRoller(0);
 		}
 	}
-	public void pickupShere(Joystick stick, Pickup pickup) {pickup.initDefaultCommand();}
-
-	public void shootSphere(Joystick stick, Shooter shooter) {shooter.initDefaultCommand();}
 }
 

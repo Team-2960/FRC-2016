@@ -1,18 +1,111 @@
-// Eric Sung
+// Eric Sung, Malcolm and Andrew
 
 package org.usfirst.frc.team2960.robot.subsystems;
 
 import org.usfirst.frc.team2960.robot.PeriodicUpdate;
+import org.usfirst.frc.team2960.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.Victor;
+import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Shooter extends Subsystem implements PeriodicUpdate {
 
-	private Victor lift = new Victor(0); // Change
+	VictorSP angleAdjust;
+	VictorSP Winch1;
+	VictorSP Winch2;
+	
+	public Shooter()
+	{
+		angleAdjust = new VictorSP(RobotMap.AngleAdjust);
+		Winch1 = new VictorSP(RobotMap.WinchMt1);
+		Winch2 = new VictorSP(RobotMap.WinchMt2);	
+	}
+	
+	@Override
+	public void update() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void start() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void adjustAngle(double speed)
+	{
+		angleAdjust.set(speed);
+	}
+	
+	public void moveWinch()
+	{
+		Winch1.set(0.25);
+		Winch2.set(0.25);
+	}
+	
+	public void stopWinch()
+	{
+		Winch1.set(0);
+		Winch2.set(0);
+	}
+	
+	@Override
+	protected void initDefaultCommand() {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/*private Victor lift = new Victor(0); // Change
 	private Victor spring = new Victor(0); // Change
 
 	private Encoder checkAngle = new Encoder(null, null); // Change
@@ -138,5 +231,5 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 
 	public void setRetracting(boolean isActive) {isRetracting = isActive;}
 
-	public void setOverride(boolean isActive) {isOverwritten = isActive;}
+	public void setOverride(boolean isActive) {isOverwritten = isActive;}*/
 }
