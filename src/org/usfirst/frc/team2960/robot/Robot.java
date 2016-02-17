@@ -39,10 +39,10 @@ public class Robot extends IterativeRobot {
 		oi = new OI();
 		// = new Camera();
     	//camera.start();
-		//driveTrain = new DriveTrain(camera);
+		driveTrain = new DriveTrain();
 		driveJoystick = new Joystick(0);
 		operatorJoystick = new Joystick(1);
-		//shooter = new Shooter();
+		shooter = new Shooter();
 		pickup = new Pickup();
 	
     }

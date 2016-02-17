@@ -15,18 +15,12 @@ import edu.wpi.first.wpilibj.buttons.Button;
 public class OI {
 	
 	boolean resetBtnPressed = false;
-	
+	boolean intakeOpen = false;
 	public void driveRobot(Joystick stick, DriveTrain drivetrain) {
 		//if(drivetrain.moveStop == false)
 		//{
-		drivetrain.setSpeed(stick.getRawAxis(1), stick.getRawAxis(5));
+		drivetrain.setSpeed(-stick.getRawAxis(1), -stick.getRawAxis(5));
 		//}
-		//if(stick.getRawButton(4)){
-			//drivetrain.gotoAngle(-180);
-		//}
-		if(stick.getRawButton(1)){
-			//drivetrain.disablePIDAngle();
-		}
 		if(stick.getRawButton(3)){
 			drivetrain.resetEncoder();
 		}
@@ -36,6 +30,14 @@ public class OI {
 		
 	}
 	public void operateRobot(Joystick stick, Shooter shooter, Pickup pickup){
+		if(stick.getRawButton(4)){
+			//drivetrain.gotoAngle(-180);
+			pickup.setHood(false);
+		}
+		if(stick.getRawButton(1)){
+			//drivetrain.disablePIDAngle();
+			pickup.setHood(true);
+		}
 		if(stick.getRawButton(2))
 		{
 			shooter.moveWinch();
@@ -46,11 +48,11 @@ public class OI {
 		}
 		if(stick.getRawAxis(2) > 0.1)
 		{
-			shooter.adjustAngle(0.25);
+			shooter.adjustAngle(1.0);
 		}
 		else if(stick.getRawAxis(3) > 0.1)
 		{
-			shooter.adjustAngle(-0.25);
+			shooter.adjustAngle(-1.0);
 		}
 		else
 		{
@@ -58,11 +60,11 @@ public class OI {
 		}
 		if(stick.getRawButton(5))
 		{
-			pickup.setRoller(0.25);
+			pickup.setRoller(1.0);
 		}
 		else if(stick.getRawButton(6))
 		{
-			pickup.setRoller(-0.25);
+			pickup.setRoller(-1.0);
 		}
 		else
 		{

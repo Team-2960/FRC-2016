@@ -44,8 +44,8 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 	
 	public void moveWinch()
 	{
-		Winch1.set(0.25);
-		Winch2.set(0.25);
+		Winch1.set(1.0);
+		Winch2.set(1.0);
 	}
 	
 	public void stopWinch()

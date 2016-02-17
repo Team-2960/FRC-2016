@@ -45,7 +45,7 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
 	public boolean TurnOnTheTurn =  false;
 	Camera camera;
 	
-	public DriveTrain(Camera Cam)
+	public DriveTrain(/*Camera Cam*/)
 	{
 		LtDriveMt1 = new VictorSP(RobotMap.LtDriveMt1);
 		LtDriveMt2 = new VictorSP(RobotMap.LtDriveMt2);
@@ -57,7 +57,7 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
 		//gyro.setPIDSourceType(PIDSourceType.kRate);
 		RightDriveEnc = new Encoder(RobotMap.RtDriveEncA, RobotMap.RtDriveEncB);
 		RightDriveEnc.setDistancePerPulse(.1); 
-		camera = Cam;
+		//camera = Cam;
 		//move = new PIDController(RobotMap.moveP, RobotMap.moveI, RobotMap.moveD, RightDriveEnc, linear);
 	}
 
