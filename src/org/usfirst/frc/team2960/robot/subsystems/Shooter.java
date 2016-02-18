@@ -1,46 +1,127 @@
-// Eric Sung, Malcolm and Andrew
 
 package org.usfirst.frc.team2960.robot.subsystems;
 
 import org.usfirst.frc.team2960.robot.PeriodicUpdate;
 import org.usfirst.frc.team2960.robot.RobotMap;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
+import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Shooter extends Subsystem implements PeriodicUpdate {
 
 	VictorSP angleAdjust;
 	VictorSP Winch1;
 	VictorSP Winch2;
+	Encoder angleEncoder;
+	DigitalInput shooterPhotoeye;
+	DigitalInput anglePhotoeye;
+	PIDController angleController;
+	final double DEGREES_PER_PULSE = 360*5*(1/2048);
+	final double DEGREES_PER_SECOND = 20;
+	double anglePosition;
+	boolean zeroing;
 	
 	public Shooter()
 	{
 		angleAdjust = new VictorSP(RobotMap.AngleAdjust);
 		Winch1 = new VictorSP(RobotMap.WinchMt1);
 		Winch2 = new VictorSP(RobotMap.WinchMt2);	
+		angleEncoder = new Encoder(RobotMap.ShooterAngleA,RobotMap.ShooterAngleB);
+		shooterPhotoeye = new DigitalInput(RobotMap.ShooterPhotoeye);
+		anglePhotoeye = new DigitalInput(RobotMap.AnglePhotoEye);
+		angleEncoder.setPIDSourceType(PIDSourceType.kRate);
+		angleEncoder.setDistancePerPulse(DEGREES_PER_PULSE);
+		angleController = new PIDController(RobotMap.angleP,RobotMap.angleI,RobotMap.angleD,angleEncoder, angleAdjust);
+		anglePosition = 0;
+		zeroing = true;
 	}
 	
 	@Override
 	public void update() {
 		// TODO Auto-generated method stub
-		
+		if(zeroing)
+		{
+			zeroRoutine();
+		}
+		if(angleController.isEnabled())
+		{
+			updateAngle();
+		}
+		SmartDashboard.putNumber("angleEncoder Rate", angleEncoder.getRate());
+		SmartDashboard.putNumber("angleEncoder distance (deg)", angleEncoder.getDistance());
+		SmartDashboard.putBoolean("anglePhotoeye", anglePhotoeye.get());
+		SmartDashboard.putBoolean("shooterPhotoeye", shooterPhotoeye.get());
 	}
 
 	@Override
 	public void start() {
-		// TODO Auto-generated method stub
 		
+		// TODO Auto-generated method stub
+	}
+	
+	public void startPID()
+	{
+		angleController.enable();
+	}
+	
+	
+	public void stopPID()
+	{
+		angleController.disable();
 	}
 
+	public void setAngle(double position) //pos in degrees
+	{
+		anglePosition = position;
+	}
+	
 	public void adjustAngle(double speed)
 	{
 		angleAdjust.set(speed);
 	}
+	
+	public void updateAngle()
+	{
+		double currentDist = angleEncoder.getDistance(); //in degrees
+		if(currentDist < anglePosition + 2 && currentDist > anglePosition - 2)
+		{
+			angleController.setSetpoint(0);
+		}
+		else if(currentDist > anglePosition)
+		{
+			angleController.setSetpoint(-DEGREES_PER_SECOND);
+		}
+		else if(currentDist < anglePosition)
+		{
+			angleController.setSetpoint(DEGREES_PER_SECOND);
+		}
+	}
+		
+	public void zeroRoutine()
+	{
+		if(zeroing == true && anglePhotoeye.get() == false)
+		{
+			//move backwards
+			angleAdjust.set(0.5);
+		}
+		else if(zeroing == true && anglePhotoeye.get() == true)
+		{
+			angleAdjust.set(0);
+			angleEncoder.reset();
+			zeroing = false;
+		}
+	}
+	
+	//pullback that has photo eye
+	//start in auton
+	
 	
 	public void moveWinch()
 	{
@@ -59,177 +140,5 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 		// TODO Auto-generated method stub
 		
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	/*private Victor lift = new Victor(0); // Change
-	private Victor spring = new Victor(0); // Change
-
-	private Encoder checkAngle = new Encoder(null, null); // Change
-	private Encoder checkPosition = new Encoder(null, null); // Change
-
-	private PIDController changing;
-	private PIDOutput output;
-
-	private double angle;
-	private double currentAngle;
-	private double currentPosition;
-
-	private boolean isFalling;
-	private boolean isRising;
-	private boolean isInPosition;
-	private boolean isRetracting;
-	private boolean isOverwritten;
-	
-    public void initDefaultCommand() {}
-
-	@Override
-	public void update() {
-		check();
-
-		if(!changing.isEnabled())
-			changing.enable();
-
-		if(isRetracting)
-			spring.set(1.0);
-		else
-			spring.set(0.0);
-
-		if(isInPosition) {
-			setPosition(false);
-			setRetracting(false);
-		}
-
-		if(isFalling)
-			lift.set(-1.0);
-		else if(isRising)
-			lift.set(1.0);
-		else
-			lift.set(0.0);
-
-		newPosition();
-		newAngle();
-	}
-
-	@Override
-	public void start() {
-		// double, double, double, double, PIDSource, PIDOutput
-		changing = new PIDController(0.0, 0.0, 0.0, 0.0, checkAngle, lift); // Change
-
-		currentAngle = 0;
-		currentPosition = 0;
-
-		setAngle(0);
-
-		setFall(false);
-		setRise(false);
-		setPosition(false);
-		setRetracting(false);
-		setOverride(false);
-
-		zero();
-
-		checkAngle.reset();
-		checkPosition.reset();
-	}
-
-	public void check() {
-		if(currentPosition <= 0 && currentPosition >= 0) // Change
-			setPosition(true);
-		else if(isRetracting && isOverwritten)
-			setRetracting(false);
-		else if (isRetracting && !isOverwritten)
-			setRetracting(true);
-	}
-
-	public void changeAngle() { // Change
-		if(currentAngle < angle) {
-			setFall(false);
-			setRise(true);
-		}
-		else if (currentAngle > angle) {
-			setFall(true);
-			setRise(false);
-		}
-		else {
-			setFall(false);
-			setRise(false);
-			changing.disable();
-		}
-	}
-
-	public void newAngle() { // Change
-		output.pidWrite(changing.get());
-		currentAngle = checkAngle.get();
-	}
-
-	public void newPosition() { // Change
-		currentPosition = checkPosition.get();
-	}
-
-	public void zero() { // Change
-		changing.enable();
-		setAngle(0);
-		setRise(true);
-		while(isFalling || isRising) {
-			changeAngle();
-		}
-	}
-
-	public double getCurrentAngle() {return currentAngle;}
-	
-	public void setAngle(int newAngle) {angle = newAngle;}
-
-	public void setFall(boolean isActive) {isFalling = isActive;}
-
-	public void setRise(boolean isActive) {isRising = isActive;}
-
-	public void setPosition(boolean isReady) {isInPosition = isReady;}
-
-	public void setRetracting(boolean isActive) {isRetracting = isActive;}
-
-	public void setOverride(boolean isActive) {isOverwritten = isActive;}*/
 }
+

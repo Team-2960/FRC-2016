@@ -25,12 +25,11 @@ public class RobotMap {
 	public static int RtDriveEncB = 1;
 	public static int LtDriveEncA = 2;
 	public static int LtDriveEncB = 3;
-	public static int ShooterAngle1 = 4;
-	public static int ShooterAngle2 = 5;
-	public static int WinchPhotoeye = 6;
-	public static int AnglePhotoeyeUp = 7;
-	public static int AnglePhotoEyeDown = 8;
-	public static int BallDetectionPhotoeye = 9;
+	public static int ShooterAngleA = 4;
+	public static int ShooterAngleB = 5;
+	public static int ShooterPhotoeye = 6;
+	public static int AnglePhotoEye = 7;
+	//public static int BallDetectionPhotoeye = 8;
 	
 	//Break out
 	public static int WinchEncA = 11;
@@ -44,13 +43,18 @@ public class RobotMap {
 	
 	
 	
-	//other values
+	//move pid
 	public static double moveP = .001;
 	public static double moveI = 0;
 	public static double moveD = 0;
 	
+	//angle pid
+	public static double angleP = .001;
+	public static double angleI = 0;
+	public static double angleD = 0;
 	
-	//turn
+	
+	//turn pid
 	public static double turnControlP = .001;
 	public static double turnControlI = 0;
 	public static double turnControlD = 0;
