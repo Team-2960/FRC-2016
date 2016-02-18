@@ -30,21 +30,26 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
 	LinearDriveControl linear;
 	PIDController turning;
 	PIDController move;
+	LinearDriveControlInput input;
 	public boolean moveStop = true;
-	public boolean linearStop;
 	boolean isEnadled;
 	double angleSetpoint = 0;
 	double lengthSetPoint = 0;
 	final int tolerance = 2;
 	final double angleSlowDown = 50;
+	final double linearSlowDown = 5;
 	final int slowDown = 10;
 	final double rateTolerance = 5;
 	int RateSetPoint = 50;
 	int angleDirection;
 	Double Rate;
+	double linearRate;
 	final double FINALRATE = 200;
+	final double FINALLINEARRATE = 100;
 	public boolean TurnOnTheTurn =  false;
 	Camera camera;
+	public double encoderTotal;
+	final int lengthTolerance = 5;
 	
 	public DriveTrain(Camera Cam)
 	{
@@ -61,7 +66,7 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
 		LeftDriveEnc = new Encoder(RobotMap.LtDriveEncA, RobotMap.LtDriveEncB);
 		LeftDriveEnc.setDistancePerPulse(((12 * Math.PI) / (1)) * (15 / 16) * (1 / 2048));
 		camera = Cam;
-		move = new PIDController(RobotMap.moveP, RobotMap.moveI, RobotMap.moveD, RightDriveEnc, linear);
+		move = new PIDController(RobotMap.moveP, RobotMap.moveI, RobotMap.moveD, input, linear);
 	}
 
     public void initDefaultCommand() {
@@ -93,6 +98,8 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
     }
     
     
+    
+    
     public void setSpeed(Double left, Double right){
     	System.out.print("Left: ");
     	System.out.print(left);
@@ -106,6 +113,11 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
     	RtDriveMt2.set(-right);
     }
    
+    public void gotoDistance(double distance){
+    	lengthSetPoint = distance;
+    	move.enable();
+    	moveStop = true;
+    }
    
     public void gotoAngle(double angle){
     	angleSetpoint = angle;
@@ -131,11 +143,30 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
     {
     	if(move.isEnabled()){
     		move.disable();
-    		linearStop = false;
+    		moveStop = false;
     	}
     	
     }
     
+    
+    public void checkLinear(){
+    	double error = lengthSetPoint - encoderTotal;
+    	if(move.isEnabled()){
+    		if(encoderTotal >= (lengthSetPoint - lengthTolerance) && encoderTotal <= (lengthSetPoint + lengthTolerance)){
+    			move.setSetpoint(0);
+    		}
+    		else if(error > -linearSlowDown && error < linearSlowDown){
+    			linearRate = error/linearSlowDown * FINALLINEARRATE;
+    			move.setSetpoint(linearRate);
+    		}
+    		else if(encoderTotal > lengthSetPoint){
+    			turning.setSetpoint(-FINALLINEARRATE);
+    		}
+    		else if(encoderTotal < lengthSetPoint){
+    			turning.setSetpoint(FINALLINEARRATE);
+    		}
+    	}
+    }
     public void checkAngle(){
     	
 	    if(turning.isEnabled()){
@@ -174,7 +205,7 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
      public BuiltInAccelerometer accel = new BuiltInAccelerometer();
 	@Override
 	public void update() {
-		
+		encoderTotal = ((RightDriveEnc.getRate() + LeftDriveEnc.getRate()) / 2);
 		if(TurnOnTheTurn){
 			addAngle(camera.getAngle());
 		}
@@ -189,11 +220,11 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
 		SmartDashboard.putString("x", Double.toString(accel.getX()));
     	SmartDashboard.putString("y", Double.toString(accel.getY()));
     	SmartDashboard.putString("z", Double.toString(accel.getZ()));
-    	//SmartDashboard.putNumber("setpont", turning.getSetpoint());
-		//SmartDashboard.putNumber("error", turning.getError());
+    	SmartDashboard.putNumber("setpont", turning.getSetpoint());
+		SmartDashboard.putNumber("error", turning.getError());
     
     	this.displayGyroValue();
-    	//checkAngle();
+    	checkAngle();
     	
     	
 	}
