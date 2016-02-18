@@ -29,7 +29,7 @@ public class Robot extends IterativeRobot {
     DriveTrain driveTrain;
     Shooter shooter;
     Pickup pickup;
-    //Camera camera;
+    Camera camera;
     
     /**
      * This function is run when the robot is first started up and should be
@@ -37,9 +37,9 @@ public class Robot extends IterativeRobot {
      */
     public void robotInit() {
 		oi = new OI();
-		// = new Camera();
-    	//camera.start();
-		driveTrain = new DriveTrain();
+		camera = new Camera();
+    	camera.start();
+		driveTrain = new DriveTrain(camera);
 		driveJoystick = new Joystick(0);
 		operatorJoystick = new Joystick(1);
 		shooter = new Shooter();

@@ -23,12 +23,13 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
 	VictorSP LtDriveMt2;
 	VictorSP RtDriveMt1;
 	VictorSP RtDriveMt2;
-	//AnalogGyro gyro;
+	AnalogGyro gyro;
 	Encoder RightDriveEnc;
-	//TurnControl turn; 
-	//LinearDriveControl linear;
-	//PIDController turning;
-	//PIDController move;
+	Encoder LeftDriveEnc;
+	TurnControl turn; 
+	LinearDriveControl linear;
+	PIDController turning;
+	PIDController move;
 	public boolean moveStop = true;
 	public boolean linearStop;
 	boolean isEnadled;
@@ -45,20 +46,22 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
 	public boolean TurnOnTheTurn =  false;
 	Camera camera;
 	
-	public DriveTrain(/*Camera Cam*/)
+	public DriveTrain(Camera Cam)
 	{
 		LtDriveMt1 = new VictorSP(RobotMap.LtDriveMt1);
 		LtDriveMt2 = new VictorSP(RobotMap.LtDriveMt2);
 		RtDriveMt1 = new VictorSP(RobotMap.RtDriveMt1);
 		RtDriveMt2 = new VictorSP(RobotMap.RtDriveMt2);
-		//gyro = new AnalogGyro(RobotMap.gyro);
-		//turn = new TurnControl(this);
-		//turning = new PIDController(RobotMap.turnControlP, RobotMap.turnControlI, RobotMap.turnControlD, gyro, turn);
-		//gyro.setPIDSourceType(PIDSourceType.kRate);
+		gyro = new AnalogGyro(RobotMap.gyro);
+		turn = new TurnControl(this);
+		turning = new PIDController(RobotMap.turnControlP, RobotMap.turnControlI, RobotMap.turnControlD, gyro, turn);
+		gyro.setPIDSourceType(PIDSourceType.kRate);
 		RightDriveEnc = new Encoder(RobotMap.RtDriveEncA, RobotMap.RtDriveEncB);
-		RightDriveEnc.setDistancePerPulse(.1); 
-		//camera = Cam;
-		//move = new PIDController(RobotMap.moveP, RobotMap.moveI, RobotMap.moveD, RightDriveEnc, linear);
+		RightDriveEnc.setDistancePerPulse(((12 * Math.PI) / (1)) * (15 / 16) * (1 / 2048)); 
+		LeftDriveEnc = new Encoder(RobotMap.LtDriveEncA, RobotMap.LtDriveEncB);
+		LeftDriveEnc.setDistancePerPulse(((12 * Math.PI) / (1)) * (15 / 16) * (1 / 2048));
+		camera = Cam;
+		move = new PIDController(RobotMap.moveP, RobotMap.moveI, RobotMap.moveD, RightDriveEnc, linear);
 	}
 
     public void initDefaultCommand() {
@@ -103,7 +106,7 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
     	RtDriveMt2.set(-right);
     }
    
-   /* 
+   
     public void gotoAngle(double angle){
     	angleSetpoint = angle;
     	turning.enable();
@@ -123,7 +126,7 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
     	
     	}
     }
-    /*
+    
     public void disablePIDForward()
     {
     	if(move.isEnabled()){
@@ -132,8 +135,7 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
     	}
     	
     }
-    */
-   /*
+    
     public void checkAngle(){
     	
 	    if(turning.isEnabled()){
@@ -166,16 +168,16 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
 	    }
 	    
 	    }
-    */
+   
     
     
      public BuiltInAccelerometer accel = new BuiltInAccelerometer();
 	@Override
 	public void update() {
 		
-		//if(TurnOnTheTurn){
-			//addAngle(camera.getAngle());
-		//}
+		if(TurnOnTheTurn){
+			addAngle(camera.getAngle());
+		}
 		
 		
 		
