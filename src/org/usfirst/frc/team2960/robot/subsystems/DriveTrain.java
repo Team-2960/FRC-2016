@@ -42,7 +42,7 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
 	final double rateTolerance = 5;
 	int RateSetPoint = 50;
 	int angleDirection;
-	Double Rate;
+	double Rate;
 	double linearRate;
 	final double FINALRATE = 200;
 	final double FINALLINEARRATE = 100;
@@ -170,7 +170,7 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
     public void checkAngle(){
     	
 	    if(turning.isEnabled()){
-		Double error = angleSetpoint - gyro.getAngle(); 	
+		double error = angleSetpoint - gyro.getAngle(); 	
 			
 	    	if((gyro.getAngle() >= (angleSetpoint - tolerance)) && (gyro.getAngle() <= (angleSetpoint + tolerance))){
 	    		turning.setSetpoint(0);
