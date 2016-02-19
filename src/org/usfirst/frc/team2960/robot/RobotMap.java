@@ -36,10 +36,10 @@ public class RobotMap {
 	public static int WinchEncB = 13;
 	
 	//Pickup Solenoids
-	public static int intakeHoodA = 0;
-	public static int intakeHoodB = 1;
-	public static int intakeHooksA = 2;
-	public static int intakeHooksB = 3;
+	public static int intakeHoodA = 2;
+	public static int intakeHoodB = 3;
+	public static int intakeHooksA = 0;
+	public static int intakeHooksB = 1;
 	
 	
 	
