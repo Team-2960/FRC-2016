@@ -74,7 +74,7 @@ public class Robot extends IterativeRobot {
 		driveTrain.update();
 		shooter.update();
 		pickup.update();
-		//camera.update();
+		camera.update();
 		
 	}
     public void autonomousInit() {

@@ -23,8 +23,9 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 	DigitalInput shooterPhotoeye;
 	DigitalInput anglePhotoeye;
 	PIDController angleController;
-	final double DEGREES_PER_PULSE = 360*5*(1/2048);
+	final double DEGREES_PER_PULSE = 360.0*5.0*(1.0/2048.0);
 	final double DEGREES_PER_SECOND = 20;
+	final double ANGLE_SLOWDOWN = 10;
 	double anglePosition;
 	boolean zeroing;
 	boolean isMovingBack;
@@ -43,32 +44,32 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 		anglePosition = 0;
 		zeroing = true;
 		isMovingBack = false;
+		angleEncoder.reset();
 	}
 
 	@Override
 	public void update() {
 		// TODO Auto-generated method stub
-		if(zeroing)
+		/*if(zeroing)
 		{
 			zeroRoutine();
-		}
+		}*/
 		if(angleController.isEnabled())
 		{
 			updateAngle();
 		}
-		if(isMovingBack && shooterPhotoeye.get() == true)
+		if(isMovingBack && shooterPhotoeye.get() == false)
 		{
 			stopMovingBack();
 		}
 		SmartDashboard.putNumber("angleEncoder Rate", angleEncoder.getRate());
-		SmartDashboard.putNumber("angleEncoder distance (deg)", angleEncoder.getDistance());
+		SmartDashboard.putNumber("angleEncoder get", angleEncoder.get());
 		SmartDashboard.putBoolean("anglePhotoeye", anglePhotoeye.get());
 		SmartDashboard.putBoolean("shooterPhotoeye", shooterPhotoeye.get());
 	}
 
 	@Override
 	public void start() {
-
 		// TODO Auto-generated method stub
 	}
 
@@ -76,7 +77,6 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 	{
 		angleController.enable();
 	}
-
 
 	public void stopPID()
 	{
@@ -109,9 +109,16 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 	public void updateAngle()
 	{
 		double currentDist = angleEncoder.getDistance(); //in degrees
+		double error = anglePosition - currentDist;
+		double rate;
 		if(currentDist < anglePosition + 2 && currentDist > anglePosition - 2)
 		{
 			angleController.setSetpoint(0);
+		}
+		else if(error > -ANGLE_SLOWDOWN && error < ANGLE_SLOWDOWN)
+		{
+			rate = error/ANGLE_SLOWDOWN * DEGREES_PER_SECOND;
+			angleController.setSetpoint(rate);
 		}
 		else if(currentDist > anglePosition)
 		{
@@ -125,15 +132,15 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 
 	public void zeroRoutine()
 	{
-		if(zeroing == true && anglePhotoeye.get() == false)
+		if(zeroing == true && anglePhotoeye.get() == true)
 		{
-			//move backwards
 			angleAdjust.set(0.5);
 		}
-		else if(zeroing == true && anglePhotoeye.get() == true)
+		else if(zeroing == true && anglePhotoeye.get() == false)
 		{
 			angleAdjust.set(0);
 			angleEncoder.reset();
+			//startPID();
 			zeroing = false;
 		}
 	}

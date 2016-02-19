@@ -50,6 +50,7 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
 	Camera camera;
 	public double encoderTotal;
 	final int lengthTolerance = 5;
+	final double distancePerPulse = ((12.0 * Math.PI) / (1.0)) * (15.0 / 16.0) * (1.0 / 2048.0);
 	
 	public DriveTrain(Camera Cam)
 	{
@@ -62,11 +63,15 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
 		turning = new PIDController(RobotMap.turnControlP, RobotMap.turnControlI, RobotMap.turnControlD, gyro, turn);
 		gyro.setPIDSourceType(PIDSourceType.kRate);
 		RightDriveEnc = new Encoder(RobotMap.RtDriveEncA, RobotMap.RtDriveEncB);
-		RightDriveEnc.setDistancePerPulse(((12 * Math.PI) / (1)) * (15 / 16) * (1 / 2048)); 
+		RightDriveEnc.setDistancePerPulse(distancePerPulse); 
 		LeftDriveEnc = new Encoder(RobotMap.LtDriveEncA, RobotMap.LtDriveEncB);
-		LeftDriveEnc.setDistancePerPulse(((12 * Math.PI) / (1)) * (15 / 16) * (1 / 2048));
+		LeftDriveEnc.setDistancePerPulse(distancePerPulse);
+		LeftDriveEnc.setMaxPeriod(0.1);
+		RightDriveEnc.setMaxPeriod(0.1);
+		RightDriveEnc.reset();
+		LeftDriveEnc.reset();
 		camera = Cam;
-		move = new PIDController(RobotMap.moveP, RobotMap.moveI, RobotMap.moveD, input, linear);
+		//move = new PIDController(RobotMap.moveP, RobotMap.moveI, RobotMap.moveD, input, linear);
 	}
 
     public void initDefaultCommand() {
@@ -94,7 +99,7 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
     }
     public void resetEncoder()
     {
-    	RightDriveEnc.reset();
+    	//RightDriveEnc.reset();
     }
     
     
@@ -213,10 +218,15 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
 		
 		
 		
-		SmartDashboard.putBoolean("Encoder direction", RightDriveEnc.getDirection());
-		SmartDashboard.putString("Encoder Distance", Double.toString(RightDriveEnc.getDistance()));
-		SmartDashboard.putString("Encoder count", Double.toString(RightDriveEnc.get()));
-		SmartDashboard.putString("Encoder Rate", Double.toString(RightDriveEnc.getRate()));
+		SmartDashboard.putBoolean("R Encoder direction", RightDriveEnc.getDirection());
+		SmartDashboard.putString("R Encoder Distance", Double.toString(RightDriveEnc.getDistance()));
+		SmartDashboard.putString("R Encoder count", Double.toString(RightDriveEnc.get()));
+		SmartDashboard.putString("R Encoder Rate", Double.toString(RightDriveEnc.getRate()));
+		SmartDashboard.putString("Encoder Distance Per Pulse", Double.toString(distancePerPulse));
+		SmartDashboard.putBoolean("L Encoder direction", LeftDriveEnc.getDirection());
+		SmartDashboard.putString("L Encoder Distance", Double.toString(LeftDriveEnc.getDistance()));
+		SmartDashboard.putString("L Encoder count", Double.toString(LeftDriveEnc.get()));
+		SmartDashboard.putString("L Encoder Rate", Double.toString(LeftDriveEnc.getRate()));
 		SmartDashboard.putString("x", Double.toString(accel.getX()));
     	SmartDashboard.putString("y", Double.toString(accel.getY()));
     	SmartDashboard.putString("z", Double.toString(accel.getZ()));
