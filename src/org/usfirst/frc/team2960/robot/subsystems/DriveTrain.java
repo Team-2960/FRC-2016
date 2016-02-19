@@ -31,7 +31,7 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
 	PIDController turning;
 	PIDController move;
 	LinearDriveControlInput input;
-	public boolean moveStop = true;
+	public boolean moveStop = false;
 	boolean isEnadled;
 	double angleSetpoint = 0;
 	double lengthSetPoint = 0;

@@ -38,6 +38,12 @@ public class OI {
 			//drivetrain.disablePIDAngle();
 			pickup.setHood(true);
 		}
+		if(stick.getRawButton(9)){
+			pickup.setHook(true);
+		}
+		if(stick.getRawButton(10)){
+			pickup.setHook(false);
+		}
 		if(stick.getRawButton(2))
 		{
 			shooter.moveWinch();
