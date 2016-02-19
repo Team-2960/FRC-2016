@@ -41,7 +41,7 @@ public class Pickup extends Subsystem implements PeriodicUpdate {
 		roller.set(speed);
 	}
 	
-	public void setHood(boolean open)
+	public void setHook(boolean open)
 	{
 		if(open)
 			intakeHooks.set(DoubleSolenoid.Value.kForward);
@@ -49,7 +49,7 @@ public class Pickup extends Subsystem implements PeriodicUpdate {
 			intakeHooks.set(DoubleSolenoid.Value.kReverse);
 	}
 	
-	public void setHook(boolean open)
+	public void setHood(boolean open)
 	{
 		if(open)
 			intakeHood.set(DoubleSolenoid.Value.kForward);
