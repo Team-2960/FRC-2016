@@ -54,11 +54,11 @@ public class OI {
 		}
 		if(stick.getRawAxis(2) > 0.1)
 		{
-			shooter.adjustAngle(1.0);
+			shooter.adjustAngle(0.5); //up
 		}
 		else if(stick.getRawAxis(3) > 0.1)
 		{
-			shooter.adjustAngle(-1.0);
+			shooter.adjustAngle(-0.5); //down
 		}
 		else
 		{

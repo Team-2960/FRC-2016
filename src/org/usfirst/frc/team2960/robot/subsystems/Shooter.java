@@ -16,6 +16,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Shooter extends Subsystem implements PeriodicUpdate {
 
+	//LIMIT 4 to -80
+	
 	VictorSP angleAdjust;
 	VictorSP Winch1;
 	VictorSP Winch2;
@@ -23,9 +25,11 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 	DigitalInput shooterPhotoeye;
 	DigitalInput anglePhotoeye;
 	PIDController angleController;
-	final double DEGREES_PER_PULSE = 360.0*5.0*(1.0/2048.0);
+	final double DEGREES_PER_PULSE = 360.0*(1.0/5.0)*(1.0/2048.0);
 	final double DEGREES_PER_SECOND = 20;
 	final double ANGLE_SLOWDOWN = 10;
+	final double LOWER_LIMIT = -70;
+	final double UPPER_LIMIT = 4;
 	double anglePosition;
 	boolean zeroing;
 	boolean isMovingBack;
@@ -35,25 +39,26 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 		angleAdjust = new VictorSP(RobotMap.AngleAdjust);
 		Winch1 = new VictorSP(RobotMap.WinchMt1);
 		Winch2 = new VictorSP(RobotMap.WinchMt2);
-		angleEncoder = new Encoder(RobotMap.ShooterAngleA,RobotMap.ShooterAngleB);
+		angleEncoder = new Encoder(RobotMap.ShooterAngleA,RobotMap.ShooterAngleB);		
 		shooterPhotoeye = new DigitalInput(RobotMap.ShooterPhotoeye);
 		anglePhotoeye = new DigitalInput(RobotMap.AnglePhotoEye);
 		angleEncoder.setPIDSourceType(PIDSourceType.kRate);
 		angleEncoder.setDistancePerPulse(DEGREES_PER_PULSE);
 		angleController = new PIDController(RobotMap.angleP,RobotMap.angleI,RobotMap.angleD,angleEncoder, angleAdjust);
+		//angleEncoder.setIndexSource(anglePhotoeye, Encoder.IndexingType.kResetOnFallingEdge);
 		anglePosition = 0;
 		zeroing = true;
 		isMovingBack = false;
-		angleEncoder.reset();
+		System.out.println("Deg per pulse: " + DEGREES_PER_PULSE);
 	}
 
 	@Override
 	public void update() {
 		// TODO Auto-generated method stub
-		/*if(zeroing)
+		if(zeroing)
 		{
 			zeroRoutine();
-		}*/
+		}
 		if(angleController.isEnabled())
 		{
 			updateAngle();
@@ -64,6 +69,7 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 		}
 		SmartDashboard.putNumber("angleEncoder Rate", angleEncoder.getRate());
 		SmartDashboard.putNumber("angleEncoder get", angleEncoder.get());
+		SmartDashboard.putNumber("angleEncoder dist", angleEncoder.getDistance());
 		SmartDashboard.putBoolean("anglePhotoeye", anglePhotoeye.get());
 		SmartDashboard.putBoolean("shooterPhotoeye", shooterPhotoeye.get());
 	}
@@ -90,7 +96,18 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 
 	public void adjustAngle(double speed)
 	{
-		angleAdjust.set(speed);
+		if(speed > 0 && angleEncoder.getDistance() >= UPPER_LIMIT)
+		{
+			angleAdjust.set(0);
+		}
+		else if(speed < 0 && angleEncoder.getDistance() <= LOWER_LIMIT)
+		{
+			angleAdjust.set(0);
+		}
+		else
+		{
+			angleAdjust.set(speed);
+		}
 	}
 
 	public void moveBack()
