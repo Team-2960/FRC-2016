@@ -17,8 +17,8 @@ public class RobotMap {
 	public static int Roller = 7;
 	
 	//Analog
-	public static int gyro = 0;
-	public static int SelectorSwitch = 1;
+	public static int gyro = 1;
+	//public static int SelectorSwitch = 1;
 	
 	//DigitalIO
 	public static int RtDriveEncA = 0;

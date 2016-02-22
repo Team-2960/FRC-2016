@@ -5,18 +5,40 @@ import org.usfirst.frc.team2960.robot.subsystems.Camera;
 import org.usfirst.frc.team2960.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team2960.robot.subsystems.Pickup;
 import org.usfirst.frc.team2960.robot.subsystems.Shooter;
+
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
-/**
- * The VM is configured to automatically run this class, and to call the
- * functions corresponding to each mode, as described in the IterativeRobot
- * documentation. If you change the name of this class or the package after
- * creating this project, you must also update the manifest file in the resource
- * directory.
- */
-public class Robot extends IterativeRobot {
+
+public class Robot extends IterativeRobot { public int autonIndex = 
+
+	/********************************************************************************************
+	 * ____ _  _ ___ ____ _  _    _  _ ____ ___  ____    ____ ____ _    ____ ____ ___ ____ ____ *
+     * |__| |  |  |  |  | |\ |    |\/| |  | |  \ |___   |___  |___ |    |___ |     |  |  | |__/ *
+	 * |  | |__|  |  |__| | \|    |  | |__| |__/ |___   ____| |___ |___ |___ |___  |  |__| |  \ *
+	 * -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+     * 
+     * CHOOSE A NUMBER FROM THE LIST BELOW CORRESPONDING TO THE AUTONOMOUS MODE YOU WANT TO RUN.
+     * 
+     * AUTONOMOUS MODES LIST
+     * -=-=-=-=-=-=-=-=-=-=-=-=-
+     * 0 = DRIVE FORWARD                                                       
+     *                                                    
+     * CHANGE THIS NUMBER TO THE NUMBER OF YOUR CHOICE THAT CORRESPONDS WITH THE LIST ABOVE.                                                                                  
+     * THIS NUMBER!!! ------>>>>____*/ 0 /*____<<<<------ THIS NUMBER HERE
+     *                                                                 
+     * DO NOT MODIFY ANY OTHER CODE IN THIS FILE OR
+     * ANYWHERE ELSE UNLESS YOU KNOW WHAT YOU ARE DOING!
+     * 
+     * TO RUN THIS NEW PROGRAM, PRESS THE CIRCULAR GREEN PLAY BUTTON IN THE TOOLBAR ABOVE
+     * AND SELECT "WPILib Java Deploy" WHILE CONNECTED TO ROBOT WIFI. IT SHOULD THEN
+     * DOWNLOAD AND CHANGES WILL BE REFLECTED BY THE ROBOT.
+     *                                                                                   
+	 *********************************************************************************************/
+	
+	; //The lone semicolon
 
 	public static OI oi;
 
@@ -41,7 +63,7 @@ public class Robot extends IterativeRobot {
 		operatorJoystick = new Joystick(1);
 		shooter = new Shooter();
 		pickup = new Pickup();
-	
+		autonIndex = 0;
     }
 	
 	/**
@@ -74,17 +96,26 @@ public class Robot extends IterativeRobot {
 		camera.update();
 		
 	}
+	
+	public void periodicStart()
+	{
+		shooter.start();
+    	camera.start();
+    	pickup.start();
+    	driveTrain.start();
+	}
+	
     public void autonomousInit() {
     	// schedule the autonomous command (example)
-    	Autonomous.startCommand(Autonomous.getAutonCommandAtIndex(0));
-    	
+    	periodicStart();
+    	Autonomous.startCommand(Autonomous.getAutonCommandAtIndex(autonIndex));
     }
 
     /**
      * This function is called periodically during autonomous
      */
     public void autonomousPeriodic() {
-    	AutonomousCommand command = Autonomous.getAutonCommandAtIndex(0);
+    	AutonomousCommand command = Autonomous.getAutonCommandAtIndex(autonIndex);
     	if(command.isFinished()){
     		Autonomous.stopAuton();
     	}
@@ -93,6 +124,7 @@ public class Robot extends IterativeRobot {
     
     
     public void teleopInit() {
+    	periodicStart();
    }
 
     /**

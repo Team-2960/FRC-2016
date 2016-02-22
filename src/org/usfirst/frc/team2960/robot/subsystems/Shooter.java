@@ -18,6 +18,8 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 
 	//LIMIT 4 to -80
 	
+	//-1.5 
+	
 	VictorSP angleAdjust;
 	VictorSP Winch1;
 	VictorSP Winch2;
@@ -25,14 +27,15 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 	DigitalInput shooterPhotoeye;
 	DigitalInput anglePhotoeye;
 	PIDController angleController;
-	final double DEGREES_PER_PULSE = 360.0*(1.0/5.0)*(1.0/2048.0);
+	AngleControl angleControl;
+	final double DEGREES_PER_PULSE = 360.0*(1.0/2048.0);
 	final double DEGREES_PER_SECOND = 20;
 	final double ANGLE_SLOWDOWN = 10;
-	final double LOWER_LIMIT = -70;
-	final double UPPER_LIMIT = 4;
+	final double LOWER_LIMIT = -57.0;
+	final double UPPER_LIMIT = 16.0;
 	double anglePosition;
 	boolean zeroing;
-	boolean isMovingBack;
+	boolean isMovingBack; 
 
 	public Shooter()
 	{
@@ -44,7 +47,8 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 		anglePhotoeye = new DigitalInput(RobotMap.AnglePhotoEye);
 		angleEncoder.setPIDSourceType(PIDSourceType.kRate);
 		angleEncoder.setDistancePerPulse(DEGREES_PER_PULSE);
-		angleController = new PIDController(RobotMap.angleP,RobotMap.angleI,RobotMap.angleD,angleEncoder, angleAdjust);
+		angleControl = new AngleControl(this);
+		angleController = new PIDController(RobotMap.angleP,RobotMap.angleI,RobotMap.angleD,angleEncoder, angleControl);
 		//angleEncoder.setIndexSource(anglePhotoeye, Encoder.IndexingType.kResetOnFallingEdge);
 		anglePosition = 0;
 		zeroing = true;
@@ -151,7 +155,7 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 	{
 		if(zeroing == true && anglePhotoeye.get() == true)
 		{
-			angleAdjust.set(0.5);
+			angleAdjust.set(0.35);
 		}
 		else if(zeroing == true && anglePhotoeye.get() == false)
 		{

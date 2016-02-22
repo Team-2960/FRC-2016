@@ -24,7 +24,7 @@ public class OI {
 		if(stick.getRawButton(3)){
 			drivetrain.resetEncoder();
 		}
-		while(stick.getRawButton(7) && stick.getRawButton(8)){
+		if(stick.getRawButton(7) && stick.getRawButton(8)){
 			drivetrain.TurnOnTheTurn = true;
 		}
 		

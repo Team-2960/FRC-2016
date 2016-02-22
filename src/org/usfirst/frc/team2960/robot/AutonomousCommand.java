@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class AutonomousCommand {
 	
 	public int stage = 0;
-	int finalStage = 0;
+	protected int finalStage = 0;
 	public DriveTrain driveTrain;
 	public Shooter shooter;
 	public Pickup pickup;

@@ -84,18 +84,18 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
     }
     
     public void displayGyroValue() {
-    	//SmartDashboard.putString("gyroAngle", Double.toString(gyro.getAngle()));
-    	//SmartDashboard.putString("gyroRate", Double.toString(gyro.getRate()));
+    	SmartDashboard.putString("gyroAngle", Double.toString(gyro.getAngle()));
+    	SmartDashboard.putString("gyroRate", Double.toString(gyro.getRate()));
     }
     
     public void calibrateGyro()
     {
-    	//gyro.calibrate();
+    	gyro.calibrate();
     }
     
     public void resetGyro()
     {
-    	//gyro.reset();
+    	gyro.reset();
     }
     public void resetEncoder()
     {
@@ -241,6 +241,7 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
 
 	@Override
 	public void start() {
+		this.resetGyro();
 		this.calibrateGyro();
 		
 	}
