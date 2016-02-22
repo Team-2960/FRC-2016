@@ -155,7 +155,7 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 	{
 		if(zeroing == true && anglePhotoeye.get() == true)
 		{
-			angleAdjust.set(0.35);
+			angleAdjust.set(0.5);
 		}
 		else if(zeroing == true && anglePhotoeye.get() == false)
 		{

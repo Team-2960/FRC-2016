@@ -21,8 +21,8 @@ public class Pickup extends Subsystem implements PeriodicUpdate {
 	public DoubleSolenoid intakeHood;
 	public Pickup()
 	{
-		//intakeHooks = new DoubleSolenoid(RobotMap.intakeHooksA,RobotMap.intakeHooksB);
-		//intakeHood = new DoubleSolenoid(RobotMap.intakeHoodA,RobotMap.intakeHoodB);
+		intakeHooks = new DoubleSolenoid(RobotMap.intakeHooksA,RobotMap.intakeHooksB);
+		intakeHood = new DoubleSolenoid(RobotMap.intakeHoodA,RobotMap.intakeHoodB);
 		roller = new VictorSP(RobotMap.Roller);
 	}
 	
