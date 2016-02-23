@@ -23,7 +23,7 @@ public class TurnControl implements PIDOutput {
 			output = 0;
 		}
 		*/
-		drive.setSpeed(-output, output);
+		drive.setSpeed(output, -output);
 		SmartDashboard.putString("PID output", Double.toString(output));
 	}
 

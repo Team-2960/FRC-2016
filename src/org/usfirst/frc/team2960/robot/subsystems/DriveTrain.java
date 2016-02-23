@@ -165,10 +165,10 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
     			move.setSetpoint(linearRate);
     		}
     		else if(encoderTotal > lengthSetPoint){
-    			turning.setSetpoint(-FINALLINEARRATE);
+    			move.setSetpoint(-FINALLINEARRATE);
     		}
     		else if(encoderTotal < lengthSetPoint){
-    			turning.setSetpoint(FINALLINEARRATE);
+    			move.setSetpoint(FINALLINEARRATE);
     		}
     	}
     }
@@ -213,6 +213,10 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
 		encoderTotal = ((RightDriveEnc.getRate() + LeftDriveEnc.getRate()) / 2);
 		if(TurnOnTheTurn){
 			addAngle(camera.getAngle());
+		}
+		else if(TurnOnTheTurn == false && turning.isEnabled()){
+			turning.disable();
+			moveStop = false;
 		}
 		
 		

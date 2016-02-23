@@ -27,13 +27,18 @@ public class OI {
 		if(stick.getRawButton(7) && stick.getRawButton(8)){
 			drivetrain.TurnOnTheTurn = true;
 		}
+		else{
+			drivetrain.TurnOnTheTurn = false;
+		}
+		if(stick.getRawButton(4)){
+			drivetrain.gotoAngle(-180);
+		}
 		
 	}
 	public void operateRobot(Joystick stick, Shooter shooter, Pickup pickup){
-		if(stick.getRawButton(4)){
-			//drivetrain.gotoAngle(-180);
-			pickup.setHood(false);
-		}
+		//if(stick.getRawButton(4)){
+			//pickup.setHood(false);
+		//}
 		if(stick.getRawButton(1)){
 			//drivetrain.disablePIDAngle();
 			pickup.setHood(true);
