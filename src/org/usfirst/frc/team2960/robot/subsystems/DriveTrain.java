@@ -71,7 +71,9 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
 		RightDriveEnc.reset();
 		LeftDriveEnc.reset();
 		camera = Cam;
-		//move = new PIDController(RobotMap.moveP, RobotMap.moveI, RobotMap.moveD, input, linear);
+		input = new LinearDriveControlInput(this);
+		linear = new LinearDriveControl(this);
+		move = new PIDController(RobotMap.moveP, RobotMap.moveI, RobotMap.moveD, input, linear);
 	}
 
     public void initDefaultCommand() {
@@ -219,7 +221,7 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
 			moveStop = false;
 		}
 		
-		
+		checkLinear();
 		
 		
 		SmartDashboard.putBoolean("R Encoder direction", RightDriveEnc.getDirection());

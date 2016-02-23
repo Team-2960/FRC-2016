@@ -101,7 +101,6 @@ public class Robot extends IterativeRobot { public int autonIndex =
 	{
 		shooter.start();
     	camera.start();
-    	pickup.start();
     	driveTrain.start();
 	}
 	
