@@ -19,7 +19,7 @@ public class AutonomousCommand {
 	
 	public void updateLoop()
 	{
-		SmartDashboard.putString("autonTimer", Double.toString(getSecondsDone()));
+	//	SmartDashboard.putString("autonTimer", Double.toString(getSecondsDone()));
 		if(isFinished())
 		{
 			Autonomous.stopAuton();

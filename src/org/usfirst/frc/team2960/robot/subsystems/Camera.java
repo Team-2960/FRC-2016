@@ -104,29 +104,29 @@ public class Camera extends Subsystem implements PeriodicUpdate {
 			//for the reader. Note that this scores and reports information about a single particle (single L shaped target). To get accurate information 
 			//about the location of the tote (not just the distance) you will need to correlate two adjacent targets in order to find the true center of the tote.
 			scores.Aspect = AspectScore(particles.elementAt(0));
-			SmartDashboard.putNumber("Aspect", scores.Aspect);
+		//	SmartDashboard.putNumber("Aspect", scores.Aspect);
 			scores.Area = AreaScore(particles.elementAt(0));
-			SmartDashboard.putNumber("Area", scores.Area);
+		//	SmartDashboard.putNumber("Area", scores.Area);
 			boolean isTarget = scores.Aspect > SCORE_MIN && scores.Area > SCORE_MIN;
 
 			server.setImage(binaryFrame);
 			//Send distance and tote status to dashboard. The bounding rect, particularly the horizontal center (left - right) may be useful for rotating/driving towards a tote
-			SmartDashboard.putBoolean("isTarget", isTarget);
+		//	SmartDashboard.putBoolean("isTarget", isTarget);
 			ParticleReport report = particles.elementAt(0);
-			SmartDashboard.putNumber("BoundingRectBottom", report.BoundingRectBottom);
-			SmartDashboard.putNumber("BoundingRectTopp", report.BoundingRectTop);
-			SmartDashboard.putNumber("BoundingRectLeft", report.BoundingRectLeft);
-			SmartDashboard.putNumber("BoundingRectRight", report.BoundingRectRight);
-			SmartDashboard.putNumber("Distance", computeDistance(report));
-			SmartDashboard.putNumber("HorizontalAngle", computeHorizontalAngle(report));
-			SmartDashboard.putString("isItWorking", "yes");
+		//	SmartDashboard.putNumber("BoundingRectBottom", report.BoundingRectBottom);
+		//	SmartDashboard.putNumber("BoundingRectTopp", report.BoundingRectTop);
+		//	SmartDashboard.putNumber("BoundingRectLeft", report.BoundingRectLeft);
+		//	SmartDashboard.putNumber("BoundingRectRight", report.BoundingRectRight);
+		//	SmartDashboard.putNumber("Distance", computeDistance(report));
+		//	SmartDashboard.putNumber("HorizontalAngle", computeHorizontalAngle(report));
+		//	SmartDashboard.putString("isItWorking", "yes");
 			distance = computeDistance(report);
 			angle = computeHorizontalAngle(report);
 			particleVisible = true;
 		} else {
-			SmartDashboard.putString("ImageString", frame.toString());
-			SmartDashboard.putString("isItWorking", "no");
-			SmartDashboard.putBoolean("isTarget", false);
+		//	SmartDashboard.putString("ImageString", frame.toString());
+		//	SmartDashboard.putString("isItWorking", "no");
+		//	SmartDashboard.putBoolean("isTarget", false);
 			particleVisible = false;
 		}
 		System.gc();
@@ -192,8 +192,8 @@ public class Camera extends Subsystem implements PeriodicUpdate {
 	{
 		//NIVision.ImageInfo info = NIVision.imaqGetImageInfo(frame);
 		//SmartDashboard.putString("Resolution", Integer.toString(info.xRes) + " x " + Integer.toString(info.yRes));
-		SmartDashboard.putNumber("Radians Per Pixel", RAD_PER_PIXEL);
-		SmartDashboard.putNumber("Bounding Bottom Value", (report.BoundingRectBottom));
+	//	SmartDashboard.putNumber("Radians Per Pixel", RAD_PER_PIXEL);
+	//	SmartDashboard.putNumber("Bounding Bottom Value", (report.BoundingRectBottom));
 		return HEIGHT_GC/Math.tan(((RESY/2)-report.BoundingRectBottom)*(RAD_PER_PIXEL)+CAMERA_ANGLE_OFFSET);
 	}
 	
