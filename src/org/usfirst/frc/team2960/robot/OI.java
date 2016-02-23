@@ -30,19 +30,23 @@ public class OI {
 		else{
 			drivetrain.TurnOnTheTurn = false;
 		}
-		if(stick.getRawButton(4)){
-			drivetrain.gotoAngle(-180);
-		}
-		
-	}
-	public void operateRobot(Joystick stick, Shooter shooter, Pickup pickup){
 		//if(stick.getRawButton(4)){
-			//pickup.setHood(false);
+			//drivetrain.gotoAngle(-180);
 		//}
 		if(stick.getRawButton(1)){
-			//drivetrain.disablePIDAngle();
-			pickup.setHood(true);
+			drivetrain.gotoDistance(12);
 		}
+	}
+	public void operateRobot(Joystick stick, Shooter shooter, Pickup pickup){
+		if(stick.getRawButton(4)){
+			//pickup.setHood(false);
+			shooter.shooterPullback();
+		}
+		//if(stick.getRawButton(1)){
+			//drivetrain.disablePIDAngle();
+			//pickup.setHood(true);
+			
+		//}
 		if(stick.getRawButton(9)){
 			pickup.setHook(true);
 		}
