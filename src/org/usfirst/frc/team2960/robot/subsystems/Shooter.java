@@ -116,8 +116,8 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 
 	public void moveBack()
 	{
-		Winch1.set(0.5);
-		Winch2.set(0.5);
+		Winch1.set(1.0);
+		Winch2.set(1.0);
 	}
 
 	public void stopMovingBack()
@@ -155,7 +155,7 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 	{
 		if(zeroing == true && anglePhotoeye.get() == true)
 		{
-			angleAdjust.set(0.5);
+			angleAdjust.set(1.0);
 		}
 		else if(zeroing == true && anglePhotoeye.get() == false)
 		{
