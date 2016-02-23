@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Shooter extends Subsystem implements PeriodicUpdate {
 
@@ -31,11 +30,13 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 	final double DEGREES_PER_PULSE = 360.0*(1.0/2048.0);
 	final double DEGREES_PER_SECOND = 20;
 	final double ANGLE_SLOWDOWN = 10;
-	final double LOWER_LIMIT = -57.0;
-	final double UPPER_LIMIT = 16.0;
+	final double LOWER_LIMIT = -84;
+	final double UPPER_LIMIT = 0;
 	double anglePosition;
 	boolean zeroing;
-	boolean isMovingBack; 
+	boolean isMovingBack;
+	boolean isLaunching;
+	//boolean didMoveBack;
 
 	public Shooter()
 	{
@@ -53,6 +54,8 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 		anglePosition = 0;
 		zeroing = true;
 		isMovingBack = false;
+		//didMoveBack = false;
+		isLaunching = false;
 		System.out.println("Deg per pulse: " + DEGREES_PER_PULSE);
 	}
 
@@ -71,11 +74,15 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 		{
 			stopMovingBack();
 		}
-		SmartDashboard.putNumber("angleEncoder Rate", angleEncoder.getRate());
-		SmartDashboard.putNumber("angleEncoder get", angleEncoder.get());
-		SmartDashboard.putNumber("angleEncoder dist", angleEncoder.getDistance());
-		SmartDashboard.putBoolean("anglePhotoeye", anglePhotoeye.get());
-		SmartDashboard.putBoolean("shooterPhotoeye", shooterPhotoeye.get());
+		if(isLaunching && shooterPhotoeye.get() == true)
+		{
+			stopMovingBack();
+		}
+		//SmartDashboard.putNumber("angleEncoder Rate", angleEncoder.getRate());
+		//SmartDashboard.putNumber("angleEncoder get", angleEncoder.get());
+		//SmartDashboard.putNumber("angleEncoder dist", angleEncoder.getDistance());
+		//SmartDashboard.putBoolean("anglePhotoeye", anglePhotoeye.get());
+		//SmartDashboard.putBoolean("shooterPhotoeye", shooterPhotoeye.get());
 	}
 
 	@Override
@@ -96,6 +103,11 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 	public void setAngle(double position) //pos in degrees
 	{
 		anglePosition = position;
+	}
+	
+	public void addAngle(double angle)
+	{
+		anglePosition = anglePosition + angle;
 	}
 
 	public void adjustAngle(double speed)
@@ -125,6 +137,7 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 		Winch1.set(0);
 		Winch2.set(0);
 		isMovingBack = false;
+		isLaunching = false;
 	}
 
 	public void updateAngle()
@@ -161,7 +174,7 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 		{
 			angleAdjust.set(0);
 			angleEncoder.reset();
-			//startPID();
+			startPID();
 			zeroing = false;
 		}
 	}
@@ -171,10 +184,20 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 		moveBack();
 		isMovingBack = true;
 	}
+	
+	public void shooterPullbackLaunch()
+	{
+		moveBack();
+		isLaunching = true;
+	}
 
+	public void triggerPullback()
+	{
+		
+	}
+	
 	//pullback that has photo eye
 	//start in auton
-
 
 	public void moveWinch()
 	{

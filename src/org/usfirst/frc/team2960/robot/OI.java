@@ -16,13 +16,10 @@ public class OI {
 	
 	boolean resetBtnPressed = false;
 	boolean intakeOpen = false;
-	public void driveRobot(Joystick stick, DriveTrain drivetrain) {
+	public void driveRobot(Joystick stick, DriveTrain drivetrain, Shooter shooter) {
 		if(drivetrain.moveStop == false)
 		{
 		drivetrain.setSpeed(-stick.getRawAxis(1), -stick.getRawAxis(5));
-		}
-		if(stick.getRawButton(3)){
-			drivetrain.resetEncoder();
 		}
 		if(stick.getRawButton(7) && stick.getRawButton(8)){
 			drivetrain.TurnOnTheTurn = true;
@@ -30,54 +27,29 @@ public class OI {
 		else{
 			drivetrain.TurnOnTheTurn = false;
 		}
+		if(drivetrain.TurnOnTheTurn == true && stick.getRawAxis(3) > .1)
+		{
+			shooter.shooterPullback();
+		}
 		//if(stick.getRawButton(4)){
 			//drivetrain.gotoAngle(-180);
 		//}
-		if(stick.getRawButton(1)){
-			drivetrain.gotoDistance(12);
-		}
+
 	}
 	public void operateRobot(Joystick stick, Shooter shooter, Pickup pickup){
-		if(stick.getRawButton(4)){
-			//pickup.setHood(false);
-			shooter.shooterPullback();
-		}
-		//if(stick.getRawButton(1)){
-			//drivetrain.disablePIDAngle();
-			//pickup.setHood(true);
-			
-		//}
-		if(stick.getRawButton(9)){
-			pickup.setHook(true);
-		}
-		if(stick.getRawButton(10)){
-			pickup.setHook(false);
-		}
-		if(stick.getRawButton(2))
+		if(stick.getRawButton(11))
 		{
-			shooter.moveWinch();
+			shooter.setAngle(-75);
 		}
-		else
+		if(stick.getRawButton(12))
 		{
-			shooter.stopWinch();
+			shooter.setAngle(1);
 		}
-		if(stick.getRawAxis(2) > 0.1)
-		{
-			shooter.adjustAngle(0.5); //up
-		}
-		else if(stick.getRawAxis(3) > 0.1)
-		{
-			shooter.adjustAngle(-0.5); //down
-		}
-		else
-		{
-			shooter.adjustAngle(0);
-		}
-		if(stick.getRawButton(5))
+		if(stick.getRawButton(9))
 		{
 			pickup.setRoller(1.0);
 		}
-		else if(stick.getRawButton(6))
+		else if(stick.getRawButton(10))
 		{
 			pickup.setRoller(-1.0);
 		}
@@ -85,6 +57,38 @@ public class OI {
 		{
 			pickup.setRoller(0);
 		}
+		if(stick.getRawButton(7))
+		{
+			pickup.setHood(true);
+		}
+		if(stick.getRawButton(8))
+		{
+			pickup.setHood(false);
+		}
+		if(stick.getRawButton(5))
+		{
+			pickup.setHook(true);
+		}
+		if(stick.getRawButton(3))
+		{
+			pickup.setHook(false); 
+		}
+		if(stick.getRawButton(2))
+		{
+			if(stick.getRawButton(6))
+			{
+				shooter.shooterPullback();
+			}
+			if(stick.getRawButton(1))
+			{
+				shooter.shooterPullbackLaunch();
+			}
+			if(Math.abs(stick.getRawAxis(1)) > .1)
+			{
+				shooter.addAngle(0.8*stick.getRawAxis(1));
+			}
+		}
+		
 	}
 }
 
