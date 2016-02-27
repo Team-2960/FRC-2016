@@ -29,13 +29,15 @@ public class OI {
 		}
 		if(drivetrain.TurnOnTheTurn == true && stick.getRawAxis(3) > .1)
 		{
-			shooter.shooterPullback();
+			shooter.toggleWinch();
 		}
 		//if(stick.getRawButton(4)){
 			//drivetrain.gotoAngle(-180);
 		//}
 
 	}
+	boolean triggerPressed = false;
+
 	public void operateRobot(Joystick stick, Shooter shooter, Pickup pickup){
 		if(stick.getRawButton(11))
 		{
@@ -43,7 +45,7 @@ public class OI {
 		}
 		if(stick.getRawButton(12))
 		{
-			shooter.setAngle(1);
+			shooter.setAngle(-5);
 		}
 		if(stick.getRawButton(9))
 		{
@@ -75,18 +77,24 @@ public class OI {
 		}
 		if(stick.getRawButton(2))
 		{
-			if(stick.getRawButton(6))
-			{
-				shooter.shooterPullback();
-			}
 			if(stick.getRawButton(1))
 			{
-				shooter.shooterPullbackLaunch();
+				shooter.moveWinch();
+			}
+			else
+			{
+				shooter.stopWinch();
 			}
 			if(Math.abs(stick.getRawAxis(1)) > .1)
 			{
-				shooter.addAngle(0.8*stick.getRawAxis(1));
+				//shooter.adjustAngle(stick.getRawAxis(1));
+				shooter.addAngle(1.6*stick.getRawAxis(1));
+				//shooter.setAngleRate(stick.getRawAxis(1)*50);
 			}
+		}
+		else
+		{
+			shooter.stopWinch();
 		}
 		
 	}

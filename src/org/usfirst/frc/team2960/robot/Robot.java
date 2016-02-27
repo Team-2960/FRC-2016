@@ -36,10 +36,8 @@ public class Robot extends IterativeRobot { public int autonIndex =
      * AND SELECT "WPILib Java Deploy" WHILE CONNECTED TO ROBOT WIFI. IT SHOULD THEN
      * DOWNLOAD AND CHANGES WILL BE REFLECTED BY THE ROBOT.
      *                                                                                   
-	 *********************************************************************************************/
+	 *********************************************************************************************/;
 	
-	; //The lone semicolon
-
 	public static OI oi;
 
     Command autonomousCommand;
@@ -131,7 +129,7 @@ public class Robot extends IterativeRobot { public int autonIndex =
      */
     public void teleopPeriodic() {
     	oi.driveRobot(driveJoystick, driveTrain, shooter);
-    	oi.operateRobot(driveJoystick, shooter, pickup);
+    	oi.operateRobot(operatorJoystick, shooter, pickup);
     	periodicUpdate();
     	
     }
