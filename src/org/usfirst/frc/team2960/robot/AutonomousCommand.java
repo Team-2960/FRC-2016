@@ -37,6 +37,9 @@ public class AutonomousCommand {
 		stage = finalStage + 1;
 	}
 
+	public void finishStage(){
+		stage = stage + 1;
+	}
 	public boolean isFinished()
 	{
 		return stage > finalStage;
