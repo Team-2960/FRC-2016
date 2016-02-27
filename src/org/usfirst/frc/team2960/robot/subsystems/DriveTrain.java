@@ -248,7 +248,7 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
 	@Override
 	public void start() {
 		this.resetGyro();
-		this.calibrateGyro();
+		//this.calibrateGyro();
 		
 	}
 }

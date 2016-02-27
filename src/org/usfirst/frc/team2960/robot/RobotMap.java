@@ -49,7 +49,7 @@ public class RobotMap {
 	public static double moveD = 0;
 	
 	//angle pid
-	public static double angleP = .001;
+	public static double angleP = .0015;
 	public static double angleI = 0;
 	public static double angleD = 0;
 	
