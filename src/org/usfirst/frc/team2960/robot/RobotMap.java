@@ -41,7 +41,8 @@ public class RobotMap {
 	public static int intakeHooksA = 0;
 	public static int intakeHooksB = 1;
 	
-	
+	//PDP channels
+	public static int angleAdjustChannel = 1;
 	
 	//move pid
 	public static double moveP = .001;

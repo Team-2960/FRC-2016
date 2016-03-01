@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSourceType;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -33,10 +34,12 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 	final double ANGLE_SLOWDOWN = 30;
 	final double LOWER_LIMIT = -84;
 	final double UPPER_LIMIT = 0;
+	final double CURRENT_LIMIT = 30;
 	double anglePosition;
 	boolean zeroing;
 	boolean moveWinch;
 	boolean notTripped;
+	PowerDistributionPanel pdp;
 
 	public Shooter()
 	{
@@ -56,6 +59,7 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 		moveWinch = false;
 		notTripped = false;
 		System.out.println("Deg per pulse: " + DEGREES_PER_PULSE);
+		pdp = new PowerDistributionPanel();
 	}
 
 	@Override
@@ -86,10 +90,16 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 		{
 			stopWinch();
 		}
+		if(pdp.getCurrent(RobotMap.angleAdjustChannel) < CURRENT_LIMIT)
+		{
+			angleController.setSetpoint(0);
+			angleAdjust.set(0);
+		}
 		SmartDashboard.putNumber("angleEncoder Rate", angleEncoder.getRate());
 		SmartDashboard.putNumber("ideal angle",anglePosition);
 		//SmartDashboard.putNumber("angleEncoder get", angleEncoder.get());
 		SmartDashboard.putNumber("angleEncoder dist", angleEncoder.getDistance());
+		SmartDashboard.putNumber("angleAdjust current", pdp.getCurrent(RobotMap.angleAdjustChannel));
 		//SmartDashboard.putBoolean("anglePhotoeye", anglePhotoeye.get());
 		//SmartDashboard.putBoolean("shooterPhotoeye", shooterPhotoeye.get());
 	}

@@ -9,6 +9,7 @@ import org.usfirst.frc.team2960.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 
@@ -47,6 +48,7 @@ public class Robot extends IterativeRobot { public int autonIndex =
     Shooter shooter;
     Pickup pickup;
     Camera camera;
+    PowerDistributionPanel pdp;
     
     /**
      * This function is run when the robot is first started up and should be
