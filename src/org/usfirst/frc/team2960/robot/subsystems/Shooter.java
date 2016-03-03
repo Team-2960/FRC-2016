@@ -27,18 +27,20 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 	Encoder angleEncoder;
 	DigitalInput shooterPhotoeye;
 	DigitalInput anglePhotoeye;
+	DigitalInput limitSwitch;
 	PIDController angleController;
 	AngleControl angleControl;
 	final double DEGREES_PER_PULSE = 360.0*(1.0/2048.0);
-	final double DEGREES_PER_SECOND = 45;
+	final double DEGREES_PER_SECOND = 55;
 	final double ANGLE_SLOWDOWN = 30;
-	final double LOWER_LIMIT = -84;
-	final double UPPER_LIMIT = 0;
+	final double LOWER_LIMIT = -75;
+	final double UPPER_LIMIT = -9;
 	final double CURRENT_LIMIT = 30;
 	double anglePosition;
 	boolean zeroing;
 	boolean moveWinch;
 	boolean notTripped;
+	boolean useAngle;
 	PowerDistributionPanel pdp;
 
 	public Shooter()
@@ -49,6 +51,7 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 		angleEncoder = new Encoder(RobotMap.ShooterAngleA,RobotMap.ShooterAngleB);		
 		shooterPhotoeye = new DigitalInput(RobotMap.ShooterPhotoeye);
 		anglePhotoeye = new DigitalInput(RobotMap.AnglePhotoEye);
+		limitSwitch = new DigitalInput(RobotMap.AngleLimitSwitch);
 		angleEncoder.setPIDSourceType(PIDSourceType.kRate);
 		angleEncoder.setDistancePerPulse(DEGREES_PER_PULSE);
 		angleControl = new AngleControl(this);
@@ -69,7 +72,7 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 		{
 			zeroRoutine();
 		}
-		if(angleController.isEnabled())
+		if(angleController.isEnabled() && useAngle) 
 		{
 			updateAngle();
 		}
@@ -90,15 +93,17 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 		{
 			stopWinch();
 		}
-		if(pdp.getCurrent(RobotMap.angleAdjustChannel) < CURRENT_LIMIT)
+		/*if(pdp.getCurrent(RobotMap.angleAdjustChannel) < CURRENT_LIMIT)
 		{
 			angleController.setSetpoint(0);
 			angleAdjust.set(0);
-		}
+		}*/
 		SmartDashboard.putNumber("angleEncoder Rate", angleEncoder.getRate());
 		SmartDashboard.putNumber("ideal angle",anglePosition);
 		//SmartDashboard.putNumber("angleEncoder get", angleEncoder.get());
 		SmartDashboard.putNumber("angleEncoder dist", angleEncoder.getDistance());
+		SmartDashboard.putBoolean("angle limit switch dist", limitSwitch.get());
+
 		SmartDashboard.putNumber("angleAdjust current", pdp.getCurrent(RobotMap.angleAdjustChannel));
 		//SmartDashboard.putBoolean("anglePhotoeye", anglePhotoeye.get());
 		//SmartDashboard.putBoolean("shooterPhotoeye", shooterPhotoeye.get());
@@ -122,27 +127,50 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 	public void setAngle(double position) //pos in degrees
 	{
 		anglePosition = position;
+		useAngle = true;
 	}
 	
 	public void addAngle(double angle)
 	{
 		anglePosition = anglePosition + angle;
 	}
+	
+	public void setRate(double rate)
+	{
+		if(!useAngle)
+		{
+			if(rate > 0 && angleEncoder.getDistance() >= UPPER_LIMIT)
+			{
+				angleController.setSetpoint(0);
+			}
+			else if(rate < 0 && angleEncoder.getDistance() <= LOWER_LIMIT)
+			{
+				angleController.setSetpoint(0);
+			}
+			else
+			{
+				angleController.setSetpoint(DEGREES_PER_SECOND*rate);
+			}
+		}
+	}
 
 	public void adjustAngle(double speed)
 	{
-		if(speed > 0 && angleEncoder.getDistance() >= UPPER_LIMIT)
+		angleAdjust.set(speed);
+		/*if(speed > 0 && anglePhotoeye.get() == false)
 		{
 			angleAdjust.set(0);
+			//angleController.setSetpoint(0);
 		}
-		else if(speed < 0 && angleEncoder.getDistance() <= LOWER_LIMIT)
+		else if(speed < 0 && limitSwitch.get() == false)
 		{
 			angleAdjust.set(0);
+			//angleController.setSetpoint(0);
 		}
 		else
 		{
 			angleAdjust.set(speed);
-		}
+		}*/
 	}
 
 	public void toggleWinch()
@@ -158,6 +186,7 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 		if(currentDist < anglePosition + 2 && currentDist > anglePosition - 2)
 		{
 			angleController.setSetpoint(0);
+			useAngle = false;
 		}
 		else if(error > -ANGLE_SLOWDOWN && error < ANGLE_SLOWDOWN)
 		{
@@ -179,7 +208,7 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 	{
 		if(zeroing == true && anglePhotoeye.get() == true)
 		{
-			angleAdjust.set(0.25);
+			angleAdjust.set(1.0);
 		}
 		else if(zeroing == true && anglePhotoeye.get() == false)
 		{
@@ -203,11 +232,6 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 	{
 		Winch1.set(0);
 		Winch2.set(0);
-	}
-
-	public void setAngleRate(double rate)
-	{
-		angleController.setSetpoint(rate);
 	}
 	
 	@Override

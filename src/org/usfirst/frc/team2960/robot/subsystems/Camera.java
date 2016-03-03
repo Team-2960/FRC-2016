@@ -200,7 +200,7 @@ public class Camera extends Subsystem implements PeriodicUpdate {
 	
 	public double computeHorizontalAngle(ParticleReport report)
 	{
-		return (((report.BoundingRectRight+report.BoundingRectLeft)/2)-((RESX)/2)+CAMERA_PIXEL_OFFSET)*ANGLE_PER_PIXEL;
+		return (((report.BoundingRectRight+report.BoundingRectLeft)/2)-(((RESX)/2)+CAMERA_PIXEL_OFFSET))*ANGLE_PER_PIXEL;
 	}
 	
 	public class ParticleReport implements Comparator<ParticleReport>, Comparable<ParticleReport>{

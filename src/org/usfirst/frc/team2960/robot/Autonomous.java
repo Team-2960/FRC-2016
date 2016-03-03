@@ -3,15 +3,21 @@ package org.usfirst.frc.team2960.robot;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import org.usfirst.frc.team2960.robot.commands.MoveForward;
+import org.usfirst.frc.team2960.robot.subsystems.DriveTrain;
+import org.usfirst.frc.team2960.robot.subsystems.Shooter;
+
 public class Autonomous {
 
 	public static Timer timer = new Timer();
 	public static AutonomousCommand currentCommand = new AutonomousCommand();
 	public static int timerValue = 0;
+	public static DriveTrain driveTrain;
+	public static Shooter shooter;
 
 	public static AutonomousCommand getAutonCommandAtIndex(int index)
 	{
-		return null;
+		return new MoveForward(driveTrain,shooter);
 		//switch statement here (or an array of commands)
 	}
 	

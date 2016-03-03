@@ -29,6 +29,7 @@ public class RobotMap {
 	public static int ShooterAngleB = 5;
 	public static int ShooterPhotoeye = 6;
 	public static int AnglePhotoEye = 7;
+	public static int AngleLimitSwitch = 8;
 	//public static int BallDetectionPhotoeye = 8;
 	
 	//Break out
@@ -42,7 +43,7 @@ public class RobotMap {
 	public static int intakeHooksB = 1;
 	
 	//PDP channels
-	public static int angleAdjustChannel = 1;
+	public static int angleAdjustChannel = 2;
 	
 	//move pid
 	public static double moveP = .001;
@@ -50,7 +51,7 @@ public class RobotMap {
 	public static double moveD = 0;
 	
 	//angle pid
-	public static double angleP = .0015;
+	public static double angleP = .00175;
 	public static double angleI = 0;
 	public static double angleD = 0;
 	

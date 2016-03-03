@@ -39,14 +39,6 @@ public class OI {
 	boolean triggerPressed = false;
 
 	public void operateRobot(Joystick stick, Shooter shooter, Pickup pickup){
-		if(stick.getRawButton(11))
-		{
-			shooter.setAngle(-75);
-		}
-		if(stick.getRawButton(12))
-		{
-			shooter.setAngle(-5);
-		}
 		if(stick.getRawButton(9))
 		{
 			pickup.setRoller(1.0);
@@ -79,22 +71,30 @@ public class OI {
 		{
 			if(stick.getRawButton(1))
 			{
-				shooter.moveWinch();
+				shooter.toggleWinch();
+				//shooter.moveWinch();
 			}
 			else
 			{
-				shooter.stopWinch();
+				//shooter.stopWinch();
 			}
 			if(Math.abs(stick.getRawAxis(1)) > .1)
 			{
+				//shooter.stopPID();
 				//shooter.adjustAngle(stick.getRawAxis(1));
-				shooter.addAngle(1.6*stick.getRawAxis(1));
+				//shooter.addAngle(1.6*stick.getRawAxis(1));
 				//shooter.setAngleRate(stick.getRawAxis(1)*50);
+				shooter.setRate(stick.getRawAxis(1));
+			}
+			else
+			{
+				shooter.setRate(0);
 			}
 		}
 		else
 		{
 			shooter.stopWinch();
+			shooter.setRate(0);
 		}
 		
 	}
