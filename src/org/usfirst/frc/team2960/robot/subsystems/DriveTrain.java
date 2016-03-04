@@ -223,7 +223,7 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
 		
 		checkLinear();
 		
-		
+		/*
 		SmartDashboard.putBoolean("R Encoder direction", RightDriveEnc.getDirection());
 		SmartDashboard.putString("R Encoder Distance", Double.toString(RightDriveEnc.getDistance()));
 		SmartDashboard.putString("R Encoder count", Double.toString(RightDriveEnc.get()));
@@ -238,6 +238,7 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
     	SmartDashboard.putString("z", Double.toString(accel.getZ()));
     	SmartDashboard.putNumber("setpont", turning.getSetpoint());
 		SmartDashboard.putNumber("error", turning.getError());
+		*/
     
     	this.displayGyroValue();
     	checkAngle();
