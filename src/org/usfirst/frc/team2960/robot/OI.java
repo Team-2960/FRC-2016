@@ -93,7 +93,6 @@ public class OI {
 			if(stick.getRawButton(11))
 			{
 				shooter.setAngle(-40);
-				pickup.setHood(true);
 			}
 		}
 		else
