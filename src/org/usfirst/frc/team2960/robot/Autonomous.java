@@ -3,6 +3,7 @@ package org.usfirst.frc.team2960.robot;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import org.usfirst.frc.team2960.robot.commands.MoveBackwards;
 import org.usfirst.frc.team2960.robot.commands.MoveForward;
 import org.usfirst.frc.team2960.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team2960.robot.subsystems.Pickup;
@@ -19,7 +20,15 @@ public class Autonomous {
 
 	public static AutonomousCommand getAutonCommandAtIndex(int index)
 	{
-		return new MoveForward(driveTrain,shooter,pickup);
+		switch(index)
+		{
+		case 0:
+			return new MoveForward(driveTrain,shooter,pickup);
+		case 1:
+			return new MoveBackwards(driveTrain,shooter,pickup);
+		}
+		return null;
+		
 		//switch statement here (or an array of commands)
 	}
 	
