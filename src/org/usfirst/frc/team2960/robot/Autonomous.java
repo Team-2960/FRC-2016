@@ -20,14 +20,17 @@ public class Autonomous {
 
 	public static AutonomousCommand getAutonCommandAtIndex(int index)
 	{
+		AutonomousCommand cmd = new AutonomousCommand();
 		switch(index)
 		{
 		case 0:
-			return new MoveForward(driveTrain,shooter,pickup);
+			cmd = new MoveForward(driveTrain,shooter,pickup);
+			break;
 		case 1:
-			return new MoveBackwards(driveTrain,shooter,pickup);
+			cmd = new MoveBackwards(driveTrain,shooter,pickup);
+			break;
 		}
-		return null;
+		return cmd;
 		
 		//switch statement here (or an array of commands)
 	}
