@@ -3,32 +3,46 @@ package org.usfirst.frc.team2960.robot.commands;
 import org.usfirst.frc.team2960.robot.Autonomous;
 import org.usfirst.frc.team2960.robot.AutonomousCommand;
 import org.usfirst.frc.team2960.robot.subsystems.DriveTrain;
+import org.usfirst.frc.team2960.robot.subsystems.Pickup;
 import org.usfirst.frc.team2960.robot.subsystems.Shooter;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class MoveForward extends AutonomousCommand {
 		
-	public MoveForward(DriveTrain drive,Shooter shoot)
+	public MoveForward(DriveTrain drive,Shooter shoot,Pickup pick)
 	{
 		driveTrain = drive;
 		finalStage = 1;
 		stage = 0;
 		shooter = shoot;
+		pickup = pick;
 	}
+	
+	boolean hoodClosed = false;
 	
 	public void updateLoop()
 	{
 		super.updateLoop();
+		SmartDashboard.putNumber("stage", stage);
+		SmartDashboard.putBoolean("zeroin method", shooter.zeroing());
 		switch(stage)
 		{
 		case 0:
-			shooter.setAngle(-40);
-			Autonomous.resetCounter();
-			finishStage();
+			if(shooter.zeroing() == false)
+			{
+				shooter.setAngle(-40);
+				pickup.setHood(false);
+				Autonomous.resetCounter();
+				finishStage();
+			}
 			break;
 		case 1:
-			driveTrain.setSpeed(0.5, 0.5);
-			
-			if(this.getSecondsDone() >= 3.0)
+			if(this.getSecondsDone() > 1.0)
+			{
+				driveTrain.setSpeed(0.6, 0.6);
+			}
+			if(this.getSecondsDone() >= 4.5)
 			{
 				driveTrain.setSpeed(0.0, 0.0);
 				finish();

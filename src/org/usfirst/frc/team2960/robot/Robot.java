@@ -109,6 +109,7 @@ public class Robot extends IterativeRobot { public int autonIndex =
     	periodicStart();
     	Autonomous.driveTrain = driveTrain;
     	Autonomous.shooter = shooter;
+    	Autonomous.pickup = pickup;
     	Autonomous.startCommand(Autonomous.getAutonCommandAtIndex(autonIndex));
     }
 

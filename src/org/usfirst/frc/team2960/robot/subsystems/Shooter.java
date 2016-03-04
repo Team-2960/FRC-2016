@@ -41,6 +41,8 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 	boolean moveWinch;
 	boolean notTripped;
 	boolean useAngle;
+	public boolean doneZeroing;
+	public boolean manualWinch;
 	PowerDistributionPanel pdp;
 
 	public Shooter()
@@ -61,6 +63,7 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 		zeroing = true;
 		moveWinch = false;
 		notTripped = false;
+		manualWinch = false;
 		System.out.println("Deg per pulse: " + DEGREES_PER_PULSE);
 		pdp = new PowerDistributionPanel();
 	}
@@ -72,6 +75,7 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 		{
 			zeroRoutine();
 		}
+		SmartDashboard.putBoolean("zeroing", zeroing);
 		if(angleController.isEnabled() && useAngle) 
 		{
 			updateAngle();
@@ -89,7 +93,7 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 		{
 			moveWinch();
 		}
-		else
+		else if(manualWinch != true)
 		{
 			stopWinch();
 		}
@@ -218,6 +222,11 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 			zeroing = false;
 		}
 	}
+	
+	public boolean zeroing()
+	{
+		return zeroing;
+	}
 
 	//pullback that has photo eye
 	//start in auton
@@ -230,6 +239,7 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 
 	public void stopWinch()
 	{
+		manualWinch = false;
 		Winch1.set(0);
 		Winch2.set(0);
 	}

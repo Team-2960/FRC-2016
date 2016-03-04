@@ -95,6 +95,7 @@ public class OI {
 		{
 			if(stick.getRawButton(1))
 			{
+				shooter.manualWinch = true;
 				shooter.moveWinch();
 			}
 			else

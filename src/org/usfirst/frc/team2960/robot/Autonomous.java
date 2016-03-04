@@ -5,6 +5,7 @@ import java.util.TimerTask;
 
 import org.usfirst.frc.team2960.robot.commands.MoveForward;
 import org.usfirst.frc.team2960.robot.subsystems.DriveTrain;
+import org.usfirst.frc.team2960.robot.subsystems.Pickup;
 import org.usfirst.frc.team2960.robot.subsystems.Shooter;
 
 public class Autonomous {
@@ -14,10 +15,11 @@ public class Autonomous {
 	public static int timerValue = 0;
 	public static DriveTrain driveTrain;
 	public static Shooter shooter;
+	public static Pickup pickup;
 
 	public static AutonomousCommand getAutonCommandAtIndex(int index)
 	{
-		return new MoveForward(driveTrain,shooter);
+		return new MoveForward(driveTrain,shooter,pickup);
 		//switch statement here (or an array of commands)
 	}
 	
