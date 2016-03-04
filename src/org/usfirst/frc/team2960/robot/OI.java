@@ -93,8 +93,15 @@ public class OI {
 		}
 		else
 		{
-			shooter.stopWinch();
-			shooter.setRate(0);
+			if(stick.getRawButton(1))
+			{
+				shooter.moveWinch();
+			}
+			else
+			{
+				shooter.stopWinch();
+				shooter.setRate(0);
+			}
 		}
 		
 	}
