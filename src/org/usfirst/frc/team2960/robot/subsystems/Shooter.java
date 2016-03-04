@@ -98,10 +98,10 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 			angleController.setSetpoint(0);
 			angleAdjust.set(0);
 		}*/
-		//SmartDashboard.putNumber("angleEncoder Rate", angleEncoder.getRate());
+		SmartDashboard.putNumber("angleEncoder Rate", angleEncoder.getRate());
 		//ShooteSmartDashboard.putNumber("ideal angle",anglePosition);
-		//SmartDashboard.putNumber("angleEncoder get", angleEncoder.get());
-		//SmartDashboard.putNumber("angleEncoder dist", angleEncoder.getDistance());
+		SmartDashboard.putNumber("angleEncoder get", angleEncoder.get());
+		SmartDashboard.putNumber("angleEncoder dist", angleEncoder.getDistance());
 		//SmartDashboard.putBoolean("angle limit switch dist", limitSwitch.get());
 
 		//SmartDashboard.putNumber("angleAdjust current", pdp.getCurrent(RobotMap.angleAdjustChannel));
