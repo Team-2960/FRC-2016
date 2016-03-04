@@ -64,7 +64,6 @@ public class Robot extends IterativeRobot { public int autonIndex =
 		operatorJoystick = new Joystick(1);
 		shooter = new Shooter();
 		pickup = new Pickup();
-		autonIndex = 0;
     }
 	
 	/**
@@ -119,11 +118,6 @@ public class Robot extends IterativeRobot { public int autonIndex =
      */
     public void autonomousPeriodic() {
     	periodicUpdate();
-    	AutonomousCommand command = Autonomous.getAutonCommandAtIndex(autonIndex);
-    	if(command.isFinished()){
-    		Autonomous.stopAuton();
-    	}
-    		
     }
     
     

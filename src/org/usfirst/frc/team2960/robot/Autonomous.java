@@ -1,5 +1,6 @@
 package org.usfirst.frc.team2960.robot;
 
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -17,21 +18,14 @@ public class Autonomous {
 	public static DriveTrain driveTrain;
 	public static Shooter shooter;
 	public static Pickup pickup;
+	
 
 	public static AutonomousCommand getAutonCommandAtIndex(int index)
 	{
-		AutonomousCommand cmd = new AutonomousCommand();
-		switch(index)
-		{
-		case 0:
-			cmd = new MoveForward(driveTrain,shooter,pickup);
-			break;
-		case 1:
-			cmd = new MoveBackwards(driveTrain,shooter,pickup);
-			break;
-		}
-		return cmd;
-		
+		ArrayList<AutonomousCommand> cmds = new ArrayList<AutonomousCommand>();
+		cmds.set(0, new MoveForward(driveTrain,shooter,pickup));
+		cmds.set(1, new MoveBackwards(driveTrain,shooter,pickup));
+		return cmds.get(index);
 		//switch statement here (or an array of commands)
 	}
 	
