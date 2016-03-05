@@ -25,7 +25,7 @@ public class Camera extends Subsystem implements PeriodicUpdate {
 	//double VIEW_ANGLE = 58.08777;
 	//final double ANGLE_PER_PIXEL = 0.1815242813;//0.045381; //new angle based on lower resolution
 	final double CAMERA_ANGLE_OFFSET = 30.0*(Math.PI/180);
-	final double CAMERA_PIXEL_OFFSET = 15.0;
+	final double CAMERA_PIXEL_OFFSET = 22.0;
 	final double RESX = 320;
 	final double RESY = 240;
 	final double THETA_Y = 36.305; // THETAY/685 = 800/1509.437 H = sqrt(1280^2+800^2) = 1509.437

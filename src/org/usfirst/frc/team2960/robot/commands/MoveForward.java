@@ -42,7 +42,7 @@ public class MoveForward extends AutonomousCommand {
 			{
 				driveTrain.setSpeed(0.6, 0.6);
 			}
-			if(this.getSecondsDone() >= 4.5)
+			if(this.getSecondsDone() >= 4.0)
 			{
 				driveTrain.setSpeed(0.0, 0.0);
 				finish();

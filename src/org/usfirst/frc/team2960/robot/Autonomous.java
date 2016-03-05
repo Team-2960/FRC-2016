@@ -23,8 +23,8 @@ public class Autonomous {
 	public static AutonomousCommand getAutonCommandAtIndex(int index)
 	{
 		ArrayList<AutonomousCommand> cmds = new ArrayList<AutonomousCommand>();
-		cmds.set(0, new MoveForward(driveTrain,shooter,pickup));
-		cmds.set(1, new MoveBackwards(driveTrain,shooter,pickup));
+		cmds.add(new MoveForward(driveTrain,shooter,pickup));
+		cmds.add(new MoveBackwards(driveTrain,shooter,pickup));
 		return cmds.get(index);
 		//switch statement here (or an array of commands)
 	}

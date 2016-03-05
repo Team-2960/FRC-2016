@@ -16,7 +16,7 @@ public class OI {
 	
 	boolean resetBtnPressed = false;
 	boolean intakeOpen = false;
-	public void driveRobot(Joystick stick, DriveTrain drivetrain, Shooter shooter) {
+	public void driveRobot(Joystick stick, DriveTrain drivetrain, Shooter shooter, Pickup pickup) {
 		if(drivetrain.moveStop == false)
 		{
 		drivetrain.setSpeed(-stick.getRawAxis(1), -stick.getRawAxis(5));
@@ -30,6 +30,11 @@ public class OI {
 		if(drivetrain.TurnOnTheTurn == true && stick.getRawAxis(3) > .1)
 		{
 			shooter.toggleWinch();
+		}
+		if(stick.getRawButton(4))
+		{
+			shooter.setAngle(-60);
+			pickup.setHood(true);
 		}
 		//if(stick.getRawButton(4)){
 			//drivetrain.gotoAngle(-180);
@@ -67,6 +72,11 @@ public class OI {
 		{
 			pickup.setHook(false); 
 		}
+		if(stick.getRawButton(11))
+		{
+			shooter.setAngle(-60);
+			pickup.setHood(true);
+		}
 		if(stick.getRawButton(2))
 		{
 			if(stick.getRawButton(1))
@@ -89,10 +99,6 @@ public class OI {
 			else
 			{
 				shooter.setRate(0);
-			}
-			if(stick.getRawButton(11))
-			{
-				shooter.setAngle(-40);
 			}
 		}
 		else

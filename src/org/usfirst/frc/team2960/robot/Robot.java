@@ -129,7 +129,7 @@ public class Robot extends IterativeRobot { public int autonIndex =
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
-    	oi.driveRobot(driveJoystick, driveTrain, shooter);
+    	oi.driveRobot(driveJoystick, driveTrain, shooter, pickup);
     	oi.operateRobot(operatorJoystick, shooter, pickup);
     	periodicUpdate();
     	
