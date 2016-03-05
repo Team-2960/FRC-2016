@@ -4,6 +4,7 @@ package org.usfirst.frc.team2960.robot.subsystems;
 import org.usfirst.frc.team2960.robot.PeriodicUpdate;
 import org.usfirst.frc.team2960.robot.RobotMap;
 
+import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
@@ -13,6 +14,7 @@ import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.interfaces.Accelerometer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Shooter extends Subsystem implements PeriodicUpdate {
@@ -44,6 +46,7 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 	public boolean doneZeroing;
 	public boolean manualWinch;
 	PowerDistributionPanel pdp;
+	public BuiltInAccelerometer accel;
 
 	public Shooter()
 	{
@@ -106,6 +109,8 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 		//ShooteSmartDashboard.putNumber("ideal angle",anglePosition);
 		SmartDashboard.putNumber("angleEncoder get", angleEncoder.get());
 		SmartDashboard.putNumber("angleEncoder dist", angleEncoder.getDistance());
+		SmartDashboard.putNumber("accelerometer getX", accel.getX());
+		SmartDashboard.putNumber("accelerometer getY", accel.getY());
 		//SmartDashboard.putBoolean("angle limit switch dist", limitSwitch.get());
 
 		//SmartDashboard.putNumber("angleAdjust current", pdp.getCurrent(RobotMap.angleAdjustChannel));

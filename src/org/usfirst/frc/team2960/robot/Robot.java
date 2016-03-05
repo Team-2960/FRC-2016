@@ -6,6 +6,7 @@ import org.usfirst.frc.team2960.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team2960.robot.subsystems.Pickup;
 import org.usfirst.frc.team2960.robot.subsystems.Shooter;
 
+import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
@@ -50,6 +51,7 @@ public class Robot extends IterativeRobot { public int autonIndex =
     Pickup pickup;
     Camera camera;
     PowerDistributionPanel pdp;
+    BuiltInAccelerometer accel;
     
     /**
      * This function is run when the robot is first started up and should be
@@ -64,6 +66,8 @@ public class Robot extends IterativeRobot { public int autonIndex =
 		operatorJoystick = new Joystick(1);
 		shooter = new Shooter();
 		pickup = new Pickup();
+		accel = new BuiltInAccelerometer();
+		shooter.accel = accel;
     }
 	
 	/**
