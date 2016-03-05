@@ -24,8 +24,8 @@ public class MoveForward extends AutonomousCommand {
 	public void updateLoop()
 	{
 		super.updateLoop();
-		SmartDashboard.putNumber("stage", stage);
-		SmartDashboard.putBoolean("zeroin method", shooter.zeroing());
+		//SmartDashboard.putNumber("stage", stage);
+		//SmartDashboard.putBoolean("zeroin method", shooter.zeroing());
 		switch(stage)
 		{
 		case 0:

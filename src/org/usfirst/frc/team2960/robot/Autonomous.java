@@ -22,7 +22,7 @@ public class Autonomous {
 
 	public static AutonomousCommand getAutonCommandAtIndex(int index)
 	{
-		ArrayList<AutonomousCommand> cmds = new ArrayList<AutonomousCommand>();
+		ArrayList<AutonomousCommand> cmds = new ArrayList<AutonomousCommand>();		
 		cmds.add(new MoveForward(driveTrain,shooter,pickup));
 		cmds.add(new MoveBackwards(driveTrain,shooter,pickup));
 		return cmds.get(index);

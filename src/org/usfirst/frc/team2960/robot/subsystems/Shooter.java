@@ -78,7 +78,6 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 		{
 			zeroRoutine();
 		}
-		SmartDashboard.putBoolean("zeroing", zeroing);
 		if(angleController.isEnabled() && useAngle) 
 		{
 			updateAngle();
@@ -104,7 +103,7 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 		{
 			angleController.setSetpoint(0);
 			angleAdjust.set(0);
-		}*/
+		}
 		SmartDashboard.putNumber("angleEncoder Rate", angleEncoder.getRate());
 		//ShooteSmartDashboard.putNumber("ideal angle",anglePosition);
 		SmartDashboard.putNumber("angleEncoder get", angleEncoder.get());
@@ -112,10 +111,10 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 		SmartDashboard.putNumber("accelerometer getX", accel.getX());
 		SmartDashboard.putNumber("accelerometer getY", accel.getY());
 		//SmartDashboard.putBoolean("angle limit switch dist", limitSwitch.get());
-
+		//SmartDashboard.putBoolean("zeroing", zeroing);
 		//SmartDashboard.putNumber("angleAdjust current", pdp.getCurrent(RobotMap.angleAdjustChannel));
 		//SmartDashboard.putBoolean("anglePhotoeye", anglePhotoeye.get());
-		//SmartDashboard.putBoolean("shooterPhotoeye", shooterPhotoeye.get());
+		//SmartDashboard.putBoolean("shooterPhotoeye", shooterPhotoeye.get());*/
 	}
 
 	@Override
