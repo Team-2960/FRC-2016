@@ -26,8 +26,9 @@ public class Robot extends IterativeRobot { public int autonIndex =
      * 
      * AUTONOMOUS MODES LIST
      * -=-=-=-=-=-=-=-=-=-=-=-=-
-     * 0 = DRIVE FORWARD         
-     * 1 = DRIVE BACKWARDS                                              
+     * 0 = DRIVE FORWARD
+     * 1 = DRIVE BACKWARDS
+     * 2 = DRIVE SHORT DISTANCE FORWARD - not working                                        
      *                                                    
      * CHANGE THIS NUMBER TO THE NUMBER OF YOUR CHOICE THAT CORRESPONDS WITH THE LIST ABOVE.                                                                                  
      * THIS NUMBER!!! ------>>>>____*/ 0 /*____<<<<------ THIS NUMBER HERE

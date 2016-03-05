@@ -35,7 +35,7 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 	final double DEGREES_PER_PULSE = 360.0*(1.0/2048.0);
 	final double DEGREES_PER_SECOND = 55;
 	final double ANGLE_SLOWDOWN = 30;
-	final double LOWER_LIMIT = -75;
+	final double LOWER_LIMIT = -70;
 	final double UPPER_LIMIT = -9;
 	final double CURRENT_LIMIT = 30;
 	double anglePosition;
