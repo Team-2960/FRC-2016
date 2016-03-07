@@ -31,7 +31,7 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 	DigitalInput anglePhotoeye;
 	DigitalInput limitSwitch;
 	PIDController angleController;
-	AngleControl angleControl;
+	AngleControl angleControl;                                      
 	final double DEGREES_PER_PULSE = 360.0*(1.0/2048.0);
 	final double DEGREES_PER_SECOND = 55;
 	final double ANGLE_SLOWDOWN = 30;
@@ -141,6 +141,7 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 	public void addAngle(double angle)
 	{
 		anglePosition = anglePosition + angle;
+		useAngle = true;
 	}
 	
 	public void setRate(double rate)
@@ -165,6 +166,7 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 	public void adjustAngle(double speed)
 	{
 		angleAdjust.set(speed);
+		
 		/*if(speed > 0 && anglePhotoeye.get() == false)
 		{
 			angleAdjust.set(0);
@@ -251,6 +253,5 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 	@Override
 	protected void initDefaultCommand() {
 		// TODO Auto-generated method stub
-
 	}
 }
