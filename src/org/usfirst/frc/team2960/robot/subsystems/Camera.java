@@ -24,7 +24,7 @@ public class Camera extends Subsystem implements PeriodicUpdate {
 	final double SCORE_MIN = 75.0;
 	//double VIEW_ANGLE = 58.08777;
 	//final double ANGLE_PER_PIXEL = 0.1815242813;//0.045381; //new angle based on lower resolution
-	final double CAMERA_ANGLE_OFFSET = 30.0*(Math.PI/180);
+	final double CAMERA_ANGLE_OFFSET = 47.0*(Math.PI/180);
 	final double CAMERA_PIXEL_OFFSET = 22.0;
 	final double RESX = 320;
 	final double RESY = 240;
@@ -118,7 +118,7 @@ public class Camera extends Subsystem implements PeriodicUpdate {
 		//	SmartDashboard.putNumber("BoundingRectTopp", report.BoundingRectTop);
 		//	SmartDashboard.putNumber("BoundingRectLeft", report.BoundingRectLeft);
 		//	SmartDashboard.putNumber("BoundingRectRight", report.BoundingRectRight);
-		//	SmartDashboard.putNumber("Distance", computeDistance(report));
+			SmartDashboard.putNumber("Distance", computeDistance(report));
 		//	SmartDashboard.putNumber("HorizontalAngle", computeHorizontalAngle(report));
 		//	SmartDashboard.putString("isItWorking", "yes");
 			distance = computeDistance(report);
