@@ -223,7 +223,7 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
 		
 		checkLinear();
 		
-		/*
+		
 		SmartDashboard.putBoolean("R Encoder direction", RightDriveEnc.getDirection());
 		SmartDashboard.putString("R Encoder Distance", Double.toString(RightDriveEnc.getDistance()));
 		SmartDashboard.putString("R Encoder count", Double.toString(RightDriveEnc.get()));
@@ -233,6 +233,7 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
 		SmartDashboard.putString("L Encoder Distance", Double.toString(LeftDriveEnc.getDistance()));
 		SmartDashboard.putString("L Encoder count", Double.toString(LeftDriveEnc.get()));
 		SmartDashboard.putString("L Encoder Rate", Double.toString(LeftDriveEnc.getRate()));
+		/*
 		SmartDashboard.putString("x", Double.toString(accel.getX()));
     	SmartDashboard.putString("y", Double.toString(accel.getY()));
     	SmartDashboard.putString("z", Double.toString(accel.getZ()));
