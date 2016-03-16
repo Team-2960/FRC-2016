@@ -38,6 +38,7 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 	final double LOWER_LIMIT = -70;
 	final double UPPER_LIMIT = -9;
 	final double CURRENT_LIMIT = 30;
+	final double BALANCE_ANGLE = -60.0;
 	double anglePosition;
 	boolean zeroing;
 	boolean moveWinch;
@@ -111,6 +112,7 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 		SmartDashboard.putNumber("angleEncoder dist", angleEncoder.getDistance());
 		SmartDashboard.putNumber("accelerometer getX", accel.getX());
 		SmartDashboard.putNumber("accelerometer getY", accel.getY());
+		SmartDashboard.putNumber("accel angle", calculateBalanceAngle());
 		//SmartDashboard.putBoolean("angle limit switch dist", limitSwitch.get());
 		//SmartDashboard.putBoolean("zeroing", zeroing);
 		//SmartDashboard.putNumber("angleAdjust current", pdp.getCurrent(RobotMap.angleAdjustChannel));
@@ -163,6 +165,11 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 				angleController.setSetpoint(DEGREES_PER_SECOND*rate);
 			}
 		}*/
+	}
+	
+	public double calculateBalanceAngle()
+	{
+		return BALANCE_ANGLE - Math.atan(accel.getY()/-accel.getZ());
 	}
 
 	public void adjustAngle(double speed)
