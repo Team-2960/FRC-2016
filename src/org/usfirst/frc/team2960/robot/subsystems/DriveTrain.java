@@ -50,7 +50,7 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
 	Camera camera;
 	public double encoderTotal;
 	final int lengthTolerance = 5;
-	final double distancePerPulse = ((12.0 * Math.PI) / (1.0)) * (15.0 / 16.0) * (1.0 / 2048.0);
+	final double distancePerPulse = ((12.0 * Math.PI)) * (24.0 / 15.0) * (1.0 / 2048.0);
 	
 	public DriveTrain(Camera Cam)
 	{
