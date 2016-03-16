@@ -76,7 +76,8 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 		// TODO Auto-generated method stub
 		if(zeroing)
 		{
-			zeroRoutine();
+			zeroing = true;
+			//zeroRoutine();
 		}
 		if(angleController.isEnabled() && useAngle) 
 		{
@@ -124,12 +125,12 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 
 	public void startPID()
 	{
-		angleController.enable();
+		//angleController.enable();
 	}
 
 	public void stopPID()
 	{
-		angleController.disable();
+		//angleController.disable();
 	}
 
 	public void setAngle(double position) //pos in degrees
@@ -146,7 +147,8 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 	
 	public void setRate(double rate)
 	{
-		if(!useAngle)
+		adjustAngle(rate);
+		/*if(!useAngle)
 		{
 			if(rate > 0 && angleEncoder.getDistance() >= UPPER_LIMIT)
 			{
@@ -160,7 +162,7 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 			{
 				angleController.setSetpoint(DEGREES_PER_SECOND*rate);
 			}
-		}
+		}*/
 	}
 
 	public void adjustAngle(double speed)
