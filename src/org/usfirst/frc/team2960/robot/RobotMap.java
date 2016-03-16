@@ -21,14 +21,14 @@ public class RobotMap {
 	//public static int SelectorSwitch = 1;
 	
 	//DigitalIO
-	public static int RtDriveEncA = 4;
-	public static int RtDriveEncB = 5;
-	public static int LtDriveEncA = 6;
-	public static int LtDriveEncB = 7;
-	public static int ShooterAngleA = 0;
-	public static int ShooterAngleB = 1;
-	public static int ShooterPhotoeye = 2;
-	public static int AnglePhotoEye = 3;
+	public static int RtDriveEncA = 1;
+	public static int RtDriveEncB = 0;
+	public static int LtDriveEncA = 2;
+	public static int LtDriveEncB = 3;
+	public static int ShooterAngleA = 4;
+	public static int ShooterAngleB = 5;
+	public static int ShooterPhotoeye = 6;
+	public static int AnglePhotoEye = 7;
 	public static int AngleLimitSwitch = 8;
 	//public static int BallDetectionPhotoeye = 8;
 	
