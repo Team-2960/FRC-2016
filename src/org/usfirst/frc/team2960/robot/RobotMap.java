@@ -60,4 +60,7 @@ public class RobotMap {
 	public static double turnControlP = .001;
 	public static double turnControlI = 0;
 	public static double turnControlD = 0;
+	
+	//relay 
+	public static int light = 0;
 }

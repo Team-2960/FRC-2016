@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDSourceType;
+import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -23,6 +24,7 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
 	VictorSP LtDriveMt2;
 	VictorSP RtDriveMt1;
 	VictorSP RtDriveMt2;
+	Relay lights;
 	AnalogGyro gyro;
 	Encoder RightDriveEnc;
 	Encoder LeftDriveEnc;
@@ -74,6 +76,7 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
 		input = new LinearDriveControlInput(this);
 		linear = new LinearDriveControl(this);
 		move = new PIDController(RobotMap.moveP, RobotMap.moveI, RobotMap.moveD, input, linear);
+		lights = new Relay(RobotMap.light);
 	}
 
     public void initDefaultCommand() {
@@ -143,6 +146,28 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
     	turning.disable();
     	moveStop = false;
     	
+    	}
+    }
+    
+    public void lights(boolean Lightlight){
+    	if(Lightlight == true){
+    		lights.set(Relay.Value.kOn);
+    	}
+    	else
+    	{
+    		lights.set(Relay.Value.kOff);
+    	}
+    }
+    
+    public void toggleLights()
+    {
+    	if(lights.get() == Relay.Value.kOn)
+    	{
+    		lights(false);
+    	}
+    	else if(lights.get() == Relay.Value.kOff)
+    	{
+    		lights(true);
     	}
     }
     

@@ -135,7 +135,7 @@ public class Robot extends IterativeRobot { public int autonIndex =
      */
     public void teleopPeriodic() {
     	oi.driveRobot(driveJoystick, driveTrain, shooter, pickup);
-    	oi.operateRobot(operatorJoystick, shooter, pickup);
+    	oi.operateRobot(operatorJoystick, shooter, pickup,driveTrain);
     	periodicUpdate();
     	
     }

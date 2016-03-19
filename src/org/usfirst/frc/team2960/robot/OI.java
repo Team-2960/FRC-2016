@@ -41,9 +41,22 @@ public class OI {
 		//}
 
 	}
+	
 	boolean triggerPressed = false;
+	boolean lightPress = false;
 
-	public void operateRobot(Joystick stick, Shooter shooter, Pickup pickup){
+	public void operateRobot(Joystick stick, Shooter shooter, Pickup pickup, DriveTrain driveTrain){
+		if(stick.getRawButton(6)){
+			if(lightPress == false)
+			{
+				driveTrain.toggleLights();
+				lightPress = true;
+			}
+		}
+		else
+		{
+			lightPress = false;
+		}
 		if(stick.getRawButton(9))
 		{
 			pickup.setRoller(1.0);
@@ -70,7 +83,7 @@ public class OI {
 		}
 		if(stick.getRawButton(3))
 		{
-			pickup.setHook(false); 
+			pickup.setHook(false);
 		}
 		if(stick.getRawButton(11))
 		{
