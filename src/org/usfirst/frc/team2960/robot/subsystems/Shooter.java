@@ -44,6 +44,7 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 	boolean moveWinch;
 	boolean notTripped;
 	boolean useAngle;
+	boolean balance;
 	public boolean doneZeroing;
 	public boolean manualWinch;
 	PowerDistributionPanel pdp;
@@ -70,6 +71,7 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 		manualWinch = false;
 		System.out.println("Deg per pulse: " + DEGREES_PER_PULSE);
 		pdp = new PowerDistributionPanel();
+		balance = false;
 	}
 
 	@Override
@@ -100,6 +102,10 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 		else if(manualWinch != true)
 		{
 			stopWinch();
+		}
+		if(balance == true)
+		{
+			this.setAngle(this.calculateBalanceAngle());
 		}
 		/*if(pdp.getCurrent(RobotMap.angleAdjustChannel) < CURRENT_LIMIT)
 		{
@@ -195,6 +201,16 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 	public void toggleWinch()
 	{
 		moveWinch = true;
+	}
+	
+	public void balance()
+	{
+		balance = !balance;
+	}
+	
+	public void stopBalance()
+	{
+		balance = false;
 	}
 	
 	public void updateAngle()

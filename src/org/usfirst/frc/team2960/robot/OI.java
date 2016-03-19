@@ -42,7 +42,7 @@ public class OI {
 
 	}
 	
-	boolean triggerPressed = false;
+	boolean balancePressed = false;
 	boolean lightPress = false;
 
 	public void operateRobot(Joystick stick, Shooter shooter, Pickup pickup, DriveTrain driveTrain){
@@ -87,8 +87,17 @@ public class OI {
 		}
 		if(stick.getRawButton(11))
 		{
-			shooter.setAngle(-60);
-			pickup.setHood(true);
+			//shooter.setAngle(-60);
+			if(balancePressed == false)
+			{
+				shooter.balance();
+				pickup.setHood(true);
+				balancePressed = true;
+			}
+		}
+		else
+		{
+			balancePressed = false;
 		}
 		if(stick.getRawButton(2))
 		{
@@ -103,6 +112,7 @@ public class OI {
 			}
 			if(Math.abs(stick.getRawAxis(1)) > .1)
 			{
+				shooter.stopBalance();
 				//shooter.stopPID();
 				//shooter.adjustAngle(stick.getRawAxis(1));
 				//shooter.addAngle(1.6*stick.getRawAxis(1));
