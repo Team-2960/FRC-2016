@@ -86,11 +86,11 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 		{
 			updateAngle();
 		}
-		if(shooterPhotoeye.get() == true)
+		if(shooterPhotoeye.get() == false)
 		{
 			notTripped = true;
 		}
-		if(notTripped == true && shooterPhotoeye.get() == false)
+		if(notTripped == true && shooterPhotoeye.get() == true)
 		{
 			notTripped = false;
 			moveWinch = false;
@@ -111,7 +111,7 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 		{
 			angleController.setSetpoint(0);
 			angleAdjust.set(0);
-		}
+		}*/
 		SmartDashboard.putNumber("angleEncoder Rate", angleEncoder.getRate());
 		//ShooteSmartDashboard.putNumber("ideal angle",anglePosition);*/
 		SmartDashboard.putNumber("angleEncoder get", angleEncoder.get());
@@ -120,10 +120,10 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 		SmartDashboard.putNumber("accelerometer getY", accel.getY());
 		SmartDashboard.putNumber("accel angle", calculateBalanceAngle());
 		//SmartDashboard.putBoolean("angle limit switch dist", limitSwitch.get());
-		//SmartDashboard.putBoolean("zeroing", zeroing);
-		//SmartDashboard.putNumber("angleAdjust current", pdp.getCurrent(RobotMap.angleAdjustChannel));
-		//SmartDashboard.putBoolean("anglePhotoeye", anglePhotoeye.get());
-		//SmartDashboard.putBoolean("shooterPhotoeye", shooterPhotoeye.get());*/
+		SmartDashboard.putBoolean("zeroing", zeroing);
+		SmartDashboard.putNumber("angleAdjust current", pdp.getCurrent(RobotMap.angleAdjustChannel));
+		SmartDashboard.putBoolean("anglePhotoeye", anglePhotoeye.get());
+		SmartDashboard.putBoolean("shooterPhotoeye", shooterPhotoeye.get());
 	}
 
 	@Override
