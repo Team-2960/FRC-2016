@@ -175,7 +175,12 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 	
 	public double calculateBalanceAngle()
 	{
-		return BALANCE_ANGLE - Math.atan(accel.getY()/-accel.getZ());
+		return BALANCE_ANGLE - getAccelAngle();
+	}
+	
+	public double getAccelAngle()
+	{
+		return Math.atan(accel.getY()/-accel.getZ());
 	}
 
 	public void adjustAngle(double speed)

@@ -144,6 +144,15 @@ public class Camera extends Subsystem implements PeriodicUpdate {
     	return distance;
     }
     
+    public boolean withinTolerance()
+    {
+    	if(Math.abs(getAngle()) < 2.0)
+		{
+			return true;
+		}
+    	return false;
+    }
+    
     public boolean targetInView()
     {
     	return particleVisible;

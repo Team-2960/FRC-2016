@@ -151,7 +151,7 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
     
     public void lights(boolean Lightlight){
     	if(Lightlight == true){
-    		lights.set(Relay.Value.kOn);
+    		lights.set(Relay.Value.kForward);
     	}
     	else
     	{
@@ -161,7 +161,7 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
     
     public void toggleLights()
     {
-    	if(lights.get() == Relay.Value.kOn)
+    	if(lights.get() == Relay.Value.kForward)
     	{
     		lights(false);
     	}
@@ -247,7 +247,7 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
 		}
 		
 		checkLinear();
-		
+		lights(camera.withinTolerance());
 		
 		SmartDashboard.putBoolean("R Encoder direction", RightDriveEnc.getDirection());
 		SmartDashboard.putString("R Encoder Distance", Double.toString(RightDriveEnc.getDistance()));
