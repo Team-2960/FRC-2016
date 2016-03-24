@@ -119,7 +119,7 @@ public class Camera extends Subsystem implements PeriodicUpdate {
 		//	SmartDashboard.putNumber("BoundingRectLeft", report.BoundingRectLeft);
 		//	SmartDashboard.putNumber("BoundingRectRight", report.BoundingRectRight);
 			SmartDashboard.putNumber("Distance", computeDistance(report));
-		//	SmartDashboard.putNumber("HorizontalAngle", computeHorizontalAngle(report));
+			SmartDashboard.putNumber("HorizontalAngle", computeHorizontalAngle(report));
 		//	SmartDashboard.putString("isItWorking", "yes");
 			distance = computeDistance(report);
 			angle = computeHorizontalAngle(report);

@@ -35,10 +35,11 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 	final double DEGREES_PER_PULSE = 360.0*(1.0/2048.0);
 	final double DEGREES_PER_SECOND = 55;
 	final double ANGLE_SLOWDOWN = 30;
-	final double LOWER_LIMIT = -70;
-	final double UPPER_LIMIT = -9;
+	final double LOWER_LIMIT = -90;
+	final double UPPER_LIMIT = -10;
 	final double CURRENT_LIMIT = 30;
 	final double BALANCE_ANGLE = -60.0;
+	final double BATTER_ANGLE = -70;
 	double anglePosition;
 	boolean zeroing;
 	boolean moveWinch;
@@ -79,8 +80,7 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 		// TODO Auto-generated method stub
 		if(zeroing)
 		{
-			zeroing = true;
-			//zeroRoutine();
+			zeroRoutine();
 		}
 		if(angleController.isEnabled() && useAngle) 
 		{
@@ -156,7 +156,7 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 	public void setRate(double rate)
 	{
 		adjustAngle(rate);
-		/*if(!useAngle)
+		if(!useAngle)
 		{
 			if(rate > 0 && angleEncoder.getDistance() >= UPPER_LIMIT)
 			{
@@ -170,7 +170,7 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 			{
 				angleController.setSetpoint(DEGREES_PER_SECOND*rate);
 			}
-		}*/
+		}
 	}
 	
 	public double calculateBalanceAngle()
@@ -216,6 +216,11 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 	public void stopBalance()
 	{
 		balance = false;
+	}
+	
+	public void batterSetpoint()
+	{
+		setAngle(BATTER_ANGLE);
 	}
 	
 	public void updateAngle()
@@ -271,6 +276,12 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 	{
 		Winch1.set(1.0);
 		Winch2.set(1.0);
+	}
+	
+	public void moveWinchManual()
+	{
+		manualWinch = true;
+		moveWinch();
 	}
 
 	public void stopWinch()

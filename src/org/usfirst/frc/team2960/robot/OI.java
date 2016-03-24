@@ -43,19 +43,10 @@ public class OI {
 	}
 	
 	boolean balancePressed = false;
-	boolean lightPress = false;
 
 	public void operateRobot(Joystick stick, Shooter shooter, Pickup pickup, DriveTrain driveTrain){
 		if(stick.getRawButton(6)){
-			if(lightPress == false)
-			{
-				driveTrain.toggleLights();
-				lightPress = true;
-			}
-		}
-		else
-		{
-			lightPress = false;
+			shooter.batterSetpoint();
 		}
 		if(stick.getRawButton(9))
 		{
@@ -87,12 +78,12 @@ public class OI {
 		}
 		if(stick.getRawButton(11))
 		{
-			//shooter.setAngle(-60);
+			shooter.setAngle(-60);
 			if(balancePressed == false)
 			{
-				shooter.balance();
-				pickup.setHood(true);
-				balancePressed = true;
+				//shooter.balance();
+				//pickup.setHood(true);
+				//balancePressed = true;
 			}
 		}
 		else
@@ -128,8 +119,7 @@ public class OI {
 		{
 			if(stick.getRawButton(1))
 			{
-				shooter.manualWinch = true;
-				shooter.moveWinch();
+				shooter.moveWinchManual();
 			}
 			else
 			{

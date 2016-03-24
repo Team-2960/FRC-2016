@@ -5,6 +5,7 @@ import org.usfirst.frc.team2960.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDSourceType;
@@ -53,6 +54,8 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
 	public double encoderTotal;
 	final int lengthTolerance = 5;
 	final double distancePerPulse = ((12.0 * Math.PI)) * (24.0 / 15.0) * (1.0 / 2048.0);
+	public DigitalInput leftRightSwitch;
+	
 	
 	public DriveTrain(Camera Cam)
 	{
@@ -76,6 +79,7 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
 		input = new LinearDriveControlInput(this);
 		linear = new LinearDriveControl(this);
 		move = new PIDController(RobotMap.moveP, RobotMap.moveI, RobotMap.moveD, input, linear);
+		leftRightSwitch = new DigitalInput(RobotMap.LeftRightSwitch);
 		lights = new Relay(RobotMap.light);
 	}
 
@@ -258,6 +262,7 @@ public class DriveTrain extends Subsystem implements PeriodicUpdate {
 		SmartDashboard.putString("L Encoder Distance", Double.toString(LeftDriveEnc.getDistance()));
 		SmartDashboard.putString("L Encoder count", Double.toString(LeftDriveEnc.get()));
 		SmartDashboard.putString("L Encoder Rate", Double.toString(LeftDriveEnc.getRate()));
+		SmartDashboard.putBoolean("Left Right Switch",leftRightSwitch.get());
 		/*
 		SmartDashboard.putString("x", Double.toString(accel.getX()));
     	SmartDashboard.putString("y", Double.toString(accel.getY()));

@@ -30,6 +30,7 @@ public class RobotMap {
 	public static int ShooterPhotoeye = 6;
 	public static int AnglePhotoEye = 7;
 	public static int AngleLimitSwitch = 8;
+	public static int LeftRightSwitch = 9;
 	//public static int BallDetectionPhotoeye = 8;
 	
 	//Break out
