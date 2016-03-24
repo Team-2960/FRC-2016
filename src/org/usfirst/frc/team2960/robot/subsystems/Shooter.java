@@ -156,7 +156,7 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 	public void setRate(double rate)
 	{
 		adjustAngle(rate);
-		if(!useAngle)
+		/*if(!useAngle)
 		{
 			if(rate > 0 && angleEncoder.getDistance() >= UPPER_LIMIT)
 			{
@@ -170,7 +170,7 @@ public class Shooter extends Subsystem implements PeriodicUpdate {
 			{
 				angleController.setSetpoint(DEGREES_PER_SECOND*rate);
 			}
-		}
+		}*/
 	}
 	
 	public double calculateBalanceAngle()
