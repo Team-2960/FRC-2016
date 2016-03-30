@@ -31,7 +31,7 @@ public class MoveForward extends AutonomousCommand {
 		case 0:
 			if(shooter.zeroing() == false)
 			{
-				shooter.setAngle(-40);
+				shooter.setAngle(-60);
 				pickup.setHood(true);
 				Autonomous.resetCounter();
 				finishStage();

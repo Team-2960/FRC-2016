@@ -20,18 +20,17 @@ public class Robot extends IterativeRobot { public int autonIndex =
 	 * ____ _  _ ___ ____ _  _    _  _ ____ ___  ____    ____ ____ _    ____ ____ ___ ____ ____ *
      * |__| |  |  |  |  | |\ |    |\/| |  | |  \ |___   |___  |___ |    |___ |     |  |  | |__/ *
 	 * |  | |__|  |  |__| | \|    |  | |__| |__/ |___   ____| |___ |___ |___ |___  |  |__| |  \ *
-	 * -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-     * 
+	 * -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-*
+	 * 
      * CHOOSE A NUMBER FROM THE LIST BELOW CORRESPONDING TO THE AUTONOMOUS MODE YOU WANT TO RUN.
      * 
      * AUTONOMOUS MODES LIST
      * -=-=-=-=-=-=-=-=-=-=-=-=-
-     * 0 = DRIVE FORWARD
-     * 1 = DRIVE BACKWARDS
-     * 2 = DRIVE SHORT DISTANCE FORWARD - not working                                        
+     * 0 = DRIVE FORWARD (not rock wall)
+     * 1 = DRIVE FORWARD LONG (rock wall)                                    
      *                                                    
      * CHANGE THIS NUMBER TO THE NUMBER OF YOUR CHOICE THAT CORRESPONDS WITH THE LIST ABOVE.                                                                                  
-     * THIS NUMBER!!! ------>>>>____*/ 0 /*____<<<<------ THIS NUMBER HERE
+     * THIS NUMBER!!! ------>>>>____[*/ 1 /*]____<<<<------ THIS NUMBER HERE
      *                                                                 
      * DO NOT MODIFY ANY OTHER CODE IN THIS FILE OR
      * ANYWHERE ELSE UNLESS YOU KNOW WHAT YOU ARE DOING!
@@ -81,6 +80,7 @@ public class Robot extends IterativeRobot { public int autonIndex =
 	
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
+		shooter.smartDashboard();
 		//camera.update();
 	}
 

@@ -7,6 +7,7 @@ import java.util.TimerTask;
 import org.usfirst.frc.team2960.robot.commands.DriveShortDistanceForward;
 import org.usfirst.frc.team2960.robot.commands.MoveBackwards;
 import org.usfirst.frc.team2960.robot.commands.MoveForward;
+import org.usfirst.frc.team2960.robot.commands.MoveForwardLong;
 import org.usfirst.frc.team2960.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team2960.robot.subsystems.Pickup;
 import org.usfirst.frc.team2960.robot.subsystems.Shooter;
@@ -25,8 +26,7 @@ public class Autonomous {
 	{
 		ArrayList<AutonomousCommand> cmds = new ArrayList<AutonomousCommand>();		
 		cmds.add(new MoveForward(driveTrain,shooter,pickup));
-		cmds.add(new MoveBackwards(driveTrain,shooter,pickup));
-		cmds.add(new DriveShortDistanceForward(driveTrain,shooter,pickup));
+		cmds.add(new MoveForwardLong(driveTrain,shooter,pickup));
 		return cmds.get(index);
 		//switch statement here (or an array of commands)
 	}
